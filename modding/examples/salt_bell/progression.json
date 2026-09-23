@@ -1,0 +1,21 @@
+{
+  "$schema": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/progression.schema.json",
+  "goals": [
+    { "flag": "sb_bell_cracked", "location": "sb_bellwell", "chainChild": "sb_mould_found" },
+    { "flag": "sb_mould_found", "location": "sb_hulk", "chainChild": "sb_cooling_water" },
+    { "flag": "sb_cooling_water", "location": "sb_pump_nine", "chainChild": "sb_bronze_recovered" },
+    { "flag": "sb_bronze_recovered", "location": "sb_basalt_watch", "days": 2, "requires": ["Fighter"],
+      "chainChild": "sb_bell_rung", "reward": { "upgrade": "ArmorPlate", "grant": true } },
+    { "flag": "sb_bell_rung", "location": "sb_bellwell" },
+    { "flag": "sb_maren_joined", "location": "sb_bellwell" }
+  ],
+  "encounters": [
+    { "id": "sb_salt_ambush", "consequences": [
+      { "story": "the Saltmen outriders scatter into the glare - and tell the others.",
+        "effects": [ { "type": "setFlag", "flag": "sb_ambush_beaten" } ] } ] },
+    { "id": "sb_saltmen_boss", "consequences": [
+      { "story": "the Salt Throne burns on the pans - and Bellwell's bronze is ours.",
+        "effects": [ { "type": "setFlag", "flag": "sb_bronze_recovered" },
+                     { "type": "revealLocation", "location": "sb_old_harbour" } ] } ] }
+  ]
+}

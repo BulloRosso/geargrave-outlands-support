@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/vehicles.schema.json",
+  "title": "vehicles.json — vehicles for shops, wrecks and grants",
+  "description": "GENERATED from the game's loader types — do not edit. NO comments allowed. NO trailing commas. Keys are matched case-insensitively by the game; write them in camelCase.",
+  "$ref": "#/$defs/RegistryFile",
+  "$defs": {
+    "StartInventoryData": {
+      "type": "object",
+      "properties": {
+        "upgrades": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "mascots": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "StartGearDef": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "condition": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "Entry": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "skin": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "startParked": {
+          "type": "boolean"
+        },
+        "startHullPct": {
+          "type": "number"
+        },
+        "startComponents": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "startUpgrades": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/StartGearDef"
+          }
+        },
+        "cargoBay1": {
+          "type": "string"
+        },
+        "cargoBay2": {
+          "type": "string"
+        },
+        "locationId": {
+          "type": "string"
+        },
+        "roadId": {
+          "type": "string"
+        },
+        "stockTier": {
+          "type": "integer"
+        },
+        "requiredFlag": {
+          "type": "string"
+        },
+        "costWater": {
+          "type": "integer"
+        },
+        "costAmmo": {
+          "type": "integer"
+        },
+        "storyCritical": {
+          "type": "boolean"
+        },
+        "buybackFlag": {
+          "type": "string"
+        },
+        "buybackCostWater": {
+          "type": "integer"
+        },
+        "buybackCostParts": {
+          "type": "integer"
+        },
+        "lore": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "RegistryFile": {
+      "type": "object",
+      "properties": {
+        "startInventory": {
+          "$ref": "#/$defs/StartInventoryData"
+        },
+        "vehicles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Entry"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    }
+  }
+}

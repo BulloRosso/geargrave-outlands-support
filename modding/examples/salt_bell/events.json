@@ -1,0 +1,90 @@
+{
+  "$schema": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/events.schema.json",
+  "events": [
+    {
+      "id": "sb_evt_shore_cairn",
+      "kind": "resource",
+      "once": true,
+      "text": "At the old shoreline stands a cairn of salt blocks, and in its hollow someone left two sealed jerrycans for the next traveller. A note in the lid says: 'Ring for us when you can.'",
+      "resources": {
+        "water": 4
+      }
+    },
+    {
+      "id": "sb_evt_saltmen_ambush",
+      "kind": "encounter",
+      "once": true,
+      "encounterId": "sb_salt_ambush",
+      "text": "The glare off the pan is blinding at the Cut. Then the glare grows engines.",
+      "sound": "ROADSIDE_HOSTILE"
+    },
+    {
+      "id": "sb_evt_hull_gong",
+      "kind": "flavor",
+      "text": "Wind moans through the rusted lifeboat half sunk in the salt. Every few breaths a loose plate swings and strikes the hull - a deep, drowning note that rolls across the basin.",
+      "sound": "SB_HULL_GONG"
+    },
+    {
+      "id": "sb_evt_ridge_mirror",
+      "kind": "flavor",
+      "text": "A mirror flashes three times from the top of the basalt: the scouts of Basalt Watch have seen you, and they are letting you know.",
+      "sound": "TRAVEL_EVENT_GOOD"
+    },
+    {
+      "id": "sb_evt_salt_storm",
+      "kind": "resource",
+      "pool": "random",
+      "once": true,
+      "text": "A salt storm scours the paint off your doors - and uncovers a buried cache of fuel drums by the road.",
+      "resources": {
+        "fuel_regular": 5
+      },
+      "onlyIfBelow": {
+        "fuel_regular": 30
+      },
+      "sound": "TRAVEL_EVENT_GOOD"
+    },
+    {
+      "id": "sb_evt_crust_break",
+      "kind": "resource",
+      "pool": "random",
+      "once": true,
+      "text": "The crust gives way under a wheel. By the time you have winched the truck out of the brine, a tire is shredded.",
+      "resources": {
+        "tires": -1
+      },
+      "sound": "TRAVEL_EVENT_BAD"
+    },
+    {
+      "id": "sb_evt_mirage_caravan",
+      "kind": "flavor",
+      "pool": "random",
+      "text": "On the horizon a long water caravan shimmers in the heat. Then it bends, doubles, and is gone. The Bell Folk say the salt shows you what you want most."
+    },
+    {
+      "id": "sb_evt_salt_hermit",
+      "kind": "resource",
+      "pool": "random",
+      "once": true,
+      "text": "A hermit in a coat of sewn sacks trades you screws from a dead ship for a single cup of water, then walks back into the white without a word.",
+      "resources": {
+        "water": -1,
+        "screws": 3
+      }
+    },
+    {
+      "id": "sb_evt_pilgrim_gift",
+      "kind": "resource",
+      "pool": "random",
+      "once": true,
+      "requiresFlag": [
+        "sb_pilgrims_helped"
+      ],
+      "text": "Beside the track stands a little wooden shrine with a little bell - and under it, three sealed skins of water. The pilgrims remembered you.",
+      "resources": {
+        "water": 9
+      },
+      "sound": "TRAVEL_EVENT_GOOD"
+    }
+  ]
+}

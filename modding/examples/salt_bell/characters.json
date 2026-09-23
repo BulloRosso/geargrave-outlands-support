@@ -1,0 +1,38 @@
+{
+  "$schema": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/characters.schema.json",
+  "characters": [
+    {
+      "id": "sb_maren",
+      "name": "Maren Kett",
+      "role": "Mechanic",
+      "skill": 3,
+      "perk": "free_repair",
+      "traits": [
+        "gearhead",
+        "wayfinder"
+      ],
+      "origin": "None",
+      "portrait": "portrait_sb_maren",
+      "description": "The bell founder's daughter. Casts anything that melts, fixes anything that doesn't, and has not forgiven the Saltmen for the bronze.",
+      "metAt": "sb_bellwell",
+      "recruitFlag": "sb_maren_joined",
+      "essential": true,
+      "builderStyle": "metal"
+    },
+    {
+      "id": "sb_tobi",
+      "name": "Tobi Kett",
+      "role": "Driver",
+      "skill": 2,
+      "perk": "free_reverse",
+      "traits": [
+        "ghost"
+      ],
+      "origin": "None",
+      "portrait": "portrait_sb_tobi",
+      "description": "Maren's younger brother. Drives like the salt is lava. Talks to engines when he thinks nobody listens.",
+      "metAt": "sb_bellwell",
+      "builderStyle": "scrap"
+    }
+  ]
+}

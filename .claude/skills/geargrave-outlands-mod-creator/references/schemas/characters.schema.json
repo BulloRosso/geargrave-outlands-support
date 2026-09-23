@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/characters.schema.json",
+  "title": "characters.json — recruitable characters",
+  "description": "GENERATED from the game's loader types — do not edit. NO comments allowed. NO trailing commas. Keys are matched case-insensitively by the game; write them in camelCase.",
+  "$ref": "#/$defs/FileShape",
+  "$defs": {
+    "Entry": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "skill": {
+          "type": "integer"
+        },
+        "perk": {
+          "type": "string"
+        },
+        "origin": {
+          "type": "string"
+        },
+        "portrait": {
+          "type": "string"
+        },
+        "metAt": {
+          "type": "string"
+        },
+        "recruitHook": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "recruitFlag": {
+          "type": "string"
+        },
+        "essential": {
+          "type": "boolean"
+        },
+        "robot": {
+          "type": "boolean"
+        },
+        "builderStyle": {
+          "type": "string"
+        },
+        "traits": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "FileShape": {
+      "type": "object",
+      "properties": {
+        "characters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Entry"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    }
+  }
+}

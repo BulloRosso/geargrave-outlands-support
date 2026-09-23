@@ -1,0 +1,432 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/relationships.schema.json",
+  "title": "relationships.json — crew bonds, combos, manoeuvres",
+  "description": "GENERATED from the game's loader types — do not edit. // comments allowed. NO trailing commas. Keys are matched case-insensitively by the game; write them in camelCase.",
+  "$ref": "#/$defs/FileShape",
+  "$defs": {
+    "DowntimeDef": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer"
+        },
+        "spent": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "EffectDef": {
+      "type": "object",
+      "properties": {
+        "condition": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "stat": {
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        },
+        "perTurn": {
+          "type": "boolean"
+        },
+        "faction": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "IncidentDef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "CostDef": {
+      "type": "object",
+      "properties": {
+        "downtime": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "ActionDef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "cost": {
+          "$ref": "#/$defs/CostDef"
+        },
+        "uncertain": {
+          "type": "boolean"
+        },
+        "outcomes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "consequence": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "BondDef": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "value": {
+          "type": "integer"
+        },
+        "nextThreshold": {
+          "type": "integer"
+        },
+        "nextState": {
+          "type": "string"
+        },
+        "symmetric": {
+          "type": "boolean"
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EffectDef"
+          }
+        },
+        "incident": {
+          "$ref": "#/$defs/IncidentDef"
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ActionDef"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "ComboDef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "a": {
+          "type": "string"
+        },
+        "b": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "flavor": {
+          "type": "string"
+        },
+        "buddies": {
+          "type": "boolean"
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EffectDef"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "ManeuverDef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "a": {
+          "type": "string"
+        },
+        "b": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "flavor": {
+          "type": "string"
+        },
+        "phaseId": {
+          "type": "string"
+        },
+        "positionId": {
+          "type": "string"
+        },
+        "aRole": {
+          "type": "string"
+        },
+        "bRole": {
+          "type": "string"
+        },
+        "aPart": {
+          "type": "string"
+        },
+        "bPart": {
+          "type": "string"
+        },
+        "effectId": {
+          "type": "string"
+        },
+        "tellCode": {
+          "type": "string"
+        },
+        "counterKey": {
+          "type": "string"
+        },
+        "tellHidden": {
+          "type": "boolean"
+        },
+        "priceKey": {
+          "type": "string"
+        },
+        "costResource": {
+          "type": "string"
+        },
+        "costAmount": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "DebtDef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "owedBy": {
+          "type": "string"
+        },
+        "owedTo": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "effect": {
+          "type": "string"
+        },
+        "spent": {
+          "type": "boolean"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "DisputeOptionDef": {
+      "type": "object",
+      "properties": {
+        "side": {
+          "type": "string"
+        },
+        "deltas": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "DisputeDef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "parties": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cost": {
+          "$ref": "#/$defs/CostDef"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DisputeOptionDef"
+          }
+        },
+        "resolved": {
+          "type": "boolean"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "GoalDef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "fuseLength": {
+          "type": "integer"
+        },
+        "fuseSpent": {
+          "type": "integer"
+        },
+        "consequence": {
+          "type": "string"
+        },
+        "destination": {
+          "type": "string"
+        },
+        "resolved": {
+          "type": "boolean"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "BackstoryDef": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "FileShape": {
+      "type": "object",
+      "properties": {
+        "downtime": {
+          "$ref": "#/$defs/DowntimeDef"
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/BondDef"
+          }
+        },
+        "combos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ComboDef"
+          }
+        },
+        "maneuvers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ManeuverDef"
+          }
+        },
+        "debts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DebtDef"
+          }
+        },
+        "disputes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DisputeDef"
+          }
+        },
+        "goals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/GoalDef"
+          }
+        },
+        "backstories": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/BackstoryDef"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    }
+  }
+}

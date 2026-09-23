@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/events.schema.json",
+  "title": "events.json — travel events fired at road joints",
+  "description": "GENERATED from the game's loader types — do not edit. NO comments allowed. NO trailing commas. Keys are matched case-insensitively by the game; write them in camelCase.",
+  "$ref": "#/$defs/EventsFile",
+  "$defs": {
+    "MapEvent": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "pool": {
+          "type": "string"
+        },
+        "once": {
+          "type": "boolean"
+        },
+        "text": {
+          "type": "string"
+        },
+        "resources": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "onlyIfBelow": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "setsFlag": {
+          "type": "string"
+        },
+        "requiresFlag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "requiresNotFlag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "revealsLocations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "encounterId": {
+          "type": "string"
+        },
+        "sound": {
+          "type": "string"
+        },
+        "roadId": {
+          "type": "string"
+        },
+        "partIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "partCacheTip": {
+          "type": "boolean"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "EventsFile": {
+      "type": "object",
+      "properties": {
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MapEvent"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    }
+  }
+}

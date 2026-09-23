@@ -1,0 +1,25 @@
+{
+  "$schema": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/vehicles.schema.json",
+  "vehicles": [
+    {
+      "id": "sb_rv_road_manor",
+      "type": "BattleBus",
+      "name": "The Road Manor",
+      "source": "shop",
+      "locationId": "sb_hulk",
+      "stockTier": 1,
+      "costWater": 30,
+      "costAmmo": 40,
+      "requiredFlag": "sb_manor_offered",
+      "skin": "sb-rv-road-manor",
+      "lore": "A 1982 family motorhome, beige with a brown and orange stripe. Someone welded boiler plate over the nose, put steel mesh over the windows, cut a gun hatch in the roof and kept the lace curtains. The ice box still works."
+    },
+    {
+      "id": "sb_salt_pickup",
+      "type": "FarmPickup",
+      "name": "Salt-Crusted Pickup",
+      "source": "wreck",
+      "lore": "A farm pickup that sat in the salt to its axles for a decade. The frame is fine. Everything else squeaks."
+    }
+  ]
+}

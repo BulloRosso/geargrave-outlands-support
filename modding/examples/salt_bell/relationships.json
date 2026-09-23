@@ -1,0 +1,37 @@
+{
+  "$schema": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/relationships.schema.json",
+  "combos": [
+    {
+      "id": "sb_kett_siblings",
+      "a": "Maren Kett",
+      "b": "Tobi Kett",
+      "name": "Kett & Kett",
+      "flavor": "She casts it, he drives it into the ground, she casts it again.",
+      "buddies": true,
+      "effects": [
+        { "condition": "same_vehicle", "type": "buff", "stat": "repair", "value": 20, "label": "+20 % repairs when they share a vehicle" },
+        { "condition": "same_vehicle", "type": "buff", "stat": "morale", "value": 1, "label": "+1 morale at battle start" },
+        { "condition": "same_convoy", "type": "buff", "stat": "water", "value": -1, "label": "-1 water per day: Tobi finds wells" }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from": "Maren Kett",
+      "to": "Vane",
+      "state": "wary",
+      "value": -10,
+      "nextThreshold": 20,
+      "nextState": "trusts",
+      "symmetric": false,
+      "effects": [
+        { "condition": "same_vehicle", "type": "debuff", "stat": "morale", "value": -1, "label": "-1 morale while Vane rides with her" }
+      ],
+      "incident": { "id": "sb_vane_bronze", "text": "Vane once sold scrap bronze on the salt road. Maren recognises the founder's stamp on his belt buckle." },
+      "actions": [
+        { "id": "force_conversation", "label": "Make them talk it out", "cost": { "downtime": 1 }, "uncertain": true, "outcomes": ["resolve", "detonate"] },
+        { "id": "let_it_harden", "label": "Let it harden", "cost": {}, "consequence": "advance_toward_refuses" }
+      ]
+    }
+  ]
+}

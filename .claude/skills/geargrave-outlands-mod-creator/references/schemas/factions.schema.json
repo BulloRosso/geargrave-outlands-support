@@ -1,0 +1,375 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/factions.schema.json",
+  "title": "factions.json — full faction profiles",
+  "description": "GENERATED from the game's loader types — do not edit. NO comments allowed. NO trailing commas. Keys are matched case-insensitively by the game; write them in camelCase.",
+  "$ref": "#/$defs/FileShape",
+  "$defs": {
+    "LevelThresholds": {
+      "type": "object",
+      "properties": {
+        "allied": {
+          "type": "integer"
+        },
+        "liked": {
+          "type": "integer"
+        },
+        "accepted": {
+          "type": "integer"
+        },
+        "unfriendly": {
+          "type": "integer"
+        },
+        "hostile": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "CompanyRules": {
+      "type": "object",
+      "properties": {
+        "weight": {
+          "type": "integer"
+        },
+        "cap": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "BroadcastSet": {
+      "type": "object",
+      "properties": {
+        "requiresFlag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "requiresNotFlag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "lines": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "HistorySection": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "HistoryPerson": {
+      "type": "object",
+      "properties": {
+        "characterId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "stance": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "HistoryPage": {
+      "type": "object",
+      "properties": {
+        "masthead": {
+          "type": "string"
+        },
+        "tagline": {
+          "type": "string"
+        },
+        "dateline": {
+          "type": "string"
+        },
+        "headline": {
+          "type": "string"
+        },
+        "subhead": {
+          "type": "string"
+        },
+        "illustration": {
+          "type": "string"
+        },
+        "illustrationCaption": {
+          "type": "string"
+        },
+        "fightImage": {
+          "type": "string"
+        },
+        "fightCaption": {
+          "type": "string"
+        },
+        "hatedMascotId": {
+          "type": "string"
+        },
+        "hatedMascotImage": {
+          "type": "string"
+        },
+        "hatedMascotCaption": {
+          "type": "string"
+        },
+        "sections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/HistorySection"
+          }
+        },
+        "people": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/HistoryPerson"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "DeliveryOffer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "minLevel": {
+          "type": "string"
+        },
+        "goods": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "price": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "cooldownDays": {
+          "type": "integer"
+        },
+        "vehicleId": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "ContractPay": {
+      "type": "object",
+      "properties": {
+        "goods": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "rep": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "ContractOffer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "minLevel": {
+          "type": "string"
+        },
+        "requiresFlag": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        },
+        "escortVehicle": {
+          "type": "string"
+        },
+        "days": {
+          "type": "integer"
+        },
+        "pitch": {
+          "type": "string"
+        },
+        "reward": {
+          "$ref": "#/$defs/ContractPay"
+        },
+        "penalty": {
+          "$ref": "#/$defs/ContractPay"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "Entry": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "color": {
+          "type": "string"
+        },
+        "leaderName": {
+          "type": "string"
+        },
+        "leaderTitle": {
+          "type": "string"
+        },
+        "speechStyle": {
+          "type": "string"
+        },
+        "emblem": {
+          "type": "string"
+        },
+        "familyPhoto": {
+          "type": "string"
+        },
+        "portraitMoods": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "specialityResources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "spillover": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "blockadeToll": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "leaderBackstory": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "broadcasts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "broadcastSets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/BroadcastSet"
+          }
+        },
+        "requiresFlag": {
+          "type": "string"
+        },
+        "history": {
+          "$ref": "#/$defs/HistoryPage"
+        },
+        "deliveryOffers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DeliveryOffer"
+          }
+        },
+        "contracts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ContractOffer"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "FileShape": {
+      "type": "object",
+      "properties": {
+        "levelThresholds": {
+          "$ref": "#/$defs/LevelThresholds"
+        },
+        "company": {
+          "$ref": "#/$defs/CompanyRules"
+        },
+        "factions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Entry"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    }
+  }
+}

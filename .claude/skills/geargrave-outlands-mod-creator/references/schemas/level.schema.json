@@ -1,0 +1,359 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/level.schema.json",
+  "title": "level.json — the map: factions, locations, buildings, roads, joints, wrecks, starting crews",
+  "description": "GENERATED from the game's loader types — do not edit. // comments allowed. Trailing commas allowed. Keys are matched case-insensitively by the game; write them in camelCase.",
+  "$ref": "#/$defs/LevelDto",
+  "$defs": {
+    "FactionDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "color": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "BuildingDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "VehicleShop",
+            "RepairShop",
+            "TownHall",
+            "Arena",
+            "Clinic",
+            "Watchtower",
+            "Workshop",
+            "Bunker",
+            "Chapel",
+            "Library",
+            "MotorPool",
+            "Caravanserai"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "actionIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "requiredFactionId": {
+          "type": "string"
+        },
+        "requiredReputation": {
+          "type": "integer"
+        },
+        "requiredCharacterId": {
+          "type": "string"
+        },
+        "requiredItem": {
+          "type": "string"
+        },
+        "requiredStoryFlag": {
+          "type": "string"
+        },
+        "hiddenUntilStoryFlag": {
+          "type": "boolean"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "LocationDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "pos": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "factionId": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "Settlement",
+            "GasStation",
+            "Factory",
+            "MilitaryBase",
+            "Ruin",
+            "Farm"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "sceneImagePath": {
+          "type": "string"
+        },
+        "rebuiltFlag": {
+          "type": "string"
+        },
+        "rebuiltStatus": {
+          "type": "string"
+        },
+        "rebuiltSceneImagePath": {
+          "type": "string"
+        },
+        "rebuiltDescription": {
+          "type": "string"
+        },
+        "buildings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/BuildingDto"
+          }
+        },
+        "exitToLevelId": {
+          "type": "string"
+        },
+        "exitRequiredFlag": {
+          "type": "string"
+        },
+        "exitToLocationId": {
+          "type": "string"
+        },
+        "recon": {
+          "type": "boolean"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "JointDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "pos": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "eventId": {
+          "type": "string"
+        },
+        "storedVehicleIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "WreckDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "recoverVehicleId": {
+          "type": "string"
+        },
+        "recoverRequirement": {
+          "type": "string"
+        },
+        "setsStoryFlag": {
+          "type": "string"
+        },
+        "requiredStoryFlag": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "RoadDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "fromId": {
+          "type": "string"
+        },
+        "toId": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "Highway",
+            "CountryRoad",
+            "OffroadTrack"
+          ]
+        },
+        "passability": {
+          "enum": [
+            "Open",
+            "BlockedEnemy",
+            "BlockedDamage"
+          ]
+        },
+        "blockadeFactionId": {
+          "type": "string"
+        },
+        "minSkulls": {
+          "type": "integer"
+        },
+        "joints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/JointDto"
+          }
+        },
+        "wrecks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/WreckDto"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "CrewDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "locationId": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "LevelDto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "requiresAchievement": {
+          "type": "string"
+        },
+        "bannerImage": {
+          "type": "string"
+        },
+        "terrainTheme": {
+          "type": "string"
+        },
+        "defaultRoadTerrain": {
+          "type": "string"
+        },
+        "hideBaseEncounters": {
+          "type": "boolean"
+        },
+        "capBriefing": {},
+        "factions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FactionDto"
+          }
+        },
+        "locations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LocationDto"
+          }
+        },
+        "roads": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RoadDto"
+          }
+        },
+        "startingCrews": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CrewDto"
+          }
+        },
+        "startingResources": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    }
+  }
+}

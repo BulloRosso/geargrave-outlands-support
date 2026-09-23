@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/progression.schema.json",
+  "title": "progression.json — goals and battle consequences",
+  "description": "GENERATED from the game's loader types — do not edit. // comments allowed. Trailing commas allowed. Keys are matched case-insensitively by the game; write them in camelCase.",
+  "$ref": "#/$defs/FileShape",
+  "$defs": {
+    "Effect": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "flag": {
+          "type": "string"
+        },
+        "road": {
+          "type": "string"
+        },
+        "vehicleType": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "skin": {
+          "type": "string"
+        },
+        "character": {
+          "type": "string"
+        },
+        "mascot": {
+          "type": "string"
+        },
+        "upgrade": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "story": {
+          "type": "string"
+        },
+        "storyLost": {
+          "type": "string"
+        },
+        "ledger": {
+          "type": "string"
+        },
+        "deed": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "Consequence": {
+      "type": "object",
+      "properties": {
+        "when": {
+          "type": "string"
+        },
+        "story": {
+          "type": "string"
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Effect"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "EncounterEntry": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "repeatUntil": {
+          "type": "string"
+        },
+        "consequences": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Consequence"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "MirrorReq": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "flag": {
+          "type": "string"
+        },
+        "resource": {
+          "type": "string"
+        },
+        "faction": {
+          "type": "string"
+        },
+        "character": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "MirrorEff": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "flag": {
+          "type": "string"
+        },
+        "resource": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "integer"
+        },
+        "repeatable": {
+          "type": "boolean"
+        },
+        "vehicleType": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "character": {
+          "type": "string"
+        },
+        "upgrade": {
+          "type": "string"
+        },
+        "faction": {
+          "type": "string"
+        },
+        "encounter": {
+          "type": "string"
+        },
+        "road": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "MirrorVariant": {
+      "type": "object",
+      "properties": {
+        "requires": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MirrorReq"
+          }
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MirrorEff"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "ActionMirror": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "variants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MirrorVariant"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "FileShape": {
+      "type": "object",
+      "properties": {
+        "actionsComment": {
+          "type": "string"
+        },
+        "goals": {
+          "type": "array",
+          "items": {
+            "description": "custom format (see file-reference.md)"
+          }
+        },
+        "encounters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EncounterEntry"
+          }
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ActionMirror"
+          }
+        },
+        "mirrorExempt": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    }
+  }
+}

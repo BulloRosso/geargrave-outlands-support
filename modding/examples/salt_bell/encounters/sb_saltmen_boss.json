@@ -1,0 +1,44 @@
+{
+  "$schema": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/encounter.schema.json",
+  "id": "sb_saltmen_boss",
+  "name": "The Salt King's Procession",
+  "intro": "At dusk the Saltmen roll out of the old harbour: a family motorhome dragged into a war wagon, outriders on both flanks, a mortar crew dug in behind the breakwater. Bellwell's bronze is chained to the wagon's roof.",
+  "attackReason": "The bell is ours now. We will ring it when WE are thirsty.",
+  "kind": "Battle",
+  "speakerName": "Salt King Oszkar",
+  "speakerTitle": "Lord of the Dead Sea",
+  "speakerPortrait": "portrait_sb_salt_king",
+  "locationImage": "encounter_scene_sb_saltmen_boss.jpg",
+  "environment": "Night",
+  "nightSchedule": { "startAtNight": false, "dayLength": 3, "nightLength": 3 },
+  "faction": "None",
+  "roadTerrain": "salzsee",
+  "orientation": "chase",
+  "allowFlee": true,
+  "enemies": [
+    { "type": "BattleBus", "name": "The Salt Throne", "skin": "sb-rv-road-manor", "zone": "EnemyMid", "leader": true,
+      "upgrades": ["MgMount", "RamPlow"], "cargo1": "sb_bell_bronze",
+      "crew": [ { "role": "Driver", "skill": 3 }, { "role": "Leader", "skill": 4, "name": "Oszkar" },
+                { "role": "Gunner", "skill": 3 }, { "role": "Fighter", "skill": 3 } ] },
+    { "type": "Buggy", "name": "Left Hand", "zone": "EnemyFront",
+      "crew": [ { "role": "Driver", "skill": 2 }, { "role": "Gunner", "skill": 2 } ] },
+    { "type": "Buggy", "name": "Right Hand", "zone": "EnemyFront",
+      "crew": [ { "role": "Driver", "skill": 2 }, { "role": "Gunner", "skill": 2 } ] }
+  ],
+  "stationaries": [ { "type": "MortarTeam", "zone": "EnemyRear", "name": "Breakwater Mortar" } ],
+  "blockades": [
+    { "kind": "BurningBarricade", "lane": 1, "rank": 3 },
+    { "kind": "TireStack", "lane": 3, "rank": 3 }
+  ],
+  "reinforcements": [
+    { "round": 2, "side": "player", "guest": true, "faction": "None",
+      "vehicles": [ { "type": "Pickup", "name": "Bellwell Volunteers", "zone": "OwnMid",
+                      "crew": [ { "role": "Driver", "skill": 2 }, { "role": "Fighter", "skill": 2 } ] } ] },
+    { "round": 3, "side": "enemy",
+      "vehicles": [ { "type": "Quad", "name": "Late Rider", "zone": "EnemyRear",
+                      "crew": [ { "role": "Driver", "skill": 2 } ] } ] }
+  ],
+  "gang": { "motive": "trophaeen", "doctrine": "scherenwand", "secondDoctrine": "belagerung",
+            "commandVehicleName": "The Salt Throne" },
+  "mission": { "type": "kopfgeld", "targetName": "The Salt Throne" }
+}

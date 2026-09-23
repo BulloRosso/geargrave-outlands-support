@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/epilogues.schema.json",
+  "title": "epilogues.json — ending epilogues (comic pages)",
+  "description": "GENERATED from the game's loader types — do not edit. // comments allowed. Trailing commas allowed. Keys are matched case-insensitively by the game; write them in camelCase.",
+  "$ref": "#/$defs/EpilogueLevelFile",
+  "$defs": {
+    "EpiloguePanelDef": {
+      "type": "object",
+      "properties": {
+        "image": {
+          "type": "string"
+        },
+        "imageAllied": {
+          "type": "string"
+        },
+        "imageHostile": {
+          "type": "string"
+        },
+        "focusY": {
+          "type": "number"
+        },
+        "faction": {
+          "type": "string"
+        },
+        "heading": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        },
+        "bodyAllied": {
+          "type": "string"
+        },
+        "bodyHostile": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "EpiloguePageDef": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "panels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EpiloguePanelDef"
+          }
+        },
+        "crew": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "EpilogueEndingDef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "title": {
+          "type": "string"
+        },
+        "pages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EpiloguePageDef"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "EpilogueLevelFile": {
+      "type": "object",
+      "properties": {
+        "endings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EpilogueEndingDef"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    }
+  }
+}

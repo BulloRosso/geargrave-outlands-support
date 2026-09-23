@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/doctrines.schema.json",
+  "title": "doctrines.json — doctrine points for upgrades, parts, characters, perks",
+  "description": "GENERATED from the game's loader types — do not edit. // comments allowed. NO trailing commas. Keys are matched case-insensitively by the game; write them in camelCase.",
+  "$ref": "#/$defs/FileShape",
+  "$defs": {
+    "DoctrineRules": {
+      "type": "object",
+      "properties": {
+        "thresholds": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "legendBonusAt": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "roleCapPerDoctrine": {
+          "type": "integer"
+        },
+        "buddyPairDoctrine": {
+          "type": "string"
+        },
+        "buddyPairPoints": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "DoctrineModifier": {
+      "type": "object",
+      "properties": {
+        "stat": {
+          "type": "string"
+        },
+        "value": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "CapstoneDef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "effectId": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "targeted": {
+          "type": "boolean"
+        },
+        "oncePerBattle": {
+          "type": "boolean"
+        },
+        "params": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "DoctrineTierDef": {
+      "type": "object",
+      "properties": {
+        "desc": {
+          "type": "string"
+        },
+        "passives": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DoctrineModifier"
+          }
+        },
+        "capstone": {
+          "$ref": "#/$defs/CapstoneDef"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "DoctrineDef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "glyph": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "theme": {
+          "type": "string"
+        },
+        "tiers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DoctrineTierDef"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "FileShape": {
+      "type": "object",
+      "properties": {
+        "rules": {
+          "$ref": "#/$defs/DoctrineRules"
+        },
+        "doctrines": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/DoctrineDef"
+          }
+        },
+        "components": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer"
+            }
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    }
+  }
+}

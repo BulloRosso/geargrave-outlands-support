@@ -1,0 +1,38 @@
+name: Modding question or missing feature
+description: Ask about the mod format, report a validator mistake, or request something mods cannot do yet.
+labels: ["modding"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before asking, run the validator on your mod (level picker → **MODS**, or
+        `--validate-mod <folder>` on the command line) and read the
+        [modding guide](https://github.com/BulloRosso/geargrave-outlands-support/tree/main/modding).
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What is it about?
+      options:
+        - A question about the mod format
+        - The validator reports something that is not a problem (or misses one)
+        - Mods cannot do something I need
+    validations:
+      required: true
+  - type: input
+    id: game-version
+    attributes:
+      label: Game version
+      description: Shown in the settings (⚙) under Early Access Support.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What you tried, what you expected, what happened. Paste the validator lines that matter.
+    validations:
+      required: true
+  - type: textarea
+    id: files
+    attributes:
+      label: Relevant JSON (optional)
+      description: The smallest piece of your mod that shows the problem.
+      render: json

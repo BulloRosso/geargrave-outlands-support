@@ -1,0 +1,25 @@
+{
+  "$schema": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/encounter.schema.json",
+  "id": "sb_salt_ambush",
+  "name": "Ambush at the Glare Cut",
+  "intro": "Two buggies drop out of the white glare behind you, salt-caked sheets flapping from their roll bars. A motorcycle swings wide to cut off your flank.",
+  "attackReason": "Salt is thirst. You carry water. That is the whole sermon.",
+  "kind": "Battle",
+  "speakerName": "Grit",
+  "speakerTitle": "Saltmen Outrider",
+  "environment": "Day",
+  "faction": "None",
+  "roadTerrain": "salzsee",
+  "orientation": "chased",
+  "enemies": [
+    { "type": "RaiderBuggy", "name": "Glare One", "zone": "EnemyMid",
+      "crew": [ { "role": "Driver", "skill": 2 }, { "role": "Gunner", "skill": 2 } ] },
+    { "type": "RaiderBuggy", "name": "Glare Two", "zone": "EnemyMid", "leader": true,
+      "upgrades": ["MgMount"],
+      "crew": [ { "role": "Driver", "skill": 3 }, { "role": "Gunner", "skill": 2 } ] },
+    { "type": "RaiderMotorcycle", "name": "Salt Hare", "zone": "EnemyRear",
+      "crew": [ { "role": "Driver", "skill": 2 } ] }
+  ],
+  "gang": { "motive": "treibstoff", "doctrine": "rudeltreiben" },
+  "mission": { "type": "ueberfall" }
+}

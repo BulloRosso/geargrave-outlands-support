@@ -1,0 +1,8 @@
+{
+  "$schema": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/audio.schema.json",
+  "events": {
+    "SB_BELL": "assets/audio/sb_bell.wav",
+    "SB_BELL_CRACKED": "assets/audio/sb_bell_cracked.wav",
+    "SB_HULL_GONG": "assets/audio/sb_hull_gong.wav"
+  }
+}

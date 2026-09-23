@@ -1,0 +1,70 @@
+{
+  "$schema": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/epilogues.schema.json",
+  "endings": [
+    {
+      "id": "sb_ending_bell_rings",
+      "flags": [
+        "sb_bell_rung"
+      ],
+      "title": "The Bell Over the Salt",
+      "pages": [
+        {
+          "kind": "world",
+          "title": "The Basin",
+          "panels": [
+            {
+              "image": "epilogue_sb_world.jpg",
+              "focusY": 0.45,
+              "heading": "Water on the Salt",
+              "body": "The caravans came back. Every tenth day the bell rings over the dead sea, and every tenth day the tankers answer from the south. Bellwell stopped counting barrels. It started counting children again."
+            },
+            {
+              "image": "epilogue_sb_world.jpg",
+              "focusY": 0.8,
+              "heading": "The Hulk and the Pump",
+              "body": "The Hulk Traders hung a smaller bell from their mast to call buyers across the pan. Pump Station Nine sells its cold water to founders now - there is a second bell being cast in the west."
+            }
+          ]
+        },
+        {
+          "kind": "factions",
+          "title": "Who Stayed",
+          "panels": [
+            {
+              "image": "epilogue_sb_folk.jpg",
+              "faction": "sb_bell_folk",
+              "focusY": 0.4,
+              "heading": "The Bell Folk",
+              "body": "The Bell Folk keep the cracked old bell on a stone beside the new one, so nobody forgets how close it came.",
+              "bodyAllied": "When your dust shows on the horizon, Maren rings the bell twice - once for the caravan, once for you. There is always a cup of cold water waiting under the gantry.",
+              "bodyHostile": "They thank you for the bell. They do not ask you to stay. The scouts at Basalt Watch still log your convoy with the raiders."
+            },
+            {
+              "image": "epilogue_sb_folk.jpg",
+              "faction": "sb_saltmen",
+              "focusY": 0.9,
+              "heading": "The Saltmen",
+              "body": "Without the Brine Mother the Saltmen split into three bands and went quiet. Some say they dig for salt now. Some say they only wait for the next bronze."
+            }
+          ]
+        },
+        {
+          "kind": "convoy",
+          "title": "The Convoy",
+          "panels": [
+            {
+              "image": "epilogue_sb_convoy.jpg",
+              "focusY": 0.5,
+              "heading": "Rolling On",
+              "body": "You left the basin with full tanks and a small bronze bell tied to the roll bar - a founder's leftover, poured from the last of the Saltmen's hoard. On quiet nights it rings on its own when the road turns rough."
+            }
+          ],
+          "crew": {
+            "Maren Kett": "Maren stayed long enough to hear the first caravan answer the bell. Then she climbed back into the cab - somebody has to keep your engines alive.",
+            "Tobi Kett": "Tobi still drives like the salt is lava. He swears the new bell is half a tone higher than the old one. Nobody else can hear it."
+          }
+        }
+      ]
+    }
+  ]
+}

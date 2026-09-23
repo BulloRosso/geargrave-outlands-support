@@ -1,0 +1,327 @@
+{
+  "$schema": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/conversations.schema.json",
+  "conversations": [
+    {
+      "id": "sb_founder",
+      "_note": "Maren Kett at the Bell Gantry. Shows: entry variants, a trait interject line, a Politician check with onFail, requiresResources, recruit effects, a node image.",
+      "npcCharacterId": "sb_maren",
+      "doneFlag": "sb_maren_joined",
+      "entry": [
+        {
+          "requiresFlag": [
+            "sb_maren_joined"
+          ],
+          "node": "after"
+        },
+        {
+          "requiresFlag": [
+            "sb_mould_found"
+          ],
+          "node": "mould"
+        },
+        {
+          "node": "root"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "root",
+          "image": "conv_sb_cracked_bell.jpg",
+          "text": "Maren doesn't look up from the crack in the bell. 'Loam, bronze and cold water. I have none of the three. My father's mould went to the Hulk to pay a debt. The bronze went to the Saltmen. The cold water is at Pump Nine, and it costs fuel we don't have.'",
+          "autoChoice": "leave",
+          "choices": [
+            {
+              "id": "ask",
+              "text": "Who has the bronze?",
+              "next": "saltmen"
+            },
+            {
+              "id": "gearhead",
+              "text": "That crack runs with the grain. You could braze it instead of recasting.",
+              "requiresTrait": "gearhead",
+              "requiresNotFlag": [
+                "sb_maren_impressed"
+              ],
+              "interject": true,
+              "next": "impressed"
+            },
+            {
+              "id": "leave",
+              "text": "We'll see what we can find.",
+              "exit": true
+            }
+          ]
+        },
+        {
+          "id": "saltmen",
+          "text": "'The Saltmen. They took the town's bronze reserve off our wagons last winter. Called it salvage. It was theft with a crown on.'",
+          "autoChoice": "back",
+          "choices": [
+            {
+              "id": "back",
+              "text": "Understood.",
+              "exit": true
+            }
+          ]
+        },
+        {
+          "id": "impressed",
+          "text": "She looks up for the first time. 'Brazing holds a year. Casting holds a century. But you know metal. That's rare out here.'",
+          "autoChoice": "leave",
+          "choices": [
+            {
+              "id": "leave",
+              "text": "Keep it in mind.",
+              "exit": true,
+              "effects": [
+                {
+                  "type": "setFlag",
+                  "flag": "sb_maren_impressed"
+                },
+                {
+                  "type": "applyReputation",
+                  "faction": "sb_bell_folk",
+                  "amount": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "mould",
+          "text": "'You found it.' She runs a thumb along the loam, reading it like a letter. 'My father's hand. Then I'm coming with you - somebody has to keep this crate in one piece and your engines alive until the bell rings.'",
+          "autoChoice": "later",
+          "choices": [
+            {
+              "id": "join",
+              "text": "Welcome aboard, Maren.",
+              "exit": true,
+              "effects": [
+                {
+                  "type": "recruitCharacter",
+                  "character": "sb_maren"
+                },
+                {
+                  "type": "setFlag",
+                  "flag": "sb_maren_joined"
+                }
+              ]
+            },
+            {
+              "id": "persuade",
+              "text": "Your brother drives. Bring him too.",
+              "check": {
+                "role": "Politician",
+                "base": 40,
+                "perSkill": 10,
+                "cap": 85,
+                "onFail": "no_tobi"
+              },
+              "exit": true,
+              "effects": [
+                {
+                  "type": "recruitCharacter",
+                  "character": "sb_maren"
+                },
+                {
+                  "type": "recruitCharacter",
+                  "character": "sb_tobi"
+                },
+                {
+                  "type": "setFlag",
+                  "flag": "sb_maren_joined"
+                }
+              ]
+            },
+            {
+              "id": "pay",
+              "text": "Take 10 water for the forge first.",
+              "requiresResources": {
+                "water": 10
+              },
+              "requiresNotFlag": [
+                "sb_forge_paid"
+              ],
+              "next": "mould",
+              "effects": [
+                {
+                  "type": "grantResource",
+                  "resource": "water",
+                  "amount": -10
+                },
+                {
+                  "type": "setFlag",
+                  "flag": "sb_forge_paid"
+                },
+                {
+                  "type": "applyReputation",
+                  "faction": "sb_bell_folk",
+                  "amount": 2
+                }
+              ]
+            },
+            {
+              "id": "later",
+              "text": "Not yet.",
+              "exit": true
+            }
+          ]
+        },
+        {
+          "id": "no_tobi",
+          "text": "'Tobi stays. Someone has to guard the well - and Mother.' She picks up her tools anyway. 'Ask him yourself at the Well House, if you want to lose an argument.'",
+          "autoChoice": "ok",
+          "choices": [
+            {
+              "id": "ok",
+              "text": "Fair enough.",
+              "exit": true,
+              "effects": [
+                {
+                  "type": "recruitCharacter",
+                  "character": "sb_maren"
+                },
+                {
+                  "type": "setFlag",
+                  "flag": "sb_maren_joined"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "after",
+          "text": "The gantry is empty. Maren is already out at your trucks, checking radiator hoses.",
+          "autoChoice": "bye",
+          "choices": [
+            {
+              "id": "bye",
+              "text": "Carry on.",
+              "exit": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sb_quartermaster",
+      "_note": "An inline NPC (npcName, not a recruitable character) at the Hold Market. Unlocks The Road Manor in the shop.",
+      "npcName": "Quartermaster Ide",
+      "doneFlag": "sb_manor_offered",
+      "entry": [
+        {
+          "requiresFlag": [
+            "sb_manor_offered"
+          ],
+          "node": "after"
+        },
+        {
+          "node": "root"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "root",
+          "text": "A woman in a harbour pilot's coat three sizes too big looks up from a ledger bound in sailcloth. 'Ide. I keep the Hulk's books. Everything in this basin passes my counter sooner or later. What are you short of?'",
+          "autoChoice": "leave",
+          "choices": [
+            {
+              "id": "gossip",
+              "text": "News. Who runs the white?",
+              "next": "gossip"
+            },
+            {
+              "id": "big",
+              "text": "Something big. Something with armour.",
+              "next": "manor"
+            },
+            {
+              "id": "leave",
+              "text": "Just looking.",
+              "exit": true
+            }
+          ]
+        },
+        {
+          "id": "gossip",
+          "text": "'The Salt King. Oszkar. Used to pilot ships into the old harbour up north; now he parks his war wagon there. If you go looking for him, go at dusk - the glare is on your side then.'",
+          "autoChoice": "thanks",
+          "choices": [
+            {
+              "id": "thanks",
+              "text": "Worth knowing.",
+              "exit": true,
+              "effects": [
+                {
+                  "type": "revealLocation",
+                  "location": "sb_old_harbour"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "manor",
+          "text": "Ide smiles for the first time. 'Lower hold. A motorhome - eighty-two, the good year. Somebody welded half a boiler onto its nose. The owner owes me more than it's worth. For a small fee I'll put it on the market floor.'",
+          "autoChoice": "leave",
+          "choices": [
+            {
+              "id": "haggle",
+              "text": "The owner owes you. So you'd be glad to be rid of it. Free listing.",
+              "requiresTrait": "dealmaker",
+              "interject": true,
+              "exit": true,
+              "effects": [
+                {
+                  "type": "setFlag",
+                  "flag": "sb_manor_offered"
+                }
+              ]
+            },
+            {
+              "id": "pay",
+              "text": "Here's 5 water for the fee.",
+              "requiresResources": {
+                "water": 5
+              },
+              "exit": true,
+              "effects": [
+                {
+                  "type": "grantResource",
+                  "resource": "water",
+                  "amount": -5
+                },
+                {
+                  "type": "setFlag",
+                  "flag": "sb_manor_offered"
+                },
+                {
+                  "type": "applyReputation",
+                  "faction": "sb_hulk_traders",
+                  "amount": 1
+                }
+              ]
+            },
+            {
+              "id": "leave",
+              "text": "Maybe later.",
+              "exit": true
+            }
+          ]
+        },
+        {
+          "id": "after",
+          "text": "'The Road Manor is on the floor. Lace curtains included. No refunds.'",
+          "autoChoice": "bye",
+          "choices": [
+            {
+              "id": "bye",
+              "text": "Noted.",
+              "exit": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

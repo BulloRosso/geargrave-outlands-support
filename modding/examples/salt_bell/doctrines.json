@@ -1,0 +1,6 @@
+{
+  "components": {
+    "part:sb_engine_saltbox": { "warranty": 1, "rush": 1 },
+    "character:Maren Kett": { "warranty": 2 }
+  }
+}

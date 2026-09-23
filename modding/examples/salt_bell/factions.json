@@ -1,0 +1,103 @@
+{
+  "$schema": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/factions.schema.json",
+  "factions": [
+    {
+      "id": "sb_bell_folk",
+      "displayName": "The Bell Folk",
+      "color": "c9b27c",
+      "leaderName": "Warden Ilse Marr",
+      "leaderTitle": "Keeper of the Well",
+      "speechStyle": "short sentences, weather words, never says no directly",
+      "emblem": "emblem_sb_bell_folk",
+      "portraitMoods": {
+        "neutral": "portrait_sb_ilse_neutral",
+        "pleased": "portrait_sb_ilse_pleased",
+        "angry": "portrait_sb_ilse_angry"
+      },
+      "specialityResources": ["water"],
+      "spillover": { "sb_saltmen": -0.5 },
+      "leaderBackstory": [
+        "Ilse Marr was the well's third keeper and the first who could read the old pump manuals.",
+        "She rang the bell the night the sea died, and she has kept the rope in her hand ever since - even now that the bell only clanks."
+      ],
+      "broadcasts": [
+        "Bellwell to all roads: water at the rope, news at the gate. Bring both.",
+        "No bell again tonight. The pans are quiet. Quiet is not the same as safe.",
+        "Wind from the ridge, dust on the pans. Keep your tanks closed and your eyes open."
+      ],
+      "broadcastSets": [
+        {
+          "requiresFlag": ["sb_bell_rung"],
+          "lines": [
+            "Bellwell to all roads: the bell speaks again. Caravans, you know the way.",
+            "Water came on the third day, the way it used to. Thank the ones who brought the bronze home."
+          ]
+        }
+      ],
+      "history": {
+        "masthead": "THE WELL ROPE",
+        "tagline": "News by the bucket.",
+        "dateline": "Bellwell, twelfth dry year",
+        "headline": "A TOWN THAT WAITS FOR A SOUND",
+        "subhead": "How the Bell Folk kept a well alive on a dead sea.",
+        "sections": [
+          { "title": "What the old world ran on", "body": "Salt, shipping and a canal nobody finished. When the canal failed the sea drank itself dry in eleven summers, and the ships stayed where the water left them." },
+          { "title": "Why a bell", "body": "Radios need batteries. A bell needs one strong arm. For three generations the water caravans followed its note across the pans - and when it cracked, they stopped coming." },
+          { "title": "The Saltmen", "body": "Raiders who live out on the white, where nobody else can. They took the town's bronze reserve last winter and call it salvage." }
+        ],
+        "people": [
+          { "characterId": "sb_maren", "name": "Maren Kett", "stance": "loves", "note": "The founder's daughter. The town would follow her into the pans." }
+        ]
+      },
+      "deliveryOffers": [
+        { "id": "sb_water_run", "minLevel": "accepted", "goods": { "water": 12 }, "price": { "ammo_normal": 10 }, "cooldownDays": 5 }
+      ],
+      "contracts": [
+        {
+          "id": "sb_mail_bag",
+          "kind": "haul",
+          "minLevel": "accepted",
+          "to": "sb_basalt_watch",
+          "days": 4,
+          "pitch": "A mail bag for the scouts on the ridge. Don't read it. Everyone reads it.",
+          "reward": { "goods": { "water": 10 }, "rep": 1 },
+          "penalty": { "rep": -1 }
+        }
+      ],
+      "requiresFlag": ""
+    },
+    {
+      "id": "sb_saltmen",
+      "displayName": "The Saltmen",
+      "color": "e8e2d0",
+      "leaderName": "Salt King Oszkar",
+      "leaderTitle": "Lord of the Dead Sea",
+      "speechStyle": "slow, amused, royal 'we', talks about thirst like a tax",
+      "emblem": "emblem_sb_saltmen",
+      "portraitMoods": {
+        "neutral": "portrait_sb_salt_king"
+      },
+      "specialityResources": ["tires", "screws"],
+      "spillover": { "sb_bell_folk": -0.5 },
+      "leaderBackstory": [
+        "Oszkar was a harbour pilot when there was still a harbour. He knows every sandbar that turned into a salt ridge.",
+        "He crowned himself with a porthole ring the day the last ship ran aground, and nobody on the white has argued since."
+      ],
+      "broadcasts": [
+        "This is the Salt King. The white belongs to us. You may cross it. You may not keep what you carry.",
+        "We hear Bellwell counts its barrels now. We count them too.",
+        "Bronze does not rot and does not drink. We are keeping it safe for you, little well."
+      ],
+      "broadcastSets": [
+        {
+          "requiresFlag": ["sb_bronze_recovered"],
+          "lines": [
+            "The King is silent tonight. The white is not.",
+            "You took our bronze. Salt remembers."
+          ]
+        }
+      ],
+      "requiresFlag": "sb_bell_cracked"
+    }
+  ]
+}

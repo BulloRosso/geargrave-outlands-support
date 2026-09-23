@@ -1,0 +1,355 @@
+{
+  "$schema": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/level.schema.json",
+  "id": "salt_bell",
+  "displayName": "Salt Bell",
+  "description": "A dead inland sea gone to white salt under a heavy sky. Ship hulls rust on the cracked pans, a black basalt ridge walls off the east, and the thirsty, stubborn people of Bellwell want their signal bell to ring again.",
+  "version": "1.1",
+  "author": "Geargrave Outlands example",
+  "bannerImage": "banner.png",
+  "capBriefing": {
+    "en": "Salt Bell. A dead sea, dry as a bone, and one town that still hangs on to a well. Their signal bell cracked, and without it the water caravans pass them by. Fix the bell, and the whole basin owes you. Watch for the Saltmen - they come out of the glare.",
+    "de": "Salzglocke. Ein totes Meer, knochentrocken, und eine Siedlung, die sich noch an einen Brunnen klammert. Ihre Signalglocke ist gesprungen, und ohne sie ziehen die Wasserkarawanen vorbei. Bring die Glocke wieder zum Klingen, und das ganze Becken steht in deiner Schuld. Achte auf die Salzmänner - sie kommen aus dem grellen Licht."
+  },
+  "defaultRoadTerrain": "salzsee",
+  "terrainTheme": "desert",
+  "factions": [
+    {
+      "id": "sb_bell_folk",
+      "displayName": "The Bell Folk",
+      "color": "c9b27c"
+    },
+    {
+      "id": "sb_hulk_traders",
+      "displayName": "The Hulk Traders",
+      "color": "7a8a8c"
+    },
+    {
+      "id": "sb_saltmen",
+      "displayName": "The Saltmen",
+      "color": "e8e2d0"
+    }
+  ],
+  "locations": [
+    {
+      "id": "sb_bellwell",
+      "displayName": "Bellwell",
+      "pos": [
+        775,
+        875
+      ],
+      "factionId": "sb_bell_folk",
+      "type": "Settlement",
+      "status": "inhabited",
+      "description": "A knot of tin shacks and ship planks around the last deep well on the west shore. The winch tower creaks day and night, and people queue for water with the patience of those who have never had enough of it.\n\nBeside the well stands the bell gantry. For three generations its bronze called the water caravans across the salt. Now the bell hangs silent, and the town has started to count its barrels.",
+      "sceneImagePath": "location_scene_sb_bellwell.jpg",
+      "buildings": [
+        {
+          "id": "sb_bell_gantry",
+          "displayName": "The Bell Gantry",
+          "type": "Watchtower",
+          "description": "A scaffold of scrap steel with a bronze bell the size of a water tank. Maren Kett, the founder's daughter, works beneath it and waits for someone who can bring her mould and metal.",
+          "actionIds": [
+            "sb_inspect_bell",
+            "conv_sb_founder",
+            "sb_recast_bell",
+            "sb_return_bronze"
+          ]
+        },
+        {
+          "id": "sb_well_house",
+          "displayName": "The Well House",
+          "type": "Caravanserai",
+          "description": "Where the winch comes down, the town trades, patches wounds and hires out hands who know the salt.",
+          "actionIds": [
+            "sb_draw_well_water",
+            "sb_hire_tobi",
+            "sb_bell_folk_thanks",
+            "trade_water",
+            "heal_crew",
+            "recruit_crew"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sb_hulk",
+      "displayName": "The Hulk",
+      "pos": [
+        2010,
+        920
+      ],
+      "factionId": "sb_hulk_traders",
+      "type": "Settlement",
+      "status": "inhabited",
+      "description": "A cargo ship stranded on its keel in the middle of the salt, taller than anything else in the basin. The Hulk Traders cut doors into its side and turned its holds into a market.\n\nEverything that was ever lost in the basin ends up here sooner or later - rope, fuel, engines, and, somewhere below deck, the mould Bellwell's founders once poured their bell from.",
+      "sceneImagePath": "location_scene_sb_hulk.jpg",
+      "buildings": [
+        {
+          "id": "sb_hold_market",
+          "displayName": "The Hold Market",
+          "type": "Caravanserai",
+          "description": "Three decks of stalls in the dark belly of the ship. Quartermaster Ide keeps the ledger and the keys.",
+          "actionIds": [
+            "conv_sb_quartermaster",
+            "sb_buy_mould",
+            "sb_buy_spare_mould",
+            "trade_fuel",
+            "buy_vehicles",
+            "sell_vehicles"
+          ]
+        },
+        {
+          "id": "sb_bosun_yard",
+          "displayName": "The Bosun's Yard",
+          "type": "RepairShop",
+          "description": "A welding shop under the stern, sheltered from the wind by the hull itself.",
+          "actionIds": [
+            "repair_vehicles",
+            "install_tow_rig"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sb_pump_nine",
+      "displayName": "Pump Station Nine",
+      "pos": [
+        2050,
+        1760
+      ],
+      "factionId": "neutral",
+      "type": "Factory",
+      "status": "inhabited",
+      "description": "A concrete pump house on the southern edge of the pan, from the days when someone still tried to drain the sea for its salt. Its deep pump reaches water that is cold even at noon.\n\nThe keeper sells to anyone who pays in fuel and asks no questions. He keeps a shotgun by the valve wheel anyway.",
+      "sceneImagePath": "location_scene_sb_pump_nine.jpg",
+      "buildings": [
+        {
+          "id": "sb_pump_house",
+          "displayName": "The Pump House",
+          "type": "Workshop",
+          "description": "Pipes, gauges and a diesel engine older than the keeper. The deep pump only runs when somebody feeds it.",
+          "actionIds": [
+            "sb_buy_cooling_water",
+            "trade_water",
+            "repair_vehicles"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sb_basalt_watch",
+      "displayName": "Basalt Watch",
+      "pos": [
+        3090,
+        1360
+      ],
+      "factionId": "sb_bell_folk",
+      "type": "MilitaryBase",
+      "status": "inhabited",
+      "description": "A walled outpost of stacked black stone on top of the basalt ridge. Bellwell keeps a handful of scouts up here with a mirror and a long view over the salt.\n\nFrom the tower you can see the Saltmen's dust long before you hear their engines.",
+      "sceneImagePath": "location_scene_sb_basalt_watch.jpg",
+      "buildings": [
+        {
+          "id": "sb_lookout",
+          "displayName": "The Lookout",
+          "type": "Watchtower",
+          "description": "A wooden tower lashed to the basalt, with a signal mirror and a logbook of every raid for twenty years.",
+          "actionIds": [
+            "sb_ride_on_saltmen",
+            "buy_intel",
+            "heal_crew"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sb_old_harbour",
+      "displayName": "Old Harbour",
+      "pos": [
+        1985,
+        185
+      ],
+      "factionId": "neutral",
+      "type": "Ruin",
+      "status": "abandoned",
+      "description": "Once a port, now a quay standing high and dry above a sea that left. The warehouses are roofless and the crane lies on its side in the salt.\n\nNobody lives here. Scavengers come for the steel, and leave before dark.",
+      "sceneImagePath": "location_scene_sb_old_harbour.jpg",
+      "buildings": [
+        {
+          "id": "sb_customs_house",
+          "displayName": "The Customs House",
+          "type": "Bunker",
+          "description": "The only building with a roof left, its vault door rusted open. The salt kept the steel inside good.",
+          "actionIds": [
+            "sb_salvage_quay",
+            "scavenger_task"
+          ]
+        }
+      ]
+    }
+  ],
+  "roads": [
+    {
+      "id": "sb_road_well_hulk",
+      "fromId": "sb_bellwell",
+      "toId": "sb_hulk",
+      "type": "CountryRoad",
+      "passability": "Open",
+      "joints": [
+        {
+          "id": "sb_joint_shore_cairn",
+          "displayName": "Shore Cairn",
+          "pos": [
+            1320,
+            900
+          ],
+          "eventId": "sb_evt_shore_cairn"
+        }
+      ]
+    },
+    {
+      "id": "sb_road_hulk_pump",
+      "fromId": "sb_hulk",
+      "toId": "sb_pump_nine",
+      "type": "OffroadTrack",
+      "passability": "Open",
+      "joints": [
+        {
+          "id": "sb_joint_glare_cut",
+          "displayName": "The Glare Cut",
+          "pos": [
+            1760,
+            1260
+          ],
+          "eventId": "sb_evt_saltmen_ambush"
+        }
+      ]
+    },
+    {
+      "id": "sb_road_well_pump",
+      "fromId": "sb_bellwell",
+      "toId": "sb_pump_nine",
+      "type": "CountryRoad",
+      "passability": "Open",
+      "joints": [
+        {
+          "id": "sb_joint_dry_shore",
+          "displayName": "",
+          "pos": [
+            990,
+            1410
+          ],
+          "eventId": ""
+        },
+        {
+          "id": "sb_joint_lifeboat",
+          "displayName": "Singing Lifeboat",
+          "pos": [
+            1440,
+            1560
+          ],
+          "eventId": "sb_evt_hull_gong"
+        }
+      ],
+      "wrecks": [
+        {
+          "id": "sb_wreck_salt_pickup",
+          "displayName": "Salt-Crusted Pickup",
+          "description": "A farm pickup sunk to its axles in the salt, its owner long gone. A mechanic could get the engine turning again.",
+          "recoverVehicleId": "sb_salt_pickup",
+          "recoverRequirement": "mechanic",
+          "setsStoryFlag": "",
+          "requiredStoryFlag": ""
+        }
+      ]
+    },
+    {
+      "id": "sb_road_hulk_watch",
+      "fromId": "sb_hulk",
+      "toId": "sb_basalt_watch",
+      "type": "OffroadTrack",
+      "passability": "Open",
+      "joints": [
+        {
+          "id": "sb_joint_east_shore",
+          "displayName": "",
+          "pos": [
+            2550,
+            990
+          ],
+          "eventId": ""
+        }
+      ]
+    },
+    {
+      "id": "sb_road_pump_watch",
+      "fromId": "sb_pump_nine",
+      "toId": "sb_basalt_watch",
+      "type": "OffroadTrack",
+      "passability": "Open",
+      "joints": [
+        {
+          "id": "sb_joint_ridge_foot",
+          "displayName": "",
+          "pos": [
+            2580,
+            1680
+          ],
+          "eventId": ""
+        }
+      ]
+    },
+    {
+      "id": "sb_road_well_harbour",
+      "fromId": "sb_bellwell",
+      "toId": "sb_old_harbour",
+      "type": "OffroadTrack",
+      "passability": "Open",
+      "joints": [
+        {
+          "id": "sb_joint_north_shore",
+          "displayName": "",
+          "pos": [
+            1260,
+            480
+          ],
+          "eventId": ""
+        }
+      ]
+    },
+    {
+      "id": "sb_road_harbour_watch",
+      "fromId": "sb_old_harbour",
+      "toId": "sb_basalt_watch",
+      "type": "OffroadTrack",
+      "passability": "Open",
+      "joints": [
+        {
+          "id": "sb_joint_quay_end",
+          "displayName": "",
+          "pos": [
+            2490,
+            330
+          ],
+          "eventId": ""
+        },
+        {
+          "id": "sb_joint_mirror_switchback",
+          "displayName": "Mirror Switchback",
+          "pos": [
+            2880,
+            780
+          ],
+          "eventId": "sb_evt_ridge_mirror"
+        }
+      ]
+    }
+  ],
+  "startingCrews": [
+    {
+      "id": "sb_crew_runners",
+      "displayName": "Bell Runners",
+      "locationId": "sb_bellwell"
+    }
+  ]
+}

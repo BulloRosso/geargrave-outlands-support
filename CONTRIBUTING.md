@@ -9,6 +9,10 @@ Thank you for helping with Geargrave Outlands.
   automatic check refuses anything else.
 - **Image defect issues** opened with the *Image defect* form. The easiest way
   is the game's **F10** reporter, which fills in the image ID for you.
+- **Modding questions** opened with the *Modding question* form: questions about the
+  mod format, validator mistakes, and features mods cannot do yet. Mods themselves
+  are yours — share them wherever you like; this repository hosts the guide and the
+  example, not a mod collection.
 
 ## Terms for contributions
 

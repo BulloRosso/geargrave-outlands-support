@@ -1,15 +1,16 @@
 # Geargrave Outlands — player support
 
 Geargrave Outlands is in **Early Access**. This repository is where players
-help improve the game in two ways:
+help improve the game, and where modders find everything they need:
 
 | You can… | How | Takes |
 |---|---|---|
 | **Improve a translation** | In the game, press **Ctrl+T** on the map, fix the text and press **Save for GitHub**. Then upload the file here as a pull request. | 5 minutes and a free GitHub account |
+| **Build a mod** | Read the [modding guide](modding/README.md): the file format, the in-game validator, an example mod and an AI agent skill that builds mods with you. | an evening and a text editor |
 | **Report a broken image** | In the game, press **F10** on any screen, click the broken image and press **Report on GitHub**. The issue form opens with the exact image ID already filled in. | 2 minutes and a free GitHub account |
 
-The game's source code is not in this repository. It only collects translation
-fixes and image reports.
+The game's source code is not in this repository. It collects translation
+fixes and image reports, and hosts the modding guide.
 
 ---
 
@@ -52,10 +53,19 @@ lets us group all reports about the same image. Before reporting, you can
 [search the issues](https://github.com/BulloRosso/geargrave-outlands-support/issues?q=label%3Aimage-defect) for the image ID to see
 if someone already has.
 
+## Build a mod
+
+A mod is one folder with a `level.json` — its own map, quests, battles, ending and
+sounds — dropped into the game's `levels/` folder. Start with the
+[modding guide](modding/README.md). It links the [file reference](.claude/skills/geargrave-outlands-mod-creator/references/file-reference.md),
+the [example mod](modding/examples/) and the
+[`geargrave-outlands-mod-creator`](.claude/skills/geargrave-outlands-mod-creator/SKILL.md)
+agent skill: open this repository in Claude Code and describe the mod you want.
+
 ## Everything else
 
 Please send gameplay bugs, balance feedback and ideas through the game's
-Steam community hub. This repository only accepts translation files and image
-reports, and pull requests that change anything else are closed.
+Steam community hub. This repository only accepts translation files, image
+reports and modding questions; pull requests that change anything else are closed.
 
 By contributing you agree to the terms in [CONTRIBUTING.md](CONTRIBUTING.md).

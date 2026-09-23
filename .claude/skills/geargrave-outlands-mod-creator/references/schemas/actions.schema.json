@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/actions.schema.json",
+  "title": "actions.json — data-driven building actions (requires → effects → result)",
+  "description": "GENERATED from the game's loader types — do not edit. NO comments allowed. NO trailing commas. Keys are matched case-insensitively by the game; write them in camelCase.",
+  "$ref": "#/$defs/FileShape",
+  "$defs": {
+    "Req": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "flag": {
+          "type": "string"
+        },
+        "resource": {
+          "type": "string"
+        },
+        "faction": {
+          "type": "string"
+        },
+        "character": {
+          "type": "string"
+        },
+        "part": {
+          "type": "string"
+        },
+        "vehicle": {
+          "type": "string"
+        },
+        "unmanned": {
+          "type": "boolean"
+        },
+        "amount": {
+          "type": "integer"
+        },
+        "focus": {
+          "type": "string"
+        },
+        "reasonKey": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "Eff": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "flag": {
+          "type": "string"
+        },
+        "resource": {
+          "type": "string"
+        },
+        "upgrade": {
+          "type": "string"
+        },
+        "faction": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "integer"
+        },
+        "encounter": {
+          "type": "string"
+        },
+        "sound": {
+          "type": "string"
+        },
+        "character": {
+          "type": "string"
+        },
+        "part": {
+          "type": "string"
+        },
+        "mascot": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "vehicle": {
+          "type": "string"
+        },
+        "fromType": {
+          "type": "string"
+        },
+        "toType": {
+          "type": "string"
+        },
+        "ledger": {
+          "type": "string"
+        },
+        "deed": {
+          "type": "string"
+        },
+        "road": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "hullPct": {
+          "type": "integer"
+        },
+        "upgrade2": {
+          "type": "string"
+        },
+        "skin": {
+          "type": "string"
+        },
+        "boxes": {
+          "type": "integer"
+        },
+        "trait": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "Def": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "requires": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Req"
+          }
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Eff"
+          }
+        },
+        "resultKey": {
+          "type": "string"
+        },
+        "resultFallback": {
+          "type": "string"
+        },
+        "cooldownDays": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "FileShape": {
+      "type": "object",
+      "properties": {
+        "actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Def"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    }
+  }
+}

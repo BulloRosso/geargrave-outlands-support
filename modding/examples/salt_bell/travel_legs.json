@@ -1,0 +1,163 @@
+{
+  "_note": "Roadside events. Shipping this file replaces the game's roadside pool while Salt Bell is active. Every autoChoice is safe (no breakdown, delay, loss, battle or requirement).",
+  "legs": [
+    {
+      "id": "sb_leg_brine_sink",
+      "roadTypes": ["OffroadTrack", "CountryRoad"],
+      "weight": 3,
+      "once": false,
+      "text": "The crust breaks under the lead truck. Black brine wells up around the axles, and the salt sucks at the wheels like a mouth.",
+      "image": "sb_leg_brine_sink",
+      "sound": "ROADSIDE_HAZARD",
+      "choices": [
+        { "id": "winch", "barkRole": "Mechanic", "requiresRole": "Mechanic",
+          "text": "Rig the winch to the next truck and walk it out slowly.",
+          "resources": { "sheet_metal": -1 }, "morale": 2 },
+        { "id": "gun_it", "barkRole": "Driver",
+          "text": "Floor it and hope the crust holds further on.",
+          "breakdownPct": 30, "progress": 1 },
+        { "id": "lighten", "barkRole": "Leader",
+          "text": "Dump water barrels until she floats free.",
+          "resources": { "water": -6 } }
+      ],
+      "autoChoice": "lighten"
+    },
+    {
+      "id": "sb_leg_salt_pilgrims",
+      "roadTypes": [],
+      "weight": 2,
+      "once": true,
+      "text": "A line of pilgrims in salt-white robes crosses your track, carrying a little shrine with a little bell. The last of them lifts an empty water skin toward you without a word.",
+      "image": "sb_leg_salt_pilgrims",
+      "sound": "ROADSIDE_PEOPLE",
+      "choices": [
+        { "id": "give", "barkRole": "Medic",
+          "text": "Fill their skins. All of them.",
+          "resources": { "water": -8 }, "morale": 5, "grantCrewRole": "Medic", "grantCrewCount": 1,
+          "setsFlag": "sb_pilgrims_helped" },
+        { "id": "preach", "barkRole": "Politician", "requiresRole": "Politician",
+          "text": "Ask them where they are walking to, and why.",
+          "morale": 2, "revealsLocations": ["sb_old_harbour"] },
+        { "id": "pass", "barkRole": "Driver",
+          "text": "Nod, and drive around them.",
+          "morale": -2 }
+      ],
+      "autoChoice": "pass"
+    },
+    {
+      "id": "sb_leg_mirror_riders",
+      "roadTypes": ["OffroadTrack"],
+      "weight": 2,
+      "once": false,
+      "requiresFlag": ["sb_bell_cracked"],
+      "requiresNotFlag": ["sb_ambush_beaten"],
+      "text": "A mirror flashes from a basalt ledge, then another further on. Someone is signalling your position ahead - and it is not the scouts of Basalt Watch.",
+      "image": "sb_leg_mirror_riders",
+      "sound": "ROADSIDE_HOSTILE",
+      "choices": [
+        { "id": "fight", "barkRole": "Gunner",
+          "text": "Turn and run them down before they gather.",
+          "dispatchEncounter": "sb_salt_ambush" },
+        { "id": "detour", "barkRole": "Driver",
+          "text": "Cut across the soft pans and lose them in the glare.",
+          "breakdownPct": 20, "encounterDeltaTomorrow": -15 },
+        { "id": "slow", "barkRole": "Driver",
+          "text": "Ease off and let them lose interest.",
+          "morale": -2 }
+      ],
+      "autoChoice": "slow"
+    },
+    {
+      "id": "sb_leg_outriders_respect",
+      "roadTypes": [],
+      "weight": 2,
+      "once": true,
+      "requiresFlag": ["sb_ambush_beaten"],
+      "text": "Two Saltmen buggies pace you at a distance for an hour. Then one of them raises a fist - not a threat, a salute - and they peel off into the white. Word of the Glare Cut travels.",
+      "image": "roadside_wolves_respect",
+      "choices": [
+        { "id": "salute", "barkRole": "Leader",
+          "text": "Return the salute.",
+          "morale": 4 },
+        { "id": "shadow", "barkRole": "Driver", "requiresRole": "Driver",
+          "text": "Follow their tracks at a distance - they know the firm ground.",
+          "progress": 1, "encounterDeltaTomorrow": 10 }
+      ],
+      "autoChoice": "salute"
+    },
+    {
+      "id": "sb_leg_engine_trader",
+      "roadTypes": ["CountryRoad", "OffroadTrack"],
+      "weight": 2,
+      "once": true,
+      "text": "A trader has set up under a tarp beside a beached fishing boat. On a pallet sits the boat's old engine, rebuilt and painted salt-blue. 'Runs on anything. Even hope,' he says.",
+      "image": "roadside_parts_trader",
+      "sound": "ROADSIDE_SALVAGE",
+      "choices": [
+        { "id": "buy", "barkRole": "Mechanic",
+          "text": "Trade 10 water for the engine.",
+          "resources": { "water": -10 }, "grantPart": "sb_engine_saltbox" },
+        { "id": "tyres", "barkRole": "Mechanic",
+          "text": "Swap a tyre for a crate of spares.",
+          "resources": { "tires": -1, "special_spare_parts": 2 } },
+        { "id": "decline", "barkRole": "Driver",
+          "text": "No room. Drive on.",
+          "morale": 0 }
+      ],
+      "autoChoice": "decline"
+    },
+    {
+      "id": "sb_leg_night_flare",
+      "roadTypes": [],
+      "stances": ["nightrun"],
+      "weight": 2,
+      "once": false,
+      "text": "A red flare climbs out of the pans a mile off the track and hangs there, dripping light. Distress, or bait.",
+      "image": "roadside_night_flare",
+      "choices": [
+        { "id": "send", "barkRole": "Fighter",
+          "text": "Send a Fighter on foot to look.",
+          "sendCrewRole": "Fighter", "riskCrewPct": 15, "resources": { "ammo_normal": 20 } },
+        { "id": "ignore", "barkRole": "Leader",
+          "text": "Lights off. Keep rolling.",
+          "morale": -1 }
+      ],
+      "autoChoice": "ignore"
+    },
+    {
+      "id": "sb_leg_wellspring",
+      "roadTypes": [],
+      "weight": 2,
+      "once": false,
+      "onlyIfBelow": { "water": 40 },
+      "text": "Green scrub in a hollow of the old shoreline - the only green for miles. Someone says there is water under it, if you dig.",
+      "image": "konvoi_ev_wellspring",
+      "choices": [
+        { "id": "dig", "barkRole": "Mechanic",
+          "text": "Make camp and dig.",
+          "delayDays": 1, "resources": { "water": 12 } },
+        { "id": "move", "barkRole": "Driver",
+          "text": "Mark it on the map and move on.",
+          "morale": 0 }
+      ],
+      "autoChoice": "move"
+    },
+    {
+      "id": "sb_leg_shortcut",
+      "roadTypes": ["CountryRoad"],
+      "weight": 2,
+      "once": false,
+      "text": "The old ferry lane runs straight across the pan where the road bends around it. The salt there is thin, and a truck lies half sunk in the middle of it.",
+      "image": "konvoi_ev_shortcut",
+      "choices": [
+        { "id": "cross", "barkRole": "Driver",
+          "text": "Take the ferry lane. Fast and flat.",
+          "progress": 1, "breakdownPct": 25, "loseVehiclePct": 5 },
+        { "id": "stay", "barkRole": "Leader",
+          "text": "Stay on the road.",
+          "morale": 0 }
+      ],
+      "autoChoice": "stay"
+    }
+  ]
+}

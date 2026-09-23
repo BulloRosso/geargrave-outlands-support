@@ -1,0 +1,288 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/conversations.schema.json",
+  "title": "conversations.json — talk trees (building action conv_<id>)",
+  "description": "GENERATED from the game's loader types — do not edit. NO comments allowed. NO trailing commas. Keys are matched case-insensitively by the game; write them in camelCase.",
+  "$ref": "#/$defs/FileShape",
+  "$defs": {
+    "ConvEntry": {
+      "type": "object",
+      "properties": {
+        "requiresFlag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "node": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "ConvCheck": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string"
+        },
+        "base": {
+          "type": "integer"
+        },
+        "perSkill": {
+          "type": "integer"
+        },
+        "cap": {
+          "type": "integer"
+        },
+        "onFail": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "Eff": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "flag": {
+          "type": "string"
+        },
+        "resource": {
+          "type": "string"
+        },
+        "upgrade": {
+          "type": "string"
+        },
+        "faction": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "integer"
+        },
+        "encounter": {
+          "type": "string"
+        },
+        "sound": {
+          "type": "string"
+        },
+        "character": {
+          "type": "string"
+        },
+        "part": {
+          "type": "string"
+        },
+        "mascot": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "vehicle": {
+          "type": "string"
+        },
+        "fromType": {
+          "type": "string"
+        },
+        "toType": {
+          "type": "string"
+        },
+        "ledger": {
+          "type": "string"
+        },
+        "deed": {
+          "type": "string"
+        },
+        "road": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "hullPct": {
+          "type": "integer"
+        },
+        "upgrade2": {
+          "type": "string"
+        },
+        "skin": {
+          "type": "string"
+        },
+        "boxes": {
+          "type": "integer"
+        },
+        "trait": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "ConvChoice": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "next": {
+          "type": "string"
+        },
+        "exit": {
+          "type": "boolean"
+        },
+        "requiresFlag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "requiresNotFlag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "requiresRole": {
+          "type": "string"
+        },
+        "requiresSkill": {
+          "type": "integer"
+        },
+        "requiresPerk": {
+          "type": "string"
+        },
+        "requiresTrait": {
+          "type": "string"
+        },
+        "requiresOrigin": {
+          "type": "string"
+        },
+        "requiresCharacter": {
+          "type": "string"
+        },
+        "requiresUnnamedRole": {
+          "type": "string"
+        },
+        "requiresSpareVehicle": {
+          "type": "boolean"
+        },
+        "requiresResources": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "interject": {
+          "type": "boolean"
+        },
+        "check": {
+          "$ref": "#/$defs/ConvCheck"
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Eff"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "ConvNode": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "choices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ConvChoice"
+          }
+        },
+        "autoChoice": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "ConvDef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "npcCharacterId": {
+          "type": "string"
+        },
+        "npcName": {
+          "type": "string"
+        },
+        "npcPortrait": {
+          "type": "string"
+        },
+        "doneFlag": {
+          "type": "string"
+        },
+        "entry": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ConvEntry"
+          }
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ConvNode"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "FileShape": {
+      "type": "object",
+      "properties": {
+        "conversations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ConvDef"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    }
+  }
+}

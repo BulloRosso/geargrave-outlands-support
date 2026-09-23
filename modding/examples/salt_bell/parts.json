@@ -1,0 +1,17 @@
+{
+  "$schema": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/parts.schema.json",
+  "parts": [
+    { "id": "sb_bell_mould", "kind": "Cargo", "quality": "Medium", "weightKg": 180,
+      "name": "Bell Founder's Mould",
+      "description": "Two halves of fired loam in a crate of ship timber. Fragile. Heavy. Priceless to exactly one town.",
+      "image": "part_sb_bell_mould" },
+    { "id": "sb_bell_bronze", "kind": "Cargo", "quality": "Large", "weightKg": 420,
+      "name": "Stolen Bell Bronze",
+      "description": "Bellwell's bronze reserve, broken into three pieces and chained together on the Salt King's roof.",
+      "image": "part_sb_bell_bronze" },
+    { "id": "sb_engine_saltbox", "kind": "Engine", "quality": "Small",
+      "name": "Saltbox 2.0",
+      "description": "A two-cylinder marine diesel that forgot the sea. Coughs, never quits.",
+      "image": "part_sb_engine_saltbox" }
+  ]
+}

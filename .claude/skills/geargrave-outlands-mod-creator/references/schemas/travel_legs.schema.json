@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/travel_legs.schema.json",
+  "title": "travel_legs.json — roadside events (replaces the pool while the level is active)",
+  "description": "GENERATED from the game's loader types — do not edit. NO comments allowed. NO trailing commas. Keys are matched case-insensitively by the game; write them in camelCase.",
+  "$ref": "#/$defs/LegsFile",
+  "$defs": {
+    "LegChoice": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "resources": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "breakdownPct": {
+          "type": "integer"
+        },
+        "delayDays": {
+          "type": "integer"
+        },
+        "encounterDeltaTomorrow": {
+          "type": "integer"
+        },
+        "progress": {
+          "type": "integer"
+        },
+        "setsFlag": {
+          "type": "string"
+        },
+        "revealsLocations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "requiresUpgrade": {
+          "type": "string"
+        },
+        "requiresRole": {
+          "type": "string"
+        },
+        "barkRole": {
+          "type": "string"
+        },
+        "morale": {
+          "type": "integer"
+        },
+        "requiresFlag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "requiresNotFlag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "setsFlags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "grantUpgrade": {
+          "type": "string"
+        },
+        "grantPart": {
+          "type": "string"
+        },
+        "grantBuildingPart": {
+          "type": "boolean"
+        },
+        "grantVehicleType": {
+          "type": "string"
+        },
+        "grantVehicleName": {
+          "type": "string"
+        },
+        "grantVehicleSkin": {
+          "type": "string"
+        },
+        "loseVehiclePct": {
+          "type": "integer"
+        },
+        "dispatchEncounter": {
+          "type": "string"
+        },
+        "dispatchGenerated": {
+          "type": "boolean"
+        },
+        "sendCrewRole": {
+          "type": "string"
+        },
+        "riskCrewPct": {
+          "type": "integer"
+        },
+        "grantCrewRole": {
+          "type": "string"
+        },
+        "grantCrewCount": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "LegDef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "roadTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "stances": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "weight": {
+          "type": "integer"
+        },
+        "once": {
+          "type": "boolean"
+        },
+        "onlyIfBelow": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "text": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "sound": {
+          "type": "string"
+        },
+        "choices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LegChoice"
+          }
+        },
+        "autoChoice": {
+          "type": "string"
+        },
+        "requiresFlag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "requiresNotFlag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "levels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "minVehicles": {
+          "type": "integer"
+        },
+        "blind": {
+          "type": "boolean"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "LegsFile": {
+      "type": "object",
+      "properties": {
+        "legs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LegDef"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    }
+  }
+}

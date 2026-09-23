@@ -1,0 +1,430 @@
+{
+  "$schema": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/actions.schema.json",
+  "_note": "Story chain: sb_bell_cracked -> sb_mould_found -> sb_cooling_water -> (boss win) sb_bronze_recovered -> sb_bell_rung (epilogue).",
+  "actions": [
+    {
+      "id": "sb_inspect_bell",
+      "_note": "Story step 1 - Bellwell, bell gantry.",
+      "requires": [
+        {
+          "type": "flagAbsent",
+          "flag": "sb_bell_cracked",
+          "reason": "You have already heard what is wrong with the bell.",
+          "reasonKey": "SB_REQ_BELL_KNOWN"
+        }
+      ],
+      "effects": [
+        {
+          "type": "playSound",
+          "sound": "SB_BELL_CRACKED"
+        },
+        {
+          "type": "setFlag",
+          "flag": "sb_bell_cracked"
+        },
+        {
+          "type": "applyReputation",
+          "faction": "$loc",
+          "amount": 1
+        }
+      ],
+      "resultKey": "SB_INSPECT_BELL_DONE",
+      "resultFallback": "Warden Ilse Marr has the bell struck for you. It does not ring - it clanks, flat and dead, and the crack runs from lip to crown. 'No bell, no caravan,' she says. 'The water carriers only come when they hear us. The founder's mould went to the traders on the Hulk years ago. Bring it back, and talk to Maren Kett - she can cast.'",
+      "cooldownDays": 0
+    },
+    {
+      "id": "sb_buy_mould",
+      "_note": "Story step 2 - The Hulk, hold market.",
+      "requires": [
+        {
+          "type": "flagPresent",
+          "flag": "sb_bell_cracked",
+          "reason": "Nobody here sells you a bell mould without a reason to want one.",
+          "reasonKey": "SB_REQ_NEED_REASON"
+        },
+        {
+          "type": "flagAbsent",
+          "flag": "sb_mould_found",
+          "reason": "The mould is already strapped to your truck.",
+          "reasonKey": "SB_REQ_HAVE_MOULD"
+        },
+        {
+          "type": "resourceAtLeast",
+          "resource": "ammo_normal",
+          "amount": 4,
+          "reason": "Quartermaster Ide wants 4 ammo for the mould.",
+          "reasonKey": "SB_REQ_MOULD_PRICE"
+        },
+        {
+          "type": "bayFreeFor",
+          "part": "sb_bell_mould",
+          "reason": "You need a free cargo bay for a crate of loam and ship timber.",
+          "reasonKey": "SB_REQ_MOULD_BAY"
+        }
+      ],
+      "effects": [
+        {
+          "type": "grantResource",
+          "resource": "ammo_normal",
+          "amount": -4
+        },
+        {
+          "type": "grantPart",
+          "part": "sb_bell_mould"
+        },
+        {
+          "type": "setFlag",
+          "flag": "sb_mould_found"
+        },
+        {
+          "type": "applyReputation",
+          "faction": "$loc",
+          "amount": 1
+        },
+        {
+          "type": "playSound",
+          "sound": "SB_HULL_GONG"
+        }
+      ],
+      "resultKey": "SB_BUY_MOULD_DONE",
+      "resultFallback": "Deep in the ship's hold, behind crates of rope and salt fish, Ide pulls the tarp off a clay-and-iron bell mould. 'Bronze sets wrong if it cools in the air out here,' she warns. 'You'll want cold water, a lot of it. Pump Nine has the only cold water in the basin.'",
+      "cooldownDays": 0
+    },
+    {
+      "id": "sb_buy_spare_mould",
+      "_note": "Safety net: the mould rides in a cargo bay and can be lost with its vehicle.",
+      "requires": [
+        {
+          "type": "flagPresent",
+          "flag": "sb_mould_found",
+          "reason": "Ide only has the one mould you already know about.",
+          "reasonKey": "SB_REQ_NO_SPARE"
+        },
+        {
+          "type": "flagAbsent",
+          "flag": "sb_bell_rung",
+          "reason": "The bell is cast. Nobody needs a second mould.",
+          "reasonKey": "SB_REQ_NO_SECOND_MOULD"
+        },
+        {
+          "type": "resourceAtLeast",
+          "resource": "water",
+          "amount": 6,
+          "reason": "A second mould costs 6 water - Ide has to dig it out of the lower hold.",
+          "reasonKey": "SB_REQ_SPARE_MOULD_PRICE"
+        },
+        {
+          "type": "bayFreeFor",
+          "part": "sb_bell_mould",
+          "reason": "You need a free cargo bay for a crate of loam and ship timber.",
+          "reasonKey": "SB_REQ_MOULD_BAY"
+        }
+      ],
+      "effects": [
+        {
+          "type": "grantResource",
+          "resource": "water",
+          "amount": -6
+        },
+        {
+          "type": "grantPart",
+          "part": "sb_bell_mould"
+        }
+      ],
+      "resultKey": "SB_BUY_SPARE_MOULD_DONE",
+      "resultFallback": "Ide sighs, lights a lamp and goes down into the lower hold. She comes back with a second mould, older and uglier than the first. 'Last one. Drive carefully.'",
+      "cooldownDays": 3
+    },
+    {
+      "id": "sb_buy_cooling_water",
+      "_note": "Story step 3 - Pump Station Nine. Resource cost: fuel to run the deep pump.",
+      "requires": [
+        {
+          "type": "flagPresent",
+          "flag": "sb_mould_found",
+          "reason": "The keeper does not run the deep pump for curiosity.",
+          "reasonKey": "SB_REQ_NO_MOULD"
+        },
+        {
+          "type": "flagAbsent",
+          "flag": "sb_cooling_water",
+          "reason": "The cooling tank is already filled and sealed.",
+          "reasonKey": "SB_REQ_HAVE_COOLING"
+        },
+        {
+          "type": "resourceAtLeast",
+          "resource": "fuel_regular",
+          "amount": 5,
+          "reason": "The deep pump drinks 5 fuel to lift the cold water.",
+          "reasonKey": "SB_REQ_PUMP_FUEL"
+        }
+      ],
+      "effects": [
+        {
+          "type": "grantResource",
+          "resource": "fuel_regular",
+          "amount": -5
+        },
+        {
+          "type": "playSound",
+          "sound": "PICKUP_WATER"
+        },
+        {
+          "type": "setFlag",
+          "flag": "sb_cooling_water"
+        }
+      ],
+      "resultKey": "SB_BUY_COOLING_WATER_DONE",
+      "resultFallback": "The deep pump coughs, then hammers. Cold water - real cold, from under the salt - fills a sealed tank for the casting. The keeper wipes his hands. 'Now you only need the bronze. The Saltmen took it off Bellwell's wagons last winter. Ask at Basalt Watch where they den.'",
+      "cooldownDays": 0
+    },
+    {
+      "id": "sb_ride_on_saltmen",
+      "_note": "Story step 4 - Basalt Watch dispatches the boss. Win -> progression.json sets sb_bronze_recovered.",
+      "requires": [
+        {
+          "type": "flagPresent",
+          "flag": "sb_cooling_water",
+          "reason": "Without mould and cooling water the bronze is worth nothing to you yet.",
+          "reasonKey": "SB_REQ_NOT_READY"
+        },
+        {
+          "type": "flagAbsent",
+          "flag": "sb_bronze_recovered",
+          "reason": "The bronze is already yours.",
+          "reasonKey": "SB_REQ_HAVE_BRONZE"
+        },
+        {
+          "type": "convoyExists",
+          "reason": "You need vehicles to ride against the Saltmen.",
+          "reasonKey": "SB_REQ_NO_CONVOY"
+        }
+      ],
+      "effects": [
+        {
+          "type": "playSound",
+          "sound": "ROADSIDE_HOSTILE"
+        },
+        {
+          "type": "applyReputation",
+          "faction": "sb_saltmen",
+          "amount": -2
+        },
+        {
+          "type": "dispatchEncounter",
+          "encounter": "sb_saltmen_boss"
+        }
+      ],
+      "resultKey": "SB_RIDE_ON_SALTMEN_DONE",
+      "resultFallback": "From the watchtower the scouts point out a line of white dust: the Saltmen, rolling the Salt King's war wagon out of the old harbour with Bellwell's bronze chained to its roof. You roll down the ridge to meet them.",
+      "cooldownDays": 0
+    },
+    {
+      "id": "sb_recast_bell",
+      "_note": "Final step - Bellwell. Sets sb_bell_rung, which plays the epilogue.",
+      "requires": [
+        {
+          "type": "flagPresent",
+          "flag": "sb_bronze_recovered",
+          "reason": "There is no bronze to pour yet.",
+          "reasonKey": "SB_REQ_NO_BRONZE"
+        },
+        {
+          "type": "flagAbsent",
+          "flag": "sb_bell_rung",
+          "reason": "The bell already rings over the basin.",
+          "reasonKey": "SB_REQ_BELL_RUNG"
+        },
+        {
+          "type": "cargoAboard",
+          "part": "sb_bell_mould",
+          "reason": "Bring the founder's mould to Bellwell - a crew here must carry it.",
+          "reasonKey": "SB_REQ_MOULD_ABOARD"
+        }
+      ],
+      "effects": [
+        {
+          "type": "removePart",
+          "part": "sb_bell_mould"
+        },
+        {
+          "type": "playSound",
+          "sound": "SB_BELL"
+        },
+        {
+          "type": "setFlag",
+          "flag": "sb_bell_rung"
+        },
+        {
+          "type": "grantResource",
+          "resource": "water",
+          "amount": 8
+        },
+        {
+          "type": "applyReputation",
+          "faction": "$loc",
+          "amount": 2
+        }
+      ],
+      "resultKey": "SB_RECAST_BELL_DONE",
+      "resultFallback": "Two nights of fire, one morning of cold water hissing on hot bronze. Then Maren pulls the rope. The note goes out long and low over the salt, and three days later the dust of a water caravan answers from the south. The first barrels are yours.",
+      "cooldownDays": 0
+    },
+    {
+      "id": "sb_draw_well_water",
+      "_note": "Repeatable side action at Bellwell.",
+      "requires": [
+        {
+          "type": "reputationAtLeast",
+          "faction": "sb_bell_folk",
+          "amount": 1,
+          "reason": "The well is for friends of Bellwell.",
+          "reasonKey": "SB_REQ_WELL_FRIENDS"
+        }
+      ],
+      "effects": [
+        {
+          "type": "grantResource",
+          "resource": "water",
+          "amount": 4
+        }
+      ],
+      "resultKey": "SB_DRAW_WELL_WATER_DONE",
+      "resultFallback": "The winch groans for a long time before the bucket comes up. The water tastes of iron and salt, and nobody complains.",
+      "cooldownDays": 3
+    },
+    {
+      "id": "sb_salvage_quay",
+      "_note": "Repeatable side action at Old Harbour.",
+      "requires": [],
+      "effects": [
+        {
+          "type": "grantResource",
+          "resource": "screws",
+          "amount": 3
+        },
+        {
+          "type": "grantResource",
+          "resource": "sheet_metal",
+          "amount": 2
+        }
+      ],
+      "resultKey": "SB_SALVAGE_QUAY_DONE",
+      "resultFallback": "You pry bolts out of the dead crane and peel plate off a warehouse door. The salt has kept the steel better than the people.",
+      "cooldownDays": 4
+    },
+    {
+      "id": "sb_return_bronze",
+      "_note": "Optional: only if the player boarded the Salt Throne and captured its cargo.",
+      "requires": [
+        {
+          "type": "cargoAboard",
+          "part": "sb_bell_bronze",
+          "reason": "Only the bronze from the Salt King's roof would do. Capture it, don't burn it.",
+          "reasonKey": "SB_REQ_BRONZE_ABOARD"
+        }
+      ],
+      "effects": [
+        {
+          "type": "removePart",
+          "part": "sb_bell_bronze"
+        },
+        {
+          "type": "grantResource",
+          "resource": "water",
+          "amount": 12
+        },
+        {
+          "type": "applyReputation",
+          "faction": "$loc",
+          "amount": 2
+        },
+        {
+          "type": "playSound",
+          "sound": "LOOT_SCRAP_HAUL"
+        }
+      ],
+      "resultKey": "SB_RETURN_BRONZE_DONE",
+      "resultFallback": "Half the town carries the chained pieces up from your truck. Ilse Marr touches each one like a returned child. 'The Saltmen kept it whole. Stupid of them. Kind to us.' The well rope is yours whenever you want it.",
+      "cooldownDays": 0
+    },
+    {
+      "id": "sb_hire_tobi",
+      "requires": [
+        {
+          "type": "characterRecruited",
+          "character": "sb_maren",
+          "reason": "Tobi only drives for his sister.",
+          "reasonKey": "SB_REQ_TOBI_SISTER"
+        },
+        {
+          "type": "characterNotRecruited",
+          "character": "sb_tobi",
+          "reason": "Tobi already rides with you.",
+          "reasonKey": "SB_REQ_TOBI_ABOARD"
+        },
+        {
+          "type": "resourceAtLeast",
+          "resource": "water",
+          "amount": 6,
+          "reason": "Tobi wants 6 water for his mother before he goes.",
+          "reasonKey": "SB_REQ_TOBI_PRICE"
+        }
+      ],
+      "effects": [
+        {
+          "type": "grantResource",
+          "resource": "water",
+          "amount": -6
+        },
+        {
+          "type": "recruitCharacter",
+          "character": "sb_tobi"
+        },
+        {
+          "type": "playSound",
+          "sound": "CREW_RECRUIT"
+        }
+      ],
+      "resultKey": "SB_HIRE_TOBI_DONE",
+      "resultFallback": "Tobi throws a bag over his shoulder, kisses his mother on the forehead and is behind a wheel before anyone can change their mind.",
+      "cooldownDays": 0
+    },
+    {
+      "id": "sb_bell_folk_thanks",
+      "requires": [
+        {
+          "type": "flagPresent",
+          "flag": "sb_bronze_recovered",
+          "reason": "The Warden has nothing to thank you for yet.",
+          "reasonKey": "SB_REQ_NOTHING_YET"
+        },
+        {
+          "type": "flagAbsent",
+          "flag": "sb_thanked",
+          "reason": "The Warden has already thanked you. Twice would be un-Bellwell.",
+          "reasonKey": "SB_REQ_THANKED"
+        }
+      ],
+      "effects": [
+        {
+          "type": "setFlag",
+          "flag": "sb_thanked"
+        },
+        {
+          "type": "applyReputation",
+          "faction": "sb_bell_folk",
+          "amount": 2
+        },
+        {
+          "type": "grantResource",
+          "resource": "fuel_regular",
+          "amount": 6
+        }
+      ],
+      "resultKey": "SB_BELL_FOLK_THANKS_DONE",
+      "resultFallback": "Ilse Marr says nothing for a long time. Then she presses the brass valve key from her own neck into your hand. 'Any well of ours. Any day.' Six cans of fuel are already loaded.",
+      "cooldownDays": 0
+    }
+  ]
+}

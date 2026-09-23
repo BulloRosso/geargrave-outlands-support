@@ -1,0 +1,701 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/encounter.schema.json",
+  "title": "encounters/<id>.json — one battle or find",
+  "description": "GENERATED from the game's loader types — do not edit. NO comments allowed. NO trailing commas. Keys are matched case-insensitively by the game; write them in camelCase.",
+  "$ref": "#/$defs/EncounterDefinition",
+  "$defs": {
+    "NightScheduleDef": {
+      "type": "object",
+      "properties": {
+        "startAtNight": {
+          "type": "boolean"
+        },
+        "dayLength": {
+          "type": "integer"
+        },
+        "nightLength": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "CrewDef": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "enum": [
+            "Mechanic",
+            "Medic",
+            "Driver",
+            "Gunner",
+            "Fighter",
+            "Sniper",
+            "Politician",
+            "Leader"
+          ]
+        },
+        "skill": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "origin": {
+          "enum": [
+            "None",
+            "ConvoyGuild",
+            "RustWolves",
+            "SparkplugCult",
+            "FieldGreys",
+            "FreeNomads",
+            "RustFinches",
+            "KuroganeKai"
+          ]
+        },
+        "perk": {
+          "type": "string"
+        },
+        "robot": {
+          "type": "boolean"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "EnemyDef": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "Motorcycle",
+            "Quad",
+            "Buggy",
+            "Sedan",
+            "Convertible",
+            "Suv",
+            "BajaSuv",
+            "Pickup",
+            "FarmPickup",
+            "PanelTruck",
+            "MonsterTruck",
+            "Workshop",
+            "TowTruck",
+            "TankerTruck",
+            "Truck",
+            "Ambulance",
+            "TrailerTruck",
+            "MilitaryTransporter",
+            "BattleBus",
+            "Swat",
+            "FlatbedTruck",
+            "Tank",
+            "FuelTrailer",
+            "PassengerTrailer"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "skin": {
+          "type": "string"
+        },
+        "zone": {
+          "enum": [
+            "OwnRear",
+            "OwnMid",
+            "OwnFront",
+            "EnemyFront",
+            "EnemyMid",
+            "EnemyRear"
+          ]
+        },
+        "upgrades": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "Headlights",
+              "RamPlow",
+              "SpikeShields",
+              "Loudspeakers",
+              "MgMount",
+              "Mortar",
+              "ExtraTank",
+              "ReinforcedTires",
+              "Nitro",
+              "RadioRig",
+              "SniperRifle",
+              "AtGun",
+              "TowRig",
+              "DiscoHeaven",
+              "KuroganeBlades",
+              "AshDrumBanner",
+              "TetsujinServoKit",
+              "ColdForgeArmor",
+              "Flamethrower",
+              "SmokeGrenades",
+              "OverdriveBooster",
+              "GrenadeLauncher",
+              "MegaBoomBox",
+              "ManekiEars",
+              "LoadedDice",
+              "Gramophone",
+              "SpareKnuckles",
+              "FridgeMagnet",
+              "Harpoon",
+              "BunnyEars",
+              "MegaWelder",
+              "RadarUnit",
+              "AuditorKnee",
+              "ChoirSubwoofer",
+              "BrassLung",
+              "FinaleRack",
+              "MirrorPlate",
+              "CoffeeMachine",
+              "BlueprintDangerousPanelTruck",
+              "BlueprintMortarSuv",
+              "BlueprintRamTruck",
+              "BlueprintBattlePlatform",
+              "BlueprintDevilTruck",
+              "BlueprintDeadlyRain",
+              "BlueprintGiveWay",
+              "BlueprintFutureDreams",
+              "BlueprintAvalanche",
+              "BlueprintSandstormBuggy",
+              "BlueprintOutlandSedan",
+              "BlueprintOutlandPickup",
+              "BlueprintDuneRaider",
+              "MineSweeper",
+              "MotionDetector",
+              "LargeCabin",
+              "ChainsawFront",
+              "HeavyBoreBarrel",
+              "GyroStabilizer",
+              "IncendiaryLoader",
+              "ApRounds",
+              "SalvageRadar",
+              "SignalBooster",
+              "TerrainScanner",
+              "DroneUplink",
+              "ArmoredFuelLiner",
+              "FireExtinguisherRig",
+              "SelfSealingTires",
+              "CrashHarnesses",
+              "LongHaulTanks",
+              "OffroadSuspension",
+              "SpikedRamPlow",
+              "LongBarrelAtGun",
+              "OmniArray",
+              "CanOpener",
+              "AssaultRamp",
+              "EarPlugs",
+              "JammerPod",
+              "Leaflets",
+              "ShrapnelCharge",
+              "Winch",
+              "DemolitionCharge",
+              "ToolKit",
+              "SoundInsulation",
+              "NightVision",
+              "InfraredSight",
+              "CamoPaint",
+              "FlareRounds",
+              "SilentRunning",
+              "OrbitalStrikeController",
+              "MineFlailDrum",
+              "SealedIntakes",
+              "IrHeadlights",
+              "ArmoredCabin1",
+              "ArmoredCabin2",
+              "DeckParapet",
+              "RollCage",
+              "ArmorPlate",
+              "HeavyArmorPlate",
+              "ChainGun",
+              "TurretMount",
+              "OffroadChassis",
+              "Ballast",
+              "BulkheadWall",
+              "LimpetCharge",
+              "LoaderAssist",
+              "JumpSeat",
+              "FrameReinforcement",
+              "Whaler",
+              "SgRustBreaker",
+              "SgCoachwhip",
+              "SgStreetSermon",
+              "SgGoldenChoke",
+              "SgDustDevil",
+              "SgWidowmaker",
+              "RfDrifterLever",
+              "RfHomesteader",
+              "RfBrassPilgrim",
+              "RfSilverPsalm",
+              "RfSandCantor",
+              "RfIronDeacon",
+              "ArScrapKalash",
+              "ArRoadWarden",
+              "ArAshCarbine",
+              "ArGildedMutiny",
+              "ArDuneChorus",
+              "ArGreyProtocol",
+              "MgScrapyardHowl",
+              "MgFreightreaper",
+              "MgThunderquill",
+              "MgGoldenChoirmaster",
+              "MgSandHymn",
+              "MgSilverSermon",
+              "SrLongPrayer",
+              "SrHorizonNail",
+              "SrQuietAuditor",
+              "SrSilverVerdict",
+              "SrDuneWidow",
+              "SrGoldenFullstop",
+              "GlDoorAuditor",
+              "GlPipeApostle",
+              "GlWidowsKnock",
+              "GlGoldenRequiem",
+              "GlSandVerdict",
+              "GlLastArgument"
+            ]
+          }
+        },
+        "crew": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CrewDef"
+          }
+        },
+        "engineState": {
+          "type": "string"
+        },
+        "cargo1": {
+          "type": "string"
+        },
+        "cargo2": {
+          "type": "string"
+        },
+        "cargo3": {
+          "type": "string"
+        },
+        "cargo1Condition": {
+          "type": "string"
+        },
+        "cargo2Condition": {
+          "type": "string"
+        },
+        "cargo3Condition": {
+          "type": "string"
+        },
+        "mascot": {
+          "type": "string"
+        },
+        "capstone": {
+          "type": "string"
+        },
+        "noCapture": {
+          "type": "boolean"
+        },
+        "selfDestructOnBoard": {
+          "type": "boolean"
+        },
+        "empOnly": {
+          "type": "boolean"
+        },
+        "empResistance": {
+          "type": "integer"
+        },
+        "neverInitiates": {
+          "type": "boolean"
+        },
+        "leader": {
+          "type": "boolean"
+        },
+        "stuck": {
+          "type": "boolean"
+        },
+        "role": {
+          "type": "string"
+        },
+        "loadoutTier": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "StationaryDef": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "None",
+            "MgNest",
+            "HiddenSniper",
+            "MortarTeam",
+            "AntiTankGun"
+          ]
+        },
+        "zone": {
+          "enum": [
+            "OwnRear",
+            "OwnMid",
+            "OwnFront",
+            "EnemyFront",
+            "EnemyMid",
+            "EnemyRear"
+          ]
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "HexRef": {
+      "type": "object",
+      "properties": {
+        "col": {
+          "type": "integer"
+        },
+        "row": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "TerrainDef": {
+      "type": "object",
+      "properties": {
+        "zone": {
+          "enum": [
+            "OwnRear",
+            "OwnMid",
+            "OwnFront",
+            "EnemyFront",
+            "EnemyMid",
+            "EnemyRear"
+          ]
+        },
+        "hexes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/HexRef"
+          }
+        },
+        "feature": {
+          "enum": [
+            "None",
+            "HighGround",
+            "Rocks",
+            "Mudflat",
+            "Pit",
+            "Water",
+            "Lava"
+          ]
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "ObstacleDef": {
+      "type": "object",
+      "properties": {
+        "sprite": {
+          "type": "string"
+        },
+        "col": {
+          "type": "integer"
+        },
+        "row": {
+          "type": "integer"
+        },
+        "xOffset": {
+          "type": "number"
+        },
+        "yOffset": {
+          "type": "number"
+        },
+        "scale": {
+          "type": "number"
+        },
+        "label": {
+          "type": "string"
+        },
+        "labelKey": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "MissionDef": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "targetName": {
+          "type": "string"
+        },
+        "escortName": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "GangDef": {
+      "type": "object",
+      "properties": {
+        "faction": {
+          "enum": [
+            "None",
+            "ConvoyGuild",
+            "RustWolves",
+            "SparkplugCult",
+            "FieldGreys",
+            "FreeNomads",
+            "RustFinches",
+            "KuroganeKai"
+          ]
+        },
+        "motive": {
+          "type": "string"
+        },
+        "doctrine": {
+          "type": "string"
+        },
+        "secondDoctrine": {
+          "type": "string"
+        },
+        "commandVehicleName": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "BlockadeDef": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string"
+        },
+        "lane": {
+          "type": "integer"
+        },
+        "rank": {
+          "type": "integer"
+        },
+        "ranksDeep": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "ReinforcementDef": {
+      "type": "object",
+      "properties": {
+        "round": {
+          "type": "integer"
+        },
+        "side": {
+          "type": "string"
+        },
+        "faction": {
+          "enum": [
+            "None",
+            "ConvoyGuild",
+            "RustWolves",
+            "SparkplugCult",
+            "FieldGreys",
+            "FreeNomads",
+            "RustFinches",
+            "KuroganeKai"
+          ]
+        },
+        "guest": {
+          "type": "boolean"
+        },
+        "vehicles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EnemyDef"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "EncounterDefinition": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "intro": {
+          "type": "string"
+        },
+        "attackReason": {
+          "type": "string"
+        },
+        "speakerName": {
+          "type": "string"
+        },
+        "speakerTitle": {
+          "type": "string"
+        },
+        "speakerPortrait": {
+          "type": "string"
+        },
+        "locationImage": {
+          "type": "string"
+        },
+        "environment": {
+          "enum": [
+            "Day",
+            "Night",
+            "Sandstorm",
+            "ScrapField",
+            "Highway"
+          ]
+        },
+        "nightSchedule": {
+          "$ref": "#/$defs/NightScheduleDef"
+        },
+        "faction": {
+          "enum": [
+            "None",
+            "ConvoyGuild",
+            "RustWolves",
+            "SparkplugCult",
+            "FieldGreys",
+            "FreeNomads",
+            "RustFinches",
+            "KuroganeKai"
+          ]
+        },
+        "kind": {
+          "enum": [
+            "Battle",
+            "Vehicle",
+            "Person",
+            "Roadblock"
+          ]
+        },
+        "situationImage": {
+          "type": "string"
+        },
+        "situationText": {
+          "type": "string"
+        },
+        "questItemId": {
+          "type": "string"
+        },
+        "allowAutoResolve": {
+          "type": "boolean"
+        },
+        "allowFlee": {
+          "type": "boolean"
+        },
+        "soloPlayerVehicle": {
+          "type": "boolean"
+        },
+        "protectModuleCarriers": {
+          "type": "boolean"
+        },
+        "enemies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EnemyDef"
+          }
+        },
+        "stationaries": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/StationaryDef"
+          }
+        },
+        "terrain": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TerrainDef"
+          }
+        },
+        "obstacles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ObstacleDef"
+          }
+        },
+        "terrainTheme": {
+          "type": "string"
+        },
+        "roadTerrain": {
+          "type": "string"
+        },
+        "mission": {
+          "$ref": "#/$defs/MissionDef"
+        },
+        "gang": {
+          "$ref": "#/$defs/GangDef"
+        },
+        "specialElements": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "blockades": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/BlockadeDef"
+          }
+        },
+        "reinforcements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ReinforcementDef"
+          }
+        },
+        "orientation": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    }
+  }
+}
