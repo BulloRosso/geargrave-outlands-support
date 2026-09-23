@@ -1,0 +1,43 @@
+# Validates peer translation contributions (i18n-contributions/README.md).
+# Runs on pull requests only, with the default read-only token and no secrets,
+# so it is safe for pull requests from forks.
+name: i18n contribution
+
+on:
+  pull_request:
+    paths:
+      - "i18n-contributions/**"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check contribution files
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          changed=$(git diff --name-only --diff-filter=ACMR "$BASE"...HEAD)
+          echo "Changed files:"; echo "$changed"
+          outside=$(echo "$changed" | grep -v '^i18n-contributions/' || true)
+          if [ -n "$outside" ]; then
+            echo "::error::A translation contribution may only add files under i18n-contributions/<locale>/. Also changed:"
+            echo "$outside"
+            exit 1
+          fi
+          files=$(echo "$changed" | grep -E '^i18n-contributions/[a-z]{2}/[^/]+\.json$' || true)
+          if [ -z "$files" ]; then
+            echo "No contribution files to check."
+            exit 0
+          fi
+          node tools/i18n/contribution.mjs check $files

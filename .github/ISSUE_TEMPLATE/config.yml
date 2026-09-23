@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Improve a translation
+    url: https://github.com/BulloRosso/geargrave-outlands-support/blob/main/i18n-contributions/README.md
+    about: Translation fixes come as a file from the game (Ctrl+T on the map), uploaded as a pull request. Here is how.

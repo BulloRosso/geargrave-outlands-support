@@ -1,0 +1,46 @@
+# Opened prefilled by the game's F10 image reporter (ImageReportService.IssueUrl):
+# the query keys image-id, game-version, screen, language and description map to
+# the field ids below — keep them in sync with the game.
+name: Image defect
+description: Report a broken, stretched, cut-off or wrong image. Press F10 in the game to fill this in automatically.
+title: "[Image] "
+labels: ["image-defect"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Tip:** press **F10** in the game, click the broken image and choose **Report on GitHub**. The fields below are then filled in for you.
+        Please [search the issues](https://github.com/BulloRosso/geargrave-outlands-support/issues?q=label%3Aimage-defect) for the image ID first. If someone already reported it, add a comment there instead.
+  - type: input
+    id: image-id
+    attributes:
+      label: Image ID
+      description: Shown by the F10 reporter, for example assets/locations/location_scene_rust_market.png
+      placeholder: assets/…/…png
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What looks wrong?
+      placeholder: e.g. the portrait is cut off at the top, the building has a white fringe, the wrong vehicle is shown…
+    validations:
+      required: true
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshot
+      description: Drag in the screenshot the game saved (the image is outlined in red). You can find it in the game folder under image-reports/.
+  - type: input
+    id: screen
+    attributes:
+      label: Screen
+      description: Where in the game did you see it?
+  - type: input
+    id: game-version
+    attributes:
+      label: Game version
+  - type: input
+    id: language
+    attributes:
+      label: Game language
