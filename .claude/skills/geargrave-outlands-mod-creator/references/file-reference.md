@@ -355,6 +355,7 @@ with the reason) → **effects** (applied in order) → **result** text.
 ```json
 { "actions": [ {
   "id": "sb_buy_mould",
+  "label": "BUY THE BELL MOULD",
   "requires": [
     { "type": "flagPresent", "flag": "sb_bell_cracked", "reason": "Nobody here needs a mould yet." },
     { "type": "flagAbsent",  "flag": "sb_mould_found",  "reason": "You already have the mould." },
@@ -374,6 +375,8 @@ with the reason) → **effects** (applied in order) → **result** text.
 } ] }
 ```
 
+- `label` = the button text (English; short, upper case reads best). Without it the button
+  shows the id in capitals. Translate it with the key `ACTION_<ID>` (or your own `labelKey`).
 - `reason` / `resultFallback` = English text; `reasonKey` / `resultKey` = optional
   translation keys (chapter 16).
 - `cooldownDays` > 0 makes a repeatable action rest that many days (a well, a scrap pile).
@@ -1098,7 +1101,7 @@ non-letters/digits turned into one `_` (`"The Deep Well"` → `THE_DEEP_WELL`).
 | junction event text | `EVENT_<ID>` |
 | encounter name / intro / attack reason / situation | `ENC_NAME_<ID>` / `ENC_INTRO_<ID>` / `ENC_REASON_<ID>` / `ENC_SITUATION_<ID>` |
 | goal title / text | `MISSION_<FLAG>_TITLE` / `MISSION_<FLAG>_DESC` |
-| action result / requirement reason | the `resultKey` / `reasonKey` you wrote |
+| action button / result / requirement reason | `ACTION_<ID>` (or your `labelKey`) / the `resultKey` / `reasonKey` you wrote |
 | dialog node / choice / NPC name | `CONV_<ID>_<NODE>` / `CONV_<ID>_<NODE>_<CHOICE>` / `CONV_<ID>_NPC` |
 | character description | `CHAR_DESC_<ID>` and `CHARBIO_<ID>` |
 | part name / description | `PART_<ID>_NAME` / `PART_<ID>_DESC` |

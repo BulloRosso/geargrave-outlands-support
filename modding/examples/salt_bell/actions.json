@@ -4,6 +4,7 @@
   "actions": [
     {
       "id": "sb_inspect_bell",
+      "label": "STRIKE THE BELL",
       "_note": "Story step 1 - Bellwell, bell gantry.",
       "requires": [
         {
@@ -34,6 +35,7 @@
     },
     {
       "id": "sb_buy_mould",
+      "label": "BUY THE BELL MOULD",
       "_note": "Story step 2 - The Hulk, hold market.",
       "requires": [
         {
@@ -92,6 +94,7 @@
     },
     {
       "id": "sb_buy_spare_mould",
+      "label": "BUY A SPARE MOULD",
       "_note": "Safety net: the mould rides in a cargo bay and can be lost with its vehicle.",
       "requires": [
         {
@@ -137,6 +140,7 @@
     },
     {
       "id": "sb_buy_cooling_water",
+      "label": "PUMP COOLING WATER",
       "_note": "Story step 3 - Pump Station Nine. Resource cost: fuel to run the deep pump.",
       "requires": [
         {
@@ -180,6 +184,7 @@
     },
     {
       "id": "sb_ride_on_saltmen",
+      "label": "RIDE ON THE SALTMEN",
       "_note": "Story step 4 - Basalt Watch dispatches the boss. Win -> progression.json sets sb_bronze_recovered.",
       "requires": [
         {
@@ -221,6 +226,7 @@
     },
     {
       "id": "sb_recast_bell",
+      "label": "RECAST THE BELL",
       "_note": "Final step - Bellwell. Sets sb_bell_rung, which plays the epilogue.",
       "requires": [
         {
@@ -272,6 +278,7 @@
     },
     {
       "id": "sb_draw_well_water",
+      "label": "DRAW WELL WATER",
       "_note": "Repeatable side action at Bellwell.",
       "requires": [
         {
@@ -295,6 +302,7 @@
     },
     {
       "id": "sb_salvage_quay",
+      "label": "STRIP THE QUAY",
       "_note": "Repeatable side action at Old Harbour.",
       "requires": [],
       "effects": [
@@ -315,6 +323,7 @@
     },
     {
       "id": "sb_return_bronze",
+      "label": "RETURN THE BRONZE",
       "_note": "Optional: only if the player boarded the Salt Throne and captured its cargo.",
       "requires": [
         {
@@ -350,6 +359,7 @@
     },
     {
       "id": "sb_hire_tobi",
+      "label": "HIRE TOBI",
       "requires": [
         {
           "type": "characterRecruited",
@@ -392,6 +402,7 @@
     },
     {
       "id": "sb_bell_folk_thanks",
+      "label": "ACCEPT THE WARDEN'S THANKS",
       "requires": [
         {
           "type": "flagPresent",

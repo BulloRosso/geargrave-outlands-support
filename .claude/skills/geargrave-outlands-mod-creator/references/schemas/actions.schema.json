@@ -158,6 +158,12 @@
         "resultFallback": {
           "type": "string"
         },
+        "labelKey": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
         "cooldownDays": {
           "type": "integer"
         }
