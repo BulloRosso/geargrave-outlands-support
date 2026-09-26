@@ -1,0 +1,186 @@
+{
+  "_note": "The living map of Salt Bell (map_life.json, file reference ch. 18): who moves on the pans, what calls on the radio, and what glints beside the roads. Kind and template ids carry the sb_ prefix like everything else; 'behaviour' picks the rule set. Images are bare stems under assets/life/ — a stem the mod does not ship falls back to the base game's picture of the same name.",
+  "traffic": {
+    "maxOnMap": 3,
+    "spawnChancePercent": 50,
+    "initialSpawns": 2,
+    "kinds": {
+      "sb_salt_patrol": {
+        "behaviour": "patrol",
+        "name": "{0} salt patrol",
+        "desc": "Two rigs with mirror-glare goggles and a gun under a bleached tarp. Salt patrols keep their faction's pans clear of anyone whose flag they do not like — which, depending on your standing, includes you.",
+        "icon": "traffic_patrol",
+        "card": "sb_contact_patrol",
+        "factions": ["sb_saltmen", "sb_bell_folk"],
+        "stepsPerDay": 2,
+        "lifetimeDays": [5, 8],
+        "strength": [2, 3],
+        "tollFuel": [4, 7]
+      },
+      "sb_brine_caravan": {
+        "behaviour": "caravan",
+        "name": "{0} brine caravan",
+        "desc": "A tanker of well water and a trailer of salt blocks, a trader in a wide hat who weighs everything twice. Caravans run between the well and the Hulk while the pans hold — and deal on the road, for a fair price or a fair fight.",
+        "icon": "traffic_caravan",
+        "card": "sb_contact_caravan",
+        "factions": ["sb_hulk_traders", "sb_bell_folk"],
+        "stepsPerDay": 1,
+        "lifetimeDays": [6, 9],
+        "strength": [2, 3],
+        "deals": [
+          { "give": { "water": 8 }, "want": { "fuel_regular": 5 } },
+          { "give": { "tires": 2 }, "want": { "screws": 6 } },
+          { "give": { "ammo_normal": 20 }, "want": { "water": 5 } },
+          { "give": { "special_spare_parts": 1 }, "want": { "fuel_regular": 8 } }
+        ]
+      },
+      "sb_salt_pilgrims": {
+        "behaviour": "refugees",
+        "name": "Salt pilgrims",
+        "desc": "Bell Folk on foot with white-crusted boots, walking the pans to hear the bell that no longer rings. They carry water for three days and stories for thirty.",
+        "icon": "traffic_refugees",
+        "card": "sb_contact_refugees",
+        "factions": ["sb_bell_folk"],
+        "stepsPerDay": 1,
+        "lifetimeDays": [5, 8],
+        "strength": [0, 0],
+        "waterAsk": 3
+      },
+      "sb_hull_pickers": {
+        "behaviour": "salvagers",
+        "name": "Hull pickers",
+        "desc": "A crane truck and a cutting crew from the stranded ships, selling plate and rivets by the sack. They know every hull on the pans — and which ones still have something inside.",
+        "icon": "traffic_salvagers",
+        "card": "sb_contact_salvagers",
+        "factions": ["sb_saltmen", "sb_hulk_traders"],
+        "stepsPerDay": 1,
+        "lifetimeDays": [6, 9],
+        "strength": [1, 2],
+        "tipPrice": { "screws": 3 },
+        "scrapDeal": { "give": { "special_spare_parts": 1 }, "want": { "sheet_metal": 3 } }
+      }
+    }
+  },
+  "beacons": {
+    "maxOpen": 2,
+    "spawnChancePercent": 40,
+    "firstDay": 2,
+    "templates": [
+      {
+        "id": "sb_sos_pan_rig",
+        "kind": "sos",
+        "weight": 3,
+        "lifetimeDays": [4, 6],
+        "title": "SOS — rig on the pans",
+        "intercom": "…anyone on the {0}? Broke an axle on the crust near the {1}. The glare is cooking me and the water is going. I'll flash a mirror at noon every day I've got left.",
+        "body": "A weak voice on the open band. A rig broke down on the pans and its driver is counting water. Drive that road in time and the rig comes with you — damaged, but a rig — and a driver who owes you a life.",
+        "claimed": "The mirror flash finds you before you find the rig. The driver has built a sunshade from a door and is sitting under it with the last half-can, saving it for you, she says, as if that made sense.",
+        "expired": "The mirror on the {0} did not flash at noon. The pans keep what they take.",
+        "card": "sb_beacon_sos",
+        "vehicleTypes": ["Sedan", "Pickup", "PanelTruck"],
+        "reward": { "water": 3 }
+      },
+      {
+        "id": "sb_bounty_mirror_riders",
+        "kind": "bounty",
+        "weight": 2,
+        "lifetimeDays": [4, 6],
+        "title": "Bounty — mirror riders",
+        "intercom": "{2} · {3}: riders have made camp on the {0}, near the {1}, signalling each other with mirrors and stopping our water. Break them before the next caravan and the house pays.",
+        "body": "A faction has posted a bounty on a gang camped along that road. Drive it within the time, fight them on the crust, win — and the reward is wired to your position, with a note in the faction's ledger.",
+        "claimed": "You see the mirror flashes long before you see the rigs. They see yours too.",
+        "expired": "The riders on the {0} moved on before anyone came. The bounty is withdrawn.",
+        "card": "sb_beacon_bounty",
+        "skulls": [2, 3],
+        "reward": { "fuel_regular": 8, "ammo_normal": 16 },
+        "rep": 1
+      },
+      {
+        "id": "sb_cache_brine_drop",
+        "kind": "cache",
+        "weight": 2,
+        "lifetimeDays": [3, 5],
+        "title": "Radar ping — under the crust",
+        "intercom": "Radar off the {0}, near the {1}: a hard square return a metre under the crust. Something sank into the pan when it was still wet, and the salt kept it.",
+        "body": "Something square and metal lies a metre under the salt crust off that road — a container from the days when the pans were a sea. Whoever digs first keeps it.",
+        "claimed": "The crust breaks like sugar and the corner of a shipping container comes up white with salt. The seal is intact.",
+        "expired": "A hole in the crust off the {0}, fresh tire tracks around it. Someone was faster.",
+        "card": "sb_beacon_cache",
+        "reward": { "water": 6, "screws": 8, "sheet_metal": 4 }
+      }
+    ]
+  },
+  "pois": {
+    "revealZoom": 0.55,
+    "templates": [
+      {
+        "id": "sb_salt_camp",
+        "name": "Salt-crusted camp",
+        "card": "sb_poi_salt_camp",
+        "lore": "Two tents collapsed under a crust of salt, a fire ring, a cooking pot white to the rim. A note weighted with a salt block: 'Truck's dead in the sink south of here. Take what's in the bed, we couldn't.' Boot prints lead north, toward the bell that does not ring.",
+        "links": ["sb_salt_truck"],
+        "linkText": "The note names a truck in the sink to the south."
+      },
+      {
+        "id": "sb_salt_truck",
+        "name": "Truck in the sink",
+        "card": "sb_poi_salt_truck",
+        "lore": "The truck went through the crust to its axles and stayed there, engine seized by brine. The bed is above the salt and nobody came back for it: four spare tires under a bleached tarp and two ammunition crates, the seals intact.",
+        "loot": { "tires": 4, "ammo_normal": 24 }
+      },
+      {
+        "id": "sb_hull_bell",
+        "name": "Ship's bell in the hull",
+        "card": "sb_poi_hull_bell",
+        "lore": "A stranded coaster lying on its side, and in the wheelhouse a small brass bell nobody took, rung once by the wind while you stand there. Chalked on the bulkhead beside it, a chart of the pans with a course plotted to a place your map does not show.",
+        "revealsLocation": true
+      },
+      {
+        "id": "sb_pilgrim_shrine",
+        "name": "Pilgrims' shrine",
+        "card": "sb_poi_pilgrim_shrine",
+        "lore": "A cairn of salt blocks with a cracked bell painted on the top stone. Pilgrims leave what they can spare: bottle caps, a shoe, a photograph gone white. A locked offering box is chained to the cairn. The key hangs on the far side, where only somebody who walks around it will look.",
+        "links": ["sb_offering_box"],
+        "linkText": "The key to the offering box hangs on the far side of the cairn."
+      },
+      {
+        "id": "sb_offering_box",
+        "name": "Offering box",
+        "card": "sb_poi_offering_box",
+        "lore": "The box holds what pilgrims leave for pilgrims: sealed water bottles, more than you expected, and a note that says only 'for the next one'. You are the next one. You leave two bottles and take the rest.",
+        "loot": { "water": 8 }
+      },
+      {
+        "id": "sb_dry_dock_crane",
+        "name": "Dry-dock crane",
+        "card": "sb_poi_dry_dock_crane",
+        "lore": "A dock crane standing on the pans where the harbour used to be, its hook swinging over nothing. The cab still holds the rigger's toolbox: bolts, rivets and a bag of machine screws in oil paper, kept by the salt like a fossil.",
+        "loot": { "screws": 8 }
+      },
+      {
+        "id": "sb_mirror_wreck",
+        "name": "Mirror rider's wreck",
+        "card": "sb_poi_mirror_wreck",
+        "lore": "A rider's buggy on its roof, a signal mirror still bolted to the roll cage. The rider is gone. Scratched into the paint of the door: an arrow and a number of paces. Riders cache what they cannot carry.",
+        "links": ["sb_mirror_cache"],
+        "linkText": "An arrow and a number of paces scratched into the door."
+      },
+      {
+        "id": "sb_mirror_cache",
+        "name": "Rider's cache",
+        "card": "sb_poi_mirror_cache",
+        "lore": "Forty paces from the wreck, a salt block that is not a salt block: a wooden box painted white. Inside, resistors in a sock, a roll of sheet metal and a spare mirror. The riders will know somebody counted the paces.",
+        "loot": { "resistors": 2, "sheet_metal": 3 },
+        "repFaction": "sb_saltmen",
+        "repDelta": -1
+      },
+      {
+        "id": "sb_evaporator",
+        "name": "Old evaporator",
+        "card": "sb_poi_evaporator",
+        "lore": "A pre-collapse evaporator pond with its pipes still standing, and in the last pipe a tap that somebody keeps in order. Fresh water, warm, tasting of iron. A tin cup on a chain. You fill every can you own.",
+        "loot": { "water": 10 }
+      }
+    ]
+  }
+}

@@ -1,0 +1,291 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/map_life.schema.json",
+  "title": "map_life.json — the living map: traffic parties, radio beacons, discoverable finds (replaces the base file while the level is active)",
+  "description": "GENERATED from the game's loader types — do not edit. NO comments allowed. NO trailing commas. Keys are matched case-insensitively by the game; write them in camelCase.",
+  "$ref": "#/$defs/LifeFile",
+  "$defs": {
+    "Deal": {
+      "type": "object",
+      "properties": {
+        "give": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "want": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "TrafficKind": {
+      "type": "object",
+      "properties": {
+        "behaviour": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "desc": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "card": {
+          "type": "string"
+        },
+        "factions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "stepsPerDay": {
+          "type": "integer"
+        },
+        "lifetimeDays": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "strength": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "tollFuel": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "deals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Deal"
+          }
+        },
+        "waterAsk": {
+          "type": "integer"
+        },
+        "tipPrice": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "scrapDeal": {
+          "$ref": "#/$defs/Deal"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "TrafficSection": {
+      "type": "object",
+      "properties": {
+        "maxOnMap": {
+          "type": "integer"
+        },
+        "spawnChancePercent": {
+          "type": "integer"
+        },
+        "initialSpawns": {
+          "type": "integer"
+        },
+        "kinds": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/TrafficKind"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "BeaconTemplate": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "weight": {
+          "type": "integer"
+        },
+        "lifetimeDays": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "title": {
+          "type": "string"
+        },
+        "intercom": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        },
+        "claimed": {
+          "type": "string"
+        },
+        "expired": {
+          "type": "string"
+        },
+        "card": {
+          "type": "string"
+        },
+        "vehicleTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "skulls": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "reward": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "rep": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "BeaconSection": {
+      "type": "object",
+      "properties": {
+        "maxOpen": {
+          "type": "integer"
+        },
+        "spawnChancePercent": {
+          "type": "integer"
+        },
+        "firstDay": {
+          "type": "integer"
+        },
+        "templates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/BeaconTemplate"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "PoiTemplate": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "card": {
+          "type": "string"
+        },
+        "lore": {
+          "type": "string"
+        },
+        "loot": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "linkText": {
+          "type": "string"
+        },
+        "revealsLocation": {
+          "type": "boolean"
+        },
+        "repFaction": {
+          "type": "string"
+        },
+        "repDelta": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "PoiSection": {
+      "type": "object",
+      "properties": {
+        "revealZoom": {
+          "type": "number"
+        },
+        "templates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PoiTemplate"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "LifeFile": {
+      "type": "object",
+      "properties": {
+        "traffic": {
+          "$ref": "#/$defs/TrafficSection"
+        },
+        "beacons": {
+          "$ref": "#/$defs/BeaconSection"
+        },
+        "pois": {
+          "$ref": "#/$defs/PoiSection"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    }
+  }
+}

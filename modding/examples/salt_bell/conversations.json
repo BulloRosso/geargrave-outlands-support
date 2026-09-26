@@ -43,7 +43,18 @@
                 "sb_maren_impressed"
               ],
               "interject": true,
-              "next": "impressed"
+              "next": "impressed",
+              "effects": [
+                {
+                  "type": "setFlag",
+                  "flag": "sb_maren_impressed"
+                },
+                {
+                  "type": "applyReputation",
+                  "faction": "sb_bell_folk",
+                  "amount": 1
+                }
+              ]
             },
             {
               "id": "leave",
@@ -72,18 +83,7 @@
             {
               "id": "leave",
               "text": "Keep it in mind.",
-              "exit": true,
-              "effects": [
-                {
-                  "type": "setFlag",
-                  "flag": "sb_maren_impressed"
-                },
-                {
-                  "type": "applyReputation",
-                  "faction": "sb_bell_folk",
-                  "amount": 1
-                }
-              ]
+              "exit": true
             }
           ]
         },
@@ -170,7 +170,7 @@
         {
           "id": "no_tobi",
           "text": "'Tobi stays. Someone has to guard the well - and Mother.' She picks up her tools anyway. 'Ask him yourself at the Well House, if you want to lose an argument.'",
-          "autoChoice": "ok",
+          "autoChoice": "later",
           "choices": [
             {
               "id": "ok",
@@ -186,6 +186,11 @@
                   "flag": "sb_maren_joined"
                 }
               ]
+            },
+            {
+              "id": "later",
+              "text": "Then not today.",
+              "exit": true
             }
           ]
         },
@@ -228,7 +233,13 @@
             {
               "id": "gossip",
               "text": "News. Who runs the white?",
-              "next": "gossip"
+              "next": "gossip",
+              "effects": [
+                {
+                  "type": "revealLocation",
+                  "location": "sb_old_harbour"
+                }
+              ]
             },
             {
               "id": "big",
@@ -250,13 +261,7 @@
             {
               "id": "thanks",
               "text": "Worth knowing.",
-              "exit": true,
-              "effects": [
-                {
-                  "type": "revealLocation",
-                  "location": "sb_old_harbour"
-                }
-              ]
+              "exit": true
             }
           ]
         },

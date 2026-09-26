@@ -29,7 +29,7 @@ import { dirname, basename, resolve, relative, join, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const REPO = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
-const LOCALES = ["en", "de", "fr", "es", "it", "ja", "zh", "ru", "pt"];
+const LOCALES = ["en", "de", "fr", "es", "it", "ja", "zh", "ru", "pt", "pl"];
 const FORMAT = "geargrave-translation-contribution";
 const NAME_RE = /^translation-([a-z]{2})-[a-z0-9_]+(?:-[a-z0-9_]+)*-\d{8}-\d{4}\.json$/;
 const CSV_RE = /^(?:i18n\/translation\.csv|levels\/[a-z0-9_-]+\/i18n\/[a-z0-9_.-]+\.csv)$/;

@@ -17,7 +17,7 @@
   "allowFlee": true,
   "enemies": [
     { "type": "BattleBus", "name": "The Salt Throne", "skin": "sb-rv-road-manor", "zone": "EnemyMid", "leader": true,
-      "upgrades": ["MgMount", "RamPlow"], "cargo1": "sb_bell_bronze",
+      "upgrades": ["MgMount", "RamPlow"], "capstone": "none", "cargo1": "sb_bell_bronze",
       "crew": [ { "role": "Driver", "skill": 3 }, { "role": "Leader", "skill": 4, "name": "Oszkar" },
                 { "role": "Gunner", "skill": 3 }, { "role": "Fighter", "skill": 3 } ] },
     { "type": "Buggy", "name": "Left Hand", "zone": "EnemyFront",

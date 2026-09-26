@@ -36,6 +36,13 @@ every system a mod can use appears here at least once, small enough to read in o
 - **Two battles** (`encounters/`) — a 2-skull ambush on the road and the 4-skull finale:
   a mortar behind a breakwater, burning barricades, a volunteer pickup that joins you in
   round 2, a late enemy rider, day/night rounds and a bounty on the war wagon.
+- **Living map** (`map_life.json`) — four party kinds on the pans (salt patrols of the
+  Saltmen and Bell Folk, brine caravans of the Hulk traders with four deals, salt
+  pilgrims, hull pickers), three radio beacons (an SOS rig on the pans, a Saltmen-hunting
+  bounty, a cache under the crust) and nine finds in chains: the salt-crusted camp's note
+  leads to the truck in the sink (tires + ammunition), the pilgrims' shrine to its offering
+  box, the mirror rider's wreck to a Saltmen cache that costs standing; the ship's bell
+  reveals a place. Cards in `assets/life/`.
 - **Travel** — 4 junction events + 5 random ones (`events.json`) and 8 roadside
   decisions (`travel_legs.json`), three with their own pictures, the rest using the
   game's built-in road illustrations.

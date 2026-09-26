@@ -63,6 +63,7 @@ To remove a mod, delete its folder. Saves made on a mod's level need that mod.
 | `factions.json` | who owns the places: leader, dossier, radio broadcasts, deliveries and contracts |
 | `events.json` | things that happen at junctions |
 | `travel_legs.json` | illustrated roadside decisions between junctions, with prices and consequences |
+| `map_life.json` | the living map: patrols, caravans, refugee columns and salvagers moving on your roads (with contact cards), expiring radio beacons (SOS rigs, bounties, radar caches) and chained finds beside the roads with lore and loot |
 | `encounters/*.json` | battles and vehicle finds |
 | `progression.json` | what winning a battle changes (flags, opened roads, recruits) and the story goals |
 | `epilogues.json` | the ending: a short comic that plays when your final story flag is set |

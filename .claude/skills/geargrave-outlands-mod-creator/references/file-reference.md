@@ -76,7 +76,7 @@ Keys starting with `_` and the key `comment` are ignored everywhere — use `"_n
 
 | Tolerates `//` comments | Strict JSON (a comment or trailing comma makes the game skip the whole file) |
 |---|---|
-| `level.json`, `audio.json`, `epilogues.json`, `mascots.json`, `parts.json`, `progression.json`, `relationships.json`, `doctrines.json` | `actions.json`, `events.json`, `travel_legs.json`, `encounters/*.json`, `characters.json`, `vehicles.json`, `factions.json`, `conversations.json` |
+| `level.json`, `audio.json`, `epilogues.json`, `mascots.json`, `parts.json`, `progression.json`, `relationships.json`, `doctrines.json`, `map_life.json` | `actions.json`, `events.json`, `travel_legs.json`, `encounters/*.json`, `characters.json`, `vehicles.json`, `factions.json`, `conversations.json` |
 
 **Image names.** A field that names an image (`sceneImagePath`, `bannerImage`, portraits,
 emblems, encounter / dialog / epilogue / roadside images, part images) takes a **bare name**
@@ -1082,7 +1082,7 @@ MISSION_SB_BELL_CRACKED_TITLE,The Cracked Bell,Die gesprungene Glocke
 MISSION_SB_BELL_CRACKED_DESC,Find out why Bellwell's bell has gone silent.,Finde heraus warum die Glocke von Bellwell schweigt.
 ```
 
-First column `keys`, then any of `en de fr es it ja zh ru pt`. Quote cells with commas;
+First column `keys`, then any of `en de fr es it ja zh ru pt pl`. Quote cells with commas;
 UTF-8. English in the JSON is always the fallback, so translations are optional — except
 the `MISSION_*` goal titles, which need at least an `en` row.
 
@@ -1138,3 +1138,124 @@ MODCHECK: FAIL (1 error(s))
 - **Done = `RESULT: OK`** (0 errors, 0 warnings).
 
 The same report is in the game: level picker → **MODS** (enable *Show hints* for INFO).
+
+---
+
+## 18. `map_life.json` — the living map
+
+The world map moves between the player's clicks: **traffic parties** drive the road
+graph and meet the player's crews, **radio beacons** appear as expiring pins the player
+can chase, and **finds** glint beside the roads with lore and loot that lead to each other.
+Shipping `map_life.json` **replaces** the base game's set while your level is active — the
+base parties, beacons and finds never appear on your map, so write a full set (3–4
+kinds, 3–5 beacons, 8–16 finds). Without the file your level gets the base game's living
+map (its English texts and desert pictures).
+
+```json
+{
+  "traffic": {
+    "maxOnMap": 3, "spawnChancePercent": 50, "initialSpawns": 2,
+    "kinds": {
+      "sb_salt_patrol": {
+        "behaviour": "patrol", "name": "{0} salt patrol", "desc": "Two rigs with mirror-glare goggles…",
+        "icon": "traffic_patrol", "card": "sb_contact_patrol",
+        "factions": ["sb_saltmen", "sb_bell_folk"], "stepsPerDay": 2,
+        "lifetimeDays": [5, 8], "strength": [2, 3], "tollFuel": [4, 7] },
+      "sb_brine_caravan": {
+        "behaviour": "caravan", "name": "{0} brine caravan", "desc": "…", "icon": "traffic_caravan",
+        "card": "sb_contact_caravan", "factions": ["sb_hulk_traders"], "stepsPerDay": 1,
+        "lifetimeDays": [6, 9], "strength": [2, 3],
+        "deals": [ { "give": { "water": 8 }, "want": { "fuel_regular": 5 } } ] },
+      "sb_salt_pilgrims": { "behaviour": "refugees", "name": "Salt pilgrims", "desc": "…",
+        "icon": "traffic_refugees", "card": "sb_contact_refugees", "factions": ["sb_bell_folk"],
+        "stepsPerDay": 1, "lifetimeDays": [5, 8], "strength": [0, 0], "waterAsk": 3 },
+      "sb_hull_pickers": { "behaviour": "salvagers", "name": "Hull pickers", "desc": "…",
+        "icon": "traffic_salvagers", "card": "sb_contact_salvagers", "factions": ["sb_saltmen"],
+        "stepsPerDay": 1, "lifetimeDays": [6, 9], "strength": [1, 2],
+        "tipPrice": { "screws": 3 }, "scrapDeal": { "give": { "special_spare_parts": 1 }, "want": { "sheet_metal": 3 } } }
+    }
+  },
+  "beacons": {
+    "maxOpen": 2, "spawnChancePercent": 40, "firstDay": 2,
+    "templates": [
+      { "id": "sb_sos_pan_rig", "kind": "sos", "weight": 3, "lifetimeDays": [4, 6],
+        "title": "SOS — rig on the pans",
+        "intercom": "…anyone on the {0}? Broke an axle near the {1}…",
+        "body": "A rig broke down on the pans…", "claimed": "The mirror flash finds you first…",
+        "expired": "The mirror on the {0} did not flash at noon.", "card": "sb_beacon_sos",
+        "vehicleTypes": ["Sedan", "Pickup", "PanelTruck"], "reward": { "water": 3 } },
+      { "id": "sb_bounty_mirror_riders", "kind": "bounty", "weight": 2, "lifetimeDays": [4, 6],
+        "title": "Bounty — mirror riders", "intercom": "{2} · {3}: riders have made camp on the {0}, near the {1}…",
+        "body": "…", "claimed": "…", "expired": "…", "card": "sb_beacon_bounty",
+        "skulls": [2, 3], "reward": { "fuel_regular": 8, "ammo_normal": 16 }, "rep": 1 },
+      { "id": "sb_cache_brine_drop", "kind": "cache", "weight": 2, "lifetimeDays": [3, 5],
+        "title": "Radar ping — under the crust", "intercom": "…", "body": "…", "claimed": "…", "expired": "…",
+        "card": "sb_beacon_cache", "reward": { "water": 6, "screws": 8 } }
+    ]
+  },
+  "pois": {
+    "templates": [
+      { "id": "sb_salt_camp", "name": "Salt-crusted camp", "card": "sb_poi_salt_camp",
+        "lore": "Two tents collapsed under a crust of salt… 'Truck's dead in the sink south of here.'",
+        "links": ["sb_salt_truck"], "linkText": "The note names a truck in the sink to the south." },
+      { "id": "sb_salt_truck", "name": "Truck in the sink", "card": "sb_poi_salt_truck",
+        "lore": "The truck went through the crust to its axles…", "loot": { "tires": 4, "ammo_normal": 24 } },
+      { "id": "sb_hull_bell", "name": "Ship's bell in the hull", "card": "sb_poi_hull_bell",
+        "lore": "…a chart of the pans with a course plotted to a place your map does not show.", "revealsLocation": true },
+      { "id": "sb_mirror_cache", "name": "Rider's cache", "card": "sb_poi_mirror_cache", "lore": "…",
+        "loot": { "resistors": 2 }, "repFaction": "sb_saltmen", "repDelta": -1 }
+    ]
+  }
+}
+```
+
+### Traffic — `traffic.kinds`
+
+One entry per kind of party; the **key is your id** (prefixed) and names the texts
+(`MAPLIFE_TRAFFIC_<KEY>_NAME` / `_DESC`, chapter 16). `behaviour` picks the rule set:
+
+| `behaviour` | On the road | When a crew meets them (a card after the day tick) |
+|---|---|---|
+| `patrol` | 2 steps a day between their faction's places | standing ≤ *unfriendly*: pay `tollFuel` fuel or **fight** (a generated battle of that faction, `strength` skulls); *neutral*: half toll or fight; ≥ *accepted*: waved through, *liked*+ shares a rumour (reveals a location) |
+| `caravan` | 1 step a day between settlements, vanishes on arrival | one seeded deal from `deals` (`give` for `want`), or **raid** it (−2 standing with its faction, its cargo on victory) |
+| `refugees` | 1 step a day toward the nearest settlement | share `waterAsk` water: +1 standing with `free_nomads`, crew morale, a rumour; or move on |
+| `salvagers` | 1 step a day toward roads with wrecks | buy a tip for `tipPrice` (marks the nearest unfound find on the map even under the fog), or `scrapDeal` |
+
+Fields: `name` (`{0}` = the faction's name), `desc`, `icon` (marker stem — the base
+`traffic_patrol / traffic_caravan / traffic_refugees / traffic_salvagers` icons are fine),
+`card` (the 3:2 contact picture), `factions` (your `level.json` factions or base ids —
+the party's colour ring, standing and battle faction), `stepsPerDay`, `lifetimeDays`
+`[min, max]`, `strength` `[min, max]` skulls, `tollFuel` `[min, max]`. Top level:
+`maxOnMap` parties at once, `spawnChancePercent` per day, `initialSpawns` on day 1.
+Parties spawn preferring roads that touch a place the player already knows, so the map is
+alive right away. All goods tables use the **raw resource keys**.
+
+### Beacons — `beacons.templates`
+
+Pins on a road junction for `lifetimeDays`, announced on the intercom, claimed by
+driving past that junction; when they expire the field log says what was missed.
+
+| `kind` | Announced by | Claim |
+|---|---|---|
+| `sos` | an anonymous caller (grey portrait) | a stranded rig of one of `vehicleTypes` (a public chassis) joins the crew, damaged, with one hand aboard, plus `reward` |
+| `cache` | "Radar watch" (the convoy's own operator) | `reward` goods land (doubled with a radar rig aboard) |
+| `bounty` | a faction leader with standing ≥ neutral (`{2}` leader, `{3}` faction) | a FIGHT / LEAVE card against a hostile-ish faction at `skulls`; victory pays `reward` and `rep` with the poster |
+
+Texts: `title`, `intercom` (`{0}` = road "A → B", `{1}` = junction name), `body` (the pin's
+card), `claimed`, `expired` (`{0}` = road). `weight` = pick weight, `card` = the 3:2
+picture. `maxOpen` beacons at once, `spawnChancePercent` per day from `firstDay`.
+
+### Finds — `pois.templates`
+
+Each template is placed once per level, deterministically, a little off a junction
+(children next to their parent). A find is a glint on the map; clicking it opens its
+card (`name`, `lore`, picture) — reading is free from anywhere. `loot` needs a crew **on
+that road or at either end** ("Take it"). `links` names the next find of a chain: it
+only appears once the parent was read, so the camp's note leads to the truck with the
+tires (`linkText` is shown under the lore). `revealsLocation: true` puts the nearest
+unknown place on the map when read. `repFaction` + `repDelta` charge standing when
+looted (the Rust Wolves' cache). One parent per find, no cycles; a chain should end in
+loot or a reveal — the validator says so otherwise. Everything is saved with the game.
+
+Texts derive keys `MAPLIFE_BEACON_<ID>_TITLE/INTERCOM/BODY/CLAIMED/EXPIRED` and
+`MAPLIFE_POI_<ID>_NAME/LORE/LINK` for your CSV (chapter 16); English is the fallback.

@@ -1,6 +1,6 @@
 ---
 name: geargrave-outlands-mod-creator
-description: Build, extend, fix and validate mods for the game Geargrave Outlands — a mod is a level folder (map, factions, building actions, junction and roadside events, battles/encounters, story goals, vehicles with art, parts, characters with perks, traits, bonds and combos, NPC dialog trees, epilogues/endings, sound effects and music, translations). Use when someone wants to create a Geargrave Outlands mod, level, map, region, faction, quest, NPC dialog, character, vehicle, battle, roadside event, ending/epilogue or SFX, or asks why their mod does not load or shows errors in the game's MODS screen.
+description: Build, extend, fix and validate mods for the game Geargrave Outlands — a mod is a level folder (map, factions, building actions, junction and roadside events, battles/encounters, story goals, vehicles with art, parts, characters with perks, traits, bonds and combos, NPC dialog trees, a living map (traffic parties, radio beacons, chained finds with lore and loot), epilogues/endings, sound effects and music, translations). Use when someone wants to create a Geargrave Outlands mod, level, map, region, faction, quest, NPC dialog, character, vehicle, battle, roadside event, ending/epilogue or SFX, living-map traffic/beacon/find, or asks why their mod does not load or shows errors in the game's MODS screen.
 ---
 
 # Geargrave Outlands mod creator
@@ -13,7 +13,7 @@ is in this skill:
 
 | Read | When |
 |---|---|
-| `references/file-reference.md` | **always, before writing any file** — every format with a worked example (17 chapters) |
+| `references/file-reference.md` | **always, before writing any file** — every format with a worked example (18 chapters) |
 | `references/base-catalog.md` | whenever you use something from the base game: built-in actions, vehicle chassis, upgrades, perks, traits, doctrines, sound keys, playlists, gang tactics, road illustrations |
 | `references/art-guide.md` | whenever you make or place an image — the **80/20 house style**, sizes, file names, prompts, vehicle image sets |
 | `references/schemas/*.schema.json` | exact field lists; add `"$schema"` pointers so editors check files too |
@@ -60,6 +60,10 @@ Settle these with the user in a few questions, then restate them in 8–12 lines
 9. **Roads** — junction events and 6+ roadside events, or keep the game's generic roadside
    pool (ch. 5–6).
 10. **Sound** — which moments get a sound; the user's files (ogg/mp3/wav) or base keys.
+10b. **Living map** — who moves on the roads (3–4 party kinds mapped onto patrol /
+    caravan / refugees / salvagers, each with its factions and deals), 3–5 radio beacons
+    (an SOS rig, a bounty, a cache) and 8–16 finds in chains (a camp's note → the truck
+    with the tires) that carry the region's lore and small loot (ch. 18).
 11. **Art** — does the user have an image tool? Art is optional; map background and
     vehicle side views matter most.
 12. **Id prefix** — 2–3 letters from the mod name (`salt_bell` → `sb_`); every id starts
@@ -97,10 +101,16 @@ Settle these with the user in a few questions, then restate them in 8–12 lines
     play with `playSound` and event `sound` fields.
 11. **Epilogue** — `epilogues.json`: `flags` = the final story flag; pages `world`,
     `factions` (allied/hostile variants), `convoy`.
+11b. **Living map** — `map_life.json` (ch. 18): kinds with `behaviour`, factions from
+    your `level.json`, raw resource keys in every deal/reward/loot; beacon `sos`
+    `vehicleTypes` from the public chassis; find chains with one parent each ending in
+    loot or a reveal. The validator prints a summary line and every broken link.
 12. **Art** — the rest, in the art guide's order, **always in the 80/20 house style**
     (realistic rendering + selective medium-weight ink edges on big forms only — never flat
     cel shading, never photoreal without edges). Vehicle skins: side view first, then hex
-    tile, portrait, loot image, damage stages, all the same vehicle.
+    tile, portrait, loot image, damage stages, all the same vehicle. Living-map cards
+    (`assets/life/<stem>.png`, 3:2): one per find, contact kind and beacon template —
+    write the region into each prompt (art-guide §4).
 13. **Translations** (optional) — `i18n/<mod_id>.csv` with the derived keys (ch. 16).
 
 ## 3. Rules that prevent the classic failures
@@ -115,6 +125,10 @@ Settle these with the user in a few questions, then restate them in 8–12 lines
   `fuel_regular`, …); only actions and dialogs accept the aliases.
 - Shipping `events.json` / `travel_legs.json` **replaces** the game's pools: every joint
   `eventId` must exist; write 4+ random junction events and 6+ roadside events.
+- Shipping `map_life.json` **replaces** the base living map too: give it all four
+  behaviours, 3+ beacons and 8+ finds, or the map goes quiet. Every kind/template id
+  carries your prefix (its texts key off the id); base image stems (`traffic_patrol`,
+  `contact_caravan`, `poi_camp_abandoned`, …) may be reused when you have no picture.
 - Travel-event battles are threat-gated (story level starts at 2): keep them ≤ 2 skulls
   early, or start big fights from actions.
 - A lost or fled battle sets nothing: put must-win fights on a building action so the

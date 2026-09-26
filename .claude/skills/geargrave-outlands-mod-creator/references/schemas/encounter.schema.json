@@ -569,6 +569,15 @@
         "attackReason": {
           "type": "string"
         },
+        "attackReasonKey": {
+          "type": "string"
+        },
+        "nameKey": {
+          "type": "string"
+        },
+        "introKey": {
+          "type": "string"
+        },
         "speakerName": {
           "type": "string"
         },

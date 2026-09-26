@@ -3,6 +3,7 @@
   "id": "sb_salt_ambush",
   "name": "Ambush at the Glare Cut",
   "intro": "Two buggies drop out of the white glare behind you, salt-caked sheets flapping from their roll bars. A motorcycle swings wide to cut off your flank.",
+  "locationImage": "encounter_scene_sb_salt_ambush.jpg",
   "attackReason": "Salt is thirst. You carry water. That is the whole sermon.",
   "kind": "Battle",
   "speakerName": "Grit",

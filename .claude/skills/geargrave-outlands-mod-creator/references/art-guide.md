@@ -3,7 +3,7 @@
 All art is **optional** — a mod without images still plays (flat map backdrop, type
 icons, stock vehicle art, silhouettes). Add art in this order; the first items change
 the most: map background → banner → vehicle side views → location scenes → roadside
-and epilogue images → portraits → building images → faction dossier art.
+and epilogue images → living-map cards → portraits → building images → faction dossier art.
 
 ## 1. The house style: "80/20 graphic edge"
 
@@ -70,6 +70,8 @@ snow) leak over. Never copy them into your mod.
 | Dialog image | referenced by a conversation node `image` | 1536×1024 | full image |
 | Encounter scene | referenced by `locationImage` / `situationImage` | 1536×1024 | full image |
 | Epilogue panels | referenced by `epilogues.json` `image` | 1536×1024 or wider | full image |
+| Living-map card (find, contact, beacon) | `life/<stem>.png`, named by `map_life.json` `card` | 1536×1024 (3:2) | full image |
+| Living-map marker icon | `life/<stem>.png`, named by `map_life.json` `icon` (the base `traffic_*` icons need no file) | 1024×1024, subject ~85 % of the square | **transparent** |
 
 Keep the whole mod under ~150 MB. Every image named in JSON may be `.jpg` (write the
 extension) — use JPG quality 85–90 for full-frame scenes, panels, roadside and dossier art.
@@ -112,6 +114,20 @@ faces and vehicles in the middle third vertically — the strip crop removes top
 wagon on its side, the NPC holding up a map, the gang lined up at dusk, the town after
 your ending — subject centred (roadside images are shown in a tall column and cropped at
 the sides) + style block.
+
+**Living-map cards** (3:2, `assets/life/`) — the picture behind every find, contact and
+beacon card of chapter 18. Three prompt families, one per use: a *find* is "a detailed
+still the player has just found from the road: {the find: the abandoned camp, the truck
+in the sink}, subject centred, low horizon, hard-edged shadows, nobody or people far
+away"; a *contact* is "an encounter on the road: {the party: two armed rigs blocking the
+track / a caravan pulled over with its goods on a table / a column on foot / a salvage
+crew at work}, slightly elevated three-quarter view, the road diagonal, figures small and
+each doing something different"; a *beacon* is one moment "{the stranded rig at night
+with a flare / the raider camp seen from a ridge at dawn / the dug-up container with a
+radar unit beside it}". Write the region into every prompt (salt glare, snow, dunes) or
+the base game's desert leaks in. + style block. Marker icons are shared with the base game
+(`traffic_patrol`, `traffic_caravan`, `traffic_refugees`, `traffic_salvagers`, the pins and
+glints) — a mod only needs new ones for a party that looks nothing like those four.
 
 ## 5. Vehicles
 
