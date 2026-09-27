@@ -98,6 +98,9 @@
         "requiredFlag": {
           "type": "string"
         },
+        "lockedHint": {
+          "type": "string"
+        },
         "costWater": {
           "type": "integer"
         },

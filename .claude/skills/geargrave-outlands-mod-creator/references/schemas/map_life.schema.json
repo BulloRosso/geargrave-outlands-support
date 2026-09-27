@@ -244,6 +244,15 @@
         },
         "repDelta": {
           "type": "integer"
+        },
+        "joint": {
+          "type": "string"
+        },
+        "upgrades": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "patternProperties": {

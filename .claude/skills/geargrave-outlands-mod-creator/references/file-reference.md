@@ -630,7 +630,7 @@ junction event (`encounterId`) or a roadside choice (`dispatchEncounter`).
 | `kind` | `Battle` (a fight) · `Vehicle` (a find: an abandoned vehicle to claim — `situationImage` + `situationText` + one enemy entry = the vehicle) |
 | `environment` | `Day`, `Night`, `Sandstorm`, `ScrapField`, `Highway`; `nightSchedule` alternates day/night rounds |
 | `orientation` | `chase` = the enemy holds the road ahead; `chased` = the gang hunts the convoy from behind. Pursuit doctrines (`rudeltreiben`, `zangenzug`, `kaperfahrt`, `falkenjagd`, `schattenfahrt`, `aderlass`) suit `chased`; wall/siege doctrines (`scherenwand`, `belagerung`, `koederfahrt`, `sturmflucht`) need `chase` |
-| `enemies[]` | `type` (chassis), `name`, `skin` (your art, chapter 9), `zone` (`EnemyFront` / `EnemyMid` / `EnemyRear`), `upgrades`, `crew[]` (`role`, `skill` 1–5, optional `name`, `perk`), `cargo1..3` (part ids, taken when the player captures the vehicle — a vehicle destroyed instead loses its cargo, so never make a must-have quest item enemy cargo without a fallback), `mascot`, `leader: true` (one per battle: the boss; losing it breaks the gang's morale), `noCapture` |
+| `enemies[]` | `type` (chassis), `name`, `skin` (your art, chapter 9), `zone` (`EnemyFront` / `EnemyMid` / `EnemyRear`), `upgrades`, `crew[]` (`role`, `skill` 1–5, optional `name`, `perk`), `cargo1..3` (part ids, taken when the player captures the vehicle — a vehicle destroyed instead loses its cargo, so never make a must-have quest item enemy cargo without a fallback), `mascot`, `leader: true` (one per battle: the boss; losing it breaks the gang's morale), `noCapture`, `selfDestructOnBoard`, `empOnly` + `empResistance` (a hull only EMP blasts can hurt; `empResistance` hits destroy it, default 3 — give the player a way to EMP it: robot crew, or `EmpGrenade` from a dialog, action or map find) |
 | `stationaries[]` | fixed emplacements: `MgNest`, `HiddenSniper`, `MortarTeam`, `AntiTankGun` in a `zone` |
 | `blockades[]` | road obstacles: `kind` (`Wreck`, `Boulder`, `Container`, `BurningBarricade`, `TireStack`, `MineMound`, `BarrelStack`, `DroppedTrailer`), `lane` 0–4, `rank` (2–8, enemy side), `ranksDeep` |
 | `reinforcements[]` | vehicles arriving in round `round`: `side` `enemy` or `player` (`guest: true` = an ally that fights for you but is not yours to keep) |
@@ -865,7 +865,7 @@ traits, a face and a story.
 | `metAt` | the location id where the player meets them (shown on the character sheet) |
 | `recruitHook` | not shown in the game — ignore |
 | `essential` | never deserts — mark characters your story needs |
-| `robot` | a machine crew member (can fire the EMP) |
+| `robot` | a machine crew member (can fire the EMP: 2 power cells per battle). Humans fire it only from a vehicle carrying the `EmpGrenade` upgrade — one throw per vehicle per battle |
 | `builderStyle` | `tech`, `organic`, `metal`, `scrap` — how they style base modules they build |
 
 **Recruiting**: an action or dialog choice with `recruitCharacter` (usually behind a
@@ -1203,7 +1203,10 @@ map (its English texts and desert pictures).
       { "id": "sb_hull_bell", "name": "Ship's bell in the hull", "card": "sb_poi_hull_bell",
         "lore": "…a chart of the pans with a course plotted to a place your map does not show.", "revealsLocation": true },
       { "id": "sb_mirror_cache", "name": "Rider's cache", "card": "sb_poi_mirror_cache", "lore": "…",
-        "loot": { "resistors": 2 }, "repFaction": "sb_saltmen", "repDelta": -1 }
+        "loot": { "resistors": 2 }, "repFaction": "sb_saltmen", "repDelta": -1 },
+      { "id": "sb_bell_emp_crate", "name": "Diver's crate", "card": "sb_poi_emp_crate",
+        "lore": "…one EMP grenade, pin taped down, a checklist ticked to the last line.",
+        "joint": "sb_joint_01a", "upgrades": ["EmpGrenade"] }
     ]
   }
 }
@@ -1248,14 +1251,21 @@ picture. `maxOpen` beacons at once, `spawnChancePercent` per day from `firstDay`
 ### Finds — `pois.templates`
 
 Each template is placed once per level, deterministically, a little off a junction
-(children next to their parent). A find is a glint on the map; clicking it opens its
+(children next to their parent). A root with `joint` (a junction id from your
+`level.json` roads) is **pinned** beside that junction instead — use it for a find that
+belongs to a place, e.g. gear for the fight that junction starts. Pinned finds claim
+their junctions before the seeded ones are placed; a `joint` that does not exist on the
+level skips the find (validator warning), it is never moved somewhere random. A find is a glint on the map; clicking it opens its
 card (`name`, `lore`, picture) — reading is free from anywhere. `loot` needs a crew **on
 that road or at either end** ("Take it"). `links` names the next find of a chain: it
 only appears once the parent was read, so the camp's note leads to the truck with the
-tires (`linkText` is shown under the lore). `revealsLocation: true` puts the nearest
+tires (`linkText` is shown under the lore). `upgrades` is a list of `UpgradeType` names
+(base catalog) that go into the convoy's upgrade stock on "Take it", next to `loot`; the
+card and the log name them, and a find may carry only upgrades. The validator rejects
+unknown names. `revealsLocation: true` puts the nearest
 unknown place on the map when read. `repFaction` + `repDelta` charge standing when
 looted (the Rust Wolves' cache). One parent per find, no cycles; a chain should end in
-loot or a reveal — the validator says so otherwise. Everything is saved with the game.
+loot, upgrades or a reveal — the validator says so otherwise. Everything is saved with the game.
 
 Texts derive keys `MAPLIFE_BEACON_<ID>_TITLE/INTERCOM/BODY/CLAIMED/EXPIRED` and
 `MAPLIFE_POI_<ID>_NAME/LORE/LINK` for your CSV (chapter 16); English is the fallback.

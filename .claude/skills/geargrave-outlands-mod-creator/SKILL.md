@@ -104,7 +104,9 @@ Settle these with the user in a few questions, then restate them in 8–12 lines
 11b. **Living map** — `map_life.json` (ch. 18): kinds with `behaviour`, factions from
     your `level.json`, raw resource keys in every deal/reward/loot; beacon `sos`
     `vehicleTypes` from the public chassis; find chains with one parent each ending in
-    loot or a reveal. The validator prints a summary line and every broken link.
+    loot, upgrades or a reveal; pin a find to a junction with `joint` and hand over kit
+    with `upgrades` (e.g. `EmpGrenade` beside an `empOnly` fight). The validator prints a
+    summary line and every broken link.
 12. **Art** — the rest, in the art guide's order, **always in the 80/20 house style**
     (realistic rendering + selective medium-weight ink edges on big forms only — never flat
     cel shading, never photoreal without edges). Vehicle skins: side view first, then hex

@@ -261,7 +261,8 @@
               "GlWidowsKnock",
               "GlGoldenRequiem",
               "GlSandVerdict",
-              "GlLastArgument"
+              "GlLastArgument",
+              "EmpGrenade"
             ]
           }
         },
@@ -565,6 +566,15 @@
         },
         "intro": {
           "type": "string"
+        },
+        "missionGoal": {
+          "type": "string"
+        },
+        "negotiationKeep": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "attackReason": {
           "type": "string"
