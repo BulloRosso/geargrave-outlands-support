@@ -759,9 +759,26 @@ are damage variants the game otherwise derives.
 | `loot-vehicle-<skin>-damaged.png` | salvage hall, damaged capture | as the loot image |
 
 Cut-outs **must** have a transparent background (the validator checks). Missing side view,
-hex tile or portrait → the chassis' stock art appears instead. The battle cutaway view
-(the inside of a vehicle) is not moddable yet; it shows the side view.
+hex tile or portrait → the chassis' stock art appears instead.
 Prompts and style: art-guide.md, "Vehicles".
+
+### The battle cutaway (per skin, optional)
+
+Clicking a vehicle in a road battle opens its cutaway: the vehicle sectioned open with its
+crew, spinning wheels, engine and cargo. Without one the panel shows the side view.
+
+| File | What it is |
+|---|---|
+| `cutaway-<skin>.png` | 1536×1024, transparent, left side view facing RIGHT with the side wall cut away; seats empty (the game draws the crew) |
+| `cutaway-<skin>-damaged.png` | optional, the same outline battered; else the intact picture stays |
+| `cutaway_anchors.json` | one entry per skin: frame, wheels, seats, engine, bays, hardpoints, stations — written by the cutaway editor |
+| `wheel-spin-<skin>-<n>.png`, `wheel-spin-<skin>-damaged-<n>.png`, `glow-<skin>-damaged.png` | written by the cutaway editor from your pictures |
+
+Place everything with the **cutaway editor** (`modding/cutaway-editor/` in the support
+repository: open `cutaway-editor.html` in Chrome or Edge, pick the mod folder, Save). Its
+README lists every field of `cutaway_anchors.json`. The validator checks the file, the
+pictures, the wheel sprites and the hull tear. A skin the base game already has a cutaway
+for keeps the game's own.
 
 ---
 

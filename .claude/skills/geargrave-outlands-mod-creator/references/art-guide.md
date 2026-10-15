@@ -183,6 +183,32 @@ without an alpha channel.
 > side windows, lace curtains still inside. A pintle machine gun behind a plate shield on
 > the roof ladder platform, jerry cans and a spare tyre on the rear ladder, sand tyres.
 
+<a id="cutaway"></a>
+### Cutaway (the inside view in battle)
+
+`cutaway-<skin>.png`, 1536×1024. Start from your **side view** placed on a white
+1536×1024 canvas (scaled to fit 1400×900, centred) and let an image editor model redraw
+it, so the cutaway lies exactly over the side view:
+
+> The reference image is a strict side-view sprite of ONE vehicle facing RIGHT on a pure
+> white background. Redraw THAT EXACT vehicle as a museum-quality technical CUTAWAY, like
+> a hand-painted cutaway illustration from a vehicle encyclopedia, but photorealistic.
+> Identical camera, position, scale and outer silhouette as the reference. The near-side
+> body skin is sliced away along a clean cut line, leaving a rim of the original shell
+> all round with a visible cut edge. Wheels, tyres, bumpers and mounted weapons stay
+> uncut and unchanged. Revealed interior, dimly lit with warm light: {what is inside —
+> the driver seat with steering wheel at the front, a bench, the engine, two empty cargo
+> bays}. Every seat and station is EMPTY, no people. Keep the thick black die-cut
+> outline. Pure white background, no ground, no shadow, no text, no labels.
+
+Then remove the white background. For `cutaway-<skin>-damaged.png`, use the cutaway as
+the reference: *"the SAME cutaway, battle-damaged but driveable: a torn-away panel with
+ragged edges, two or three holes through the plating, a bent bumper, scorch streaks;
+wheels, roofline and length exactly as in the reference; seats still empty; no fire."*
+Check that both pictures overlay (same wheel positions); move or scale the damaged one
+if they don't. Place the seats, wheels and the rest with the
+[cutaway editor](../../../../modding/cutaway-editor/README.md).
+
 ## 6. People and factions
 
 **Portrait** (square): "head-and-shoulders portrait of {age, build, clothing, one telling

@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cutaway Anchor Editor</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Barlow+Semi+Condensed:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Geargrave Outlands — cutaway anchor editor. Workshop bench: the cutaway on the
+   drafting board (left), the parts ledger (right). One dark look, like the game's dock.
+   Two ways to run it:
+     dev    python tools/imagegen/cutaway_anchor_editor.py serve   (the game repo; autosaves)
+     mod    open this file in Chrome or Edge, press "Open mod folder", pick levels/<your mod> */
+:root{
+  --ink:#14110d; --panel:#1d1913; --panel2:#262017; --line:#4a3f2e; --dim:#a39a86; --text:#e9dfc9;
+  --brass:#d9a32c; --rust:#c8452f; --olive:#8fa85a; --cyan:#3ee0ff; --magenta:#ff5ad2;
+  --f-display:"Special Elite","Courier New",monospace; --f-body:"Barlow Semi Condensed","Arial Narrow",Arial,sans-serif; --f-data:"JetBrains Mono",Consolas,monospace;
+  color-scheme:dark;
+}
+html,body{height:100%;margin:0}
+[hidden]{display:none!important}
+body{background:var(--ink);color:var(--text);font:14px/1.4 var(--f-body);padding-inline:16px;padding-block:12px;box-sizing:border-box;display:flex;flex-direction:column;gap:10px;min-height:100%}
+h1{font:22px var(--f-display);margin:0;letter-spacing:.02em;color:var(--brass)}
+.top{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
+button,select,input{font:inherit;color:var(--text)}
+button{background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:4px 10px;cursor:pointer}
+button:hover{border-color:var(--brass)}
+button:disabled{opacity:.45;cursor:default}
+button.primary{background:var(--brass);color:var(--ink);border-color:var(--brass);font-weight:600}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:1px}
+button[aria-pressed="true"]{background:var(--brass);color:var(--ink);border-color:var(--brass);font-weight:600}
+select.vehicle{background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:4px 8px;font:13px var(--f-data);max-width:min(360px,90vw)}
+.seg{display:flex;flex-wrap:wrap;gap:4px}
+.chip{font:12px var(--f-data);padding:3px 8px;border-radius:10px;border:1px solid var(--line);color:var(--dim)}
+.chip.ok{color:var(--olive);border-color:var(--olive)}
+.chip.busy{color:var(--brass);border-color:var(--brass)}
+.chip.err{color:var(--rust);border-color:var(--rust)}
+.mode{font:12px var(--f-data);color:var(--dim)}
+main{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:12px;flex:1;min-height:0}
+@media (max-width:900px){main{grid-template-columns:minmax(0,1fr)}}
+.board{display:flex;flex-direction:column;gap:6px;min-width:0;min-height:0}
+.tools{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;font-size:13px}
+.tools label{display:flex;gap:5px;align-items:center;color:var(--dim);cursor:pointer}
+.wrap{position:relative;overflow:auto;border:1px solid var(--line);border-radius:4px;background:repeating-conic-gradient(#221d16 0 25%,#1a1611 0 50%) 0 0/24px 24px;min-height:360px;flex:1;max-height:calc(100vh - 150px)}
+canvas{display:block;cursor:crosshair}
+.status{font:12px var(--f-data);color:var(--dim);display:flex;gap:14px;flex-wrap:wrap}
+.status b{color:var(--text);font-weight:600}
+aside{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:10px 12px;display:flex;flex-direction:column;gap:12px;overflow:auto;max-height:calc(100vh - 120px);min-width:0}
+.sec h2{font:13px var(--f-display);color:var(--brass);margin:0 0 6px;letter-spacing:.06em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;gap:6px}
+.sec h2 button{font:12px var(--f-body);padding:1px 8px}
+.list{display:flex;flex-direction:column;gap:2px}
+.item{display:flex;justify-content:space-between;gap:8px;padding:3px 6px;border-radius:3px;cursor:pointer;font:12px var(--f-data);color:var(--dim);border:1px solid transparent}
+.item:hover{border-color:var(--line)}
+.item.sel{border-color:var(--cyan);color:var(--text)}
+.item.locked{font-style:italic}
+.empty{color:var(--dim);font-size:12.5px}
+.props{display:grid;grid-template-columns:auto 1fr;gap:4px 8px;align-items:center;font-size:12.5px}
+.props label{color:var(--dim)}
+.props input,.props select{background:var(--ink);border:1px solid var(--line);border-radius:3px;padding:2px 6px;font:12px var(--f-data);min-width:0;width:100%;box-sizing:border-box}
+.nums{display:flex;gap:4px;min-width:0}
+.nums input{width:0;flex:1}
+textarea{width:100%;box-sizing:border-box;min-height:140px;background:var(--ink);color:var(--text);border:1px solid var(--line);border-radius:3px;font:11px/1.35 var(--f-data);resize:vertical}
+.row{display:flex;gap:6px;flex-wrap:wrap}
+.help{font-size:12px;color:var(--dim);line-height:1.45}
+.help kbd{font:11px var(--f-data);border:1px solid var(--line);border-radius:3px;padding:0 4px;color:var(--text)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--dim)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.start{margin:auto;max-width:620px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:20px 24px;display:flex;flex-direction:column;gap:10px}
+.start h2{font:18px var(--f-display);color:var(--brass);margin:0}
+.start p{margin:0;color:var(--dim)}
+.start code{font:12.5px var(--f-data);color:var(--text)}
+</style>
+</head>
+<body>
+<div class="top">
+  <h1>Cutaway Anchor Editor</h1>
+  <select class="vehicle" id="pick" aria-label="Vehicle" hidden></select>
+  <button id="openFolder" hidden>Open mod folder</button>
+  <button id="saveBtn" class="primary" hidden>Save</button>
+  <span class="chip" id="save">Starting…</span>
+  <span class="mode" id="mode"></span>
+</div>
+
+<div class="start" id="startPanel" hidden>
+  <h2>Open your mod folder</h2>
+  <p>Pick the mod's own folder (the one with <code>level.json</code>). The editor reads the cutaway pictures from its <code>assets</code> folder and saves <code>assets/cutaway_anchors.json</code> and the wheel sprites back into it.</p>
+  <p>Each vehicle skin needs <code>assets/cutaway-&lt;skin&gt;.png</code> (1536×1024, transparent background). A <code>cutaway-&lt;skin&gt;-damaged.png</code> drawn over the same outline is optional.</p>
+  <p id="noFsa" hidden style="color:var(--rust)">This browser cannot open folders. Use Chrome or Edge on a desktop computer.</p>
+  <div class="row"><button class="primary" id="openFolder2">Open mod folder</button></div>
+</div>
+
+<main id="mainUi" hidden>
+  <section class="board">
+    <div class="tools">
+      <div class="seg">
+        <button id="stIntact" aria-pressed="true">Intact</button>
+        <button id="stDamaged" aria-pressed="false">Damaged</button>
+      </div>
+      <div class="seg">
+        <button id="bdHuman" aria-pressed="true">Human crew</button>
+        <button id="bdRobot" aria-pressed="false">Robot crew</button>
+      </div>
+      <div class="seg">
+        <button id="zFit">Fit</button>
+        <button id="z1">100%</button>
+        <button id="z2">200%</button>
+      </div>
+      <label><input type="checkbox" id="optSpin" checked> Spin preview</label>
+      <label><input type="checkbox" id="optFig" checked> Figures</label>
+      <label><input type="checkbox" id="optBand" checked> Game crop</label>
+      <label><input type="checkbox" id="optHud" checked> Markers</label>
+    </div>
+    <div class="wrap" id="wrap"><canvas id="cv"></canvas></div>
+    <div class="status"><span>cursor <b id="cur">–</b></span><span>selected <b id="selName">nothing</b></span><span id="hint"></span></div>
+  </section>
+
+  <aside>
+    <div class="sec"><h2>Selected</h2><div id="props" class="empty">Click a marker on the picture or an entry below.</div></div>
+    <div class="sec"><h2>Frame</h2><div class="list" id="lFrame"></div></div>
+    <div class="sec"><h2>Wheels <button id="addWheel">+ wheel</button></h2><div class="list" id="lWheels"></div></div>
+    <div class="sec"><h2>Seats <button id="addSeat">+ seat</button></h2><div class="list" id="lSeats"></div></div>
+    <div class="sec"><h2>Engine &amp; damage <button id="addSpark">+ spark</button></h2><div class="list" id="lEngine"></div></div>
+    <div class="sec"><h2>Bays <button id="addBay">+ bay</button></h2><div class="list" id="lBays"></div></div>
+    <div class="sec"><h2>Hardpoints <button id="addHp">+ pin</button></h2><div class="list" id="lHp"></div></div>
+    <div class="sec"><h2>Stations &amp; links</h2><div class="list" id="lLinks"></div></div>
+    <div class="sec">
+      <h2>Check</h2><div class="list" id="lCheck"></div>
+    </div>
+    <div class="sec">
+      <h2>Anchor JSON</h2>
+      <textarea id="json" readonly aria-label="Anchor JSON for this vehicle"></textarea>
+      <div class="row" style="margin-top:6px"><button id="copy">Copy</button><button id="undo">Undo</button><button id="revert">Revert to saved</button></div>
+    </div>
+    <div class="sec help">
+      <h2>How to use</h2>
+      Drag any marker. Drag a seat's figure to move it, its lower-right corner to resize, the cyan dot to place the portrait disc, the red line for the cut rim in front of the seat (it hides the legs). Drag a wheel's centre, or its ring handle for the radius: line the ring up with the <b>tyre outline</b>, not the hub cap. With <i>Spin preview</i> on you see the blurred wheel exactly as the game draws it; a smeared rim means the ring is off.
+      <br><kbd>←↑→↓</kbd> nudge 1 · <kbd>Shift</kbd> 10 · <kbd>Del</kbd> remove · <kbd>Ctrl Z</kbd> undo · <kbd>Ctrl S</kbd> save · <kbd>Esc</kbd> deselect · <kbd>Ctrl</kbd>+wheel zoom.
+      <div class="legend" style="margin-top:6px"><span><i style="background:var(--magenta)"></i>wheels</span><span><i style="background:var(--cyan)"></i>seats</span><span><i style="background:var(--brass)"></i>engine, pins</span><span><i style="background:var(--rust)"></i>damage, cut rims</span><span><i style="background:var(--olive)"></i>frame</span></div>
+    </div>
+  </aside>
+</main>
+
+<script>
+(() => {
+const POSES = ["driver","seated","gunner","kneel"];
+// pose canvas size + head centre in canvas px (crew-<pose>-<body>.png)
+const SPRITE = {"driver-robot":[153.9,83.1,439,721],"driver-m1":[156.4,83.2,439,721],"seated-robot":[153.4,95.0,402,752],"seated-m1":[147.5,94.9,402,752],"gunner-robot":[162.5,89.5,478,885],"gunner-m1":[152.6,90.6,478,885],"kneel-robot":[260.7,99.6,553,701],"kneel-m1":[245.2,99.4,553,701]};
+const W = 1536, H = 1024;
+const $ = id => document.getElementById(id);
+const cv = $("cv"), ctx = cv.getContext("2d"), wrap = $("wrap");
+
+// ---------------------------------------------------------------- backends
+// dev: the repo's python server (/api). folder: File System Access on a mod folder.
+const B = {
+  kind: null, stems: [], dir: null, assets: null, fileJson: {}, urls: {},
+  artUrl(stem, dmg){ const n=`cutaway-${stem}${dmg?"-damaged":""}.png`; return this.kind==="dev" ? `art/${n}` : this.urls[n]; },
+  crewUrl(pose, body){ return `crew/crew-${pose}-${body}.png`; },
+};
+async function detect(){
+  if (location.protocol.startsWith("http")){
+    try { const r = await fetch("api/stems", {cache:"no-store"}); if (r.ok){ B.kind="dev"; B.stems = await r.json(); return true; } } catch {}
+  }
+  return false;
+}
+async function openFolder(){
+  if (!window.showDirectoryPicker){ $("noFsa").hidden=false; return; }
+  let dir; try { dir = await window.showDirectoryPicker({mode:"readwrite", id:"gg-mod"}); } catch { return; }
+  let assets; try { assets = await dir.getDirectoryHandle("assets"); }
+  catch { setChip("No assets folder in "+dir.name,"err"); return; }
+  B.kind="folder"; B.dir=dir; B.assets=assets; B.urls={}; B.stems=[];
+  for await (const [name, h] of assets.entries()){
+    if (h.kind!=="file") continue;
+    if (/^cutaway-[a-z0-9_-]+\.png$/i.test(name)) B.urls[name] = URL.createObjectURL(await h.getFile());
+  }
+  try { B.fileJson = JSON.parse(await (await (await assets.getFileHandle("cutaway_anchors.json")).getFile()).text()); }
+  catch { B.fileJson = {}; }
+  for (const n of Object.keys(B.urls)){ const m=n.match(/^cutaway-(.+)\.png$/i); if (m && !m[1].endsWith("-damaged")) B.stems.push({id:m[1], anchored:!!B.fileJson[m[1]], edited:false, tuning:{}}); }
+  B.stems.sort((a,b)=>a.id.localeCompare(b.id));
+  if (!B.stems.length){ setChip("No cutaway-<skin>.png in "+dir.name+"/assets","err"); return; }
+  for (const s of B.stems) if (B.fileJson[s.id]) data[s.id] = normalize(B.fileJson[s.id]);
+  $("mode").textContent = `mod folder: ${dir.name}`;
+  start();
+}
+async function loadEntry(stem){
+  if (data[stem]) return;
+  if (B.kind==="dev"){ const r = await fetch(`api/anchor/${stem}`, {cache:"no-store"}); const j = await r.json(); if (j.entry) data[stem] = normalize(j.entry); }
+  if (data[stem]) savedJson[stem] = JSON.stringify(exportEntry(data[stem]));
+}
+
+// ---------------------------------------------------------------- state
+const st = { stem:null, stage:"intact", body:"m1", z:0, sel:null, drag:null };
+const data = {}, savedJson = {}, undoStack = [];
+const imgs = {};
+function img(src){ if(!src) return null; if(!imgs[src]){ const i=new Image(); i.onload=()=>draw(); i.src=src; imgs[src]=i; } return imgs[src]; }
+const r1 = v => Math.round(v*10)/10, ri = v => Math.round(v);
+function entry(){ return data[st.stem]; }
+function tuning(){ return (B.stems.find(s=>s.id===st.stem)||{}).tuning || {}; }
+function normalize(e){
+  e = JSON.parse(JSON.stringify(e));
+  const d = { top:100, ground:900, left:0, right:W, wheels:[], wheelRadius:100, engine:[], engineSmoke:[0,0], engineSparks:[], hullTear:[0,0], bays:[], hardpoints:[], seats:[], stations:{}, weaponCard:[0,0], weaponLink:[], driveLink:[] };
+  for (const k in d) if (e[k]===undefined) e[k]=d[k];
+  if (!Array.isArray(e.wheelRadii) || e.wheelRadii.length!==e.wheels.length) e.wheelRadii = e.wheels.map(()=>e.wheelRadius);
+  return e;
+}
+function blank(stem){
+  const b = bboxOf(stem) || [100,150,1430,860];
+  return normalize({ top:Math.max(0,b[1]-20), ground:b[3], left:Math.max(0,b[0]-70), right:Math.min(W,b[2]+40) });
+}
+const bboxCache = {};
+function bboxOf(stem){
+  if (bboxCache[stem]) return bboxCache[stem];
+  const i = imgs[B.artUrl(stem,false)]; if(!i || !i.complete || !i.naturalWidth) return null;
+  const c=document.createElement("canvas"); c.width=W; c.height=H; const g=c.getContext("2d"); g.drawImage(i,0,0,W,H);
+  let d; try { d=g.getImageData(0,0,W,H).data; } catch { return null; }
+  let x0=W,y0=H,x1=0,y1=0;
+  for(let y=0;y<H;y+=2) for(let x=0;x<W;x+=2) if(d[(y*W+x)*4+3]>40){ if(x<x0)x0=x; if(x>x1)x1=x; if(y<y0)y0=y; if(y>y1)y1=y; }
+  return bboxCache[stem]=[x0,y0,x1,y1];
+}
+function syncRadius(e){ if(e.wheelRadii.length) e.wheelRadius = ri(e.wheelRadii.reduce((a,b)=>a+b,0)/e.wheelRadii.length); }
+function pushUndo(){ undoStack.push({stem:st.stem, json:JSON.stringify(entry())}); if(undoStack.length>300) undoStack.shift(); }
+const canvasW = p => SPRITE[`${p}-m1`][2], canvasH = p => SPRITE[`${p}-m1`][3];
+function headFor(pose, fig){ const s=SPRITE[`${pose}-${st.body}`]; const k=fig[2]/s[2]; return [ri(fig[0]+s[0]*k), ri(fig[1]+s[1]*k)]; }
+function discDiam(e){ return 0.1164*(e.ground-e.top); }        // CutawayView: 5.85 cqw at the band's scale
+// a seat with hand tuning (cutaway_tuning.json) is drawn tuned and locked
+function shown(s){
+  const t = tuning()[s.key]; if (!t) return s;
+  const k=Math.min(5,Math.max(.2,t.scale??1)), [fx,fy,fw,fh]=s.figure, px=fx+fw/2, py=fy+fh/2, dx=t.dx||0, dy=t.dy||0;
+  return {...s, figure:[px+(fx-px)*k+dx, py+(fy-py)*k+dy, fw*k, fh*k], head:[px+(s.head[0]-px)*k+dx+(t.hx||0), py+(s.head[1]-py)*k+dy+(t.hy||0)], clipY: t.clip>0?t.clip:s.clipY, locked:true};
+}
+
+// ---------------------------------------------------------------- saving
+let saveTimer=null, saving=Promise.resolve();
+function setChip(text, cls){ const c=$("save"); c.textContent=text; c.className="chip "+(cls||""); }
+function dirty(){ return Object.keys(data).filter(s => JSON.stringify(exportEntry(data[s])) !== savedJson[s]); }
+function changed(){
+  renderSide(); draw();
+  if (B.kind==="dev"){ clearTimeout(saveTimer); setChip("Unsaved changes","busy"); saveTimer=setTimeout(saveDev,600); }
+  else setChip(dirty().length ? `Unsaved: ${dirty().join(", ")} — press Save` : "Saved", dirty().length?"busy":"ok");
+}
+function saveDev(){
+  const stem=st.stem, body=JSON.stringify({entry:exportEntry(entry())});
+  saving = saving.then(()=>fetch(`api/anchor/${stem}`,{method:"PUT",headers:{"Content-Type":"application/json"},body}))
+    .then(r=>{ if(!r.ok) throw new Error(r.status); savedJson[stem]=JSON.parse(body).entry && JSON.stringify(JSON.parse(body).entry); markEdited(stem);
+      setChip("Saved to cutaway_anchor_edits.json — run apply to update the game","ok"); })
+    .catch(e=>setChip("Not saved — is the server still running? ("+e.message+")","err"));
+}
+function markEdited(stem){ const s=B.stems.find(s=>s.id===stem); if(s && !s.edited){ s.edited=true; renderPick(); } }
+async function saveFolder(){
+  const stems = dirty(); if (!stems.length){ setChip("Nothing to save","ok"); return; }
+  setChip("Saving…","busy");
+  try {
+    let json = {}; try { json = JSON.parse(await (await (await B.assets.getFileHandle("cutaway_anchors.json")).getFile()).text()); } catch {}
+    for (const stem of stems){
+      const e = data[stem], out = exportEntry(e);
+      // wheel sprites: the game's rotation blur, cut from each stage's picture
+      for (const dmg of [false,true]){
+        const src = B.artUrl(stem, dmg); if (!src) continue;
+        const im = imgs[src]; if (!im || !im.complete) await new Promise(r=>{ img(src).onload=r; });
+        for (let i=0;i<e.wheels.length;i++){
+          const sp = spinCanvas(imgs[src], e.wheels[i][0], e.wheels[i][1], e.wheelRadii[i], true);
+          const blob = await new Promise(r=>sp.c.toBlob(r,"image/png"));
+          await writeFile(`wheel-spin-${stem}${dmg?"-damaged":""}-${i}.png`, blob);
+        }
+        for (let i=e.wheels.length;;i++){ try { await B.assets.removeEntry(`wheel-spin-${stem}${dmg?"-damaged":""}-${i}.png`); } catch { break; } }
+      }
+      // the damage glow the game lays under a hurt hull: the outline, softly blurred
+      const gsrc = B.artUrl(stem,true) || B.artUrl(stem,false);
+      await writeFile(`glow-${stem}-damaged.png`, await new Promise(r=>glowCanvas(imgs[gsrc]).toBlob(r,"image/png")));
+      json[stem] = out; savedJson[stem] = JSON.stringify(out);
+    }
+    await writeFile("cutaway_anchors.json", new Blob([pretty(json)],{type:"application/json"}));
+    B.fileJson = json; setChip(`Saved ${stems.length} vehicle(s) to assets/cutaway_anchors.json`,"ok");
+  } catch (err){ setChip("Not saved — "+(err.message||err),"err"); }
+}
+// tools/imagegen/cutaway_pipeline.glow_mask: white, alpha = 0.55·blur10 + 0.5·blur32 + 0.55·blur80
+// of the picture's outline, on a canvas 200 px larger on every side
+function glowCanvas(im){
+  const sil=document.createElement("canvas"); sil.width=W+400; sil.height=H+400;
+  const s=sil.getContext("2d"); s.drawImage(im,200,200,W,H); s.globalCompositeOperation="source-in"; s.fillStyle="#fff"; s.fillRect(0,0,sil.width,sil.height);
+  const c=document.createElement("canvas"); c.width=sil.width; c.height=sil.height; const g=c.getContext("2d");
+  g.globalCompositeOperation="lighter";
+  for (const [b,a] of [[10,.55],[32,.5],[80,.55]]){ g.filter=`blur(${b}px)`; g.globalAlpha=a; g.drawImage(sil,0,0); }
+  return c;
+}
+async function writeFile(name, blob){ const fh = await B.assets.getFileHandle(name,{create:true}); const w = await fh.createWritable(); await w.write(blob); await w.close(); }
+function pretty(o){   // one line per number list and per seat, like the game's own file
+  return JSON.stringify(o,null,4).replace(/\[\s+([-\d.,\s]+?)\s+\]/g,(m,a)=>"["+a.split(/,\s*/).map(s=>s.trim()).join(", ")+"]")
+    .replace(/\[\s+(\[[-\d., ]+\](?:,\s+\[[-\d., ]+\])*)\s+\]/g,(m,a)=>"["+a.split(/\],\s+\[/).join("], [")+"]")+"\n";
+}
+
+// ---------------------------------------------------------------- view geometry
+function fitZoom(){ return Math.max(0.2,(wrap.clientWidth-2)/W); }
+function z(){ return st.z || fitZoom(); }
+function resize(){ const k=z(); cv.width=Math.round(W*k*devicePixelRatio); cv.height=Math.round(H*k*devicePixelRatio); cv.style.width=Math.round(W*k)+"px"; cv.style.height=Math.round(H*k)+"px"; draw(); }
+function toImg(ev){ const r=cv.getBoundingClientRect(); return [(ev.clientX-r.left)/z(), (ev.clientY-r.top)/z()]; }
+
+// ---------------------------------------------------------------- handles
+function handles(){
+  const e = entry(); if(!e) return [];
+  const hs = [];
+  const P = (key,label,arr,color) => hs.push({key,label,kind:"pt",color,get:()=>arr(),set:(x,y)=>{const a=arr(); a[0]=ri(x); a[1]=ri(y);}});
+  e.seats.forEach((s,i) => {
+    if (tuning()[s.key]) return;      // locked: tuned in the game
+    hs.push({key:"seat:"+i, label:`seat ${s.key}`, kind:"fig", i});
+    hs.push({key:"seatR:"+i, label:`seat ${s.key} size`, kind:"pt", color:"--cyan", get:()=>[s.figure[0]+s.figure[2], s.figure[1]+s.figure[3]],
+      set:(x)=>{ const w=Math.max(20,x-s.figure[0]), k=w/canvasW(s.pose); s.figure[2]=r1(w); s.figure[3]=r1(canvasH(s.pose)*k); }});
+    if (s.clipY>0) hs.push({key:"clip:"+i, label:`seat ${s.key} cut rim`, kind:"h", color:"--rust", get:()=>[s.figure[0]+s.figure[2]/2,s.clipY], set:(x,y)=>{s.clipY=ri(y);}, x0:()=>s.figure[0]-12, x1:()=>s.figure[0]+s.figure[2]+12});
+    hs.push({key:"head:"+i, label:`seat ${s.key} disc`, kind:"pt", color:"--cyan", get:()=>s.head, set:(x,y)=>{s.head[0]=ri(x); s.head[1]=ri(y);}});
+  });
+  hs.push({key:"top", label:"top", kind:"h", color:"--olive", get:()=>[W/2,e.top], set:(x,y)=>{e.top=ri(y);}});
+  if (e.topWithCard!=null) hs.push({key:"topWithCard", label:"top with card", kind:"h", color:"--olive", get:()=>[W/2,e.topWithCard], set:(x,y)=>{e.topWithCard=ri(y);}});
+  hs.push({key:"ground", label:"ground", kind:"h", color:"--olive", get:()=>[W/2,e.ground], set:(x,y)=>{e.ground=ri(y);}});
+  hs.push({key:"left", label:"left", kind:"v", color:"--olive", get:()=>[e.left,H/2], set:(x)=>{e.left=ri(x);}});
+  hs.push({key:"right", label:"right", kind:"v", color:"--olive", get:()=>[e.right,H/2], set:(x)=>{e.right=ri(x);}});
+  if (e.engine.length===4){
+    hs.push({key:"engine", label:"engine", kind:"rect", color:"--brass", rect:()=>e.engine});
+    hs.push({key:"engineR", label:"engine size", kind:"pt", color:"--brass", get:()=>[e.engine[0]+e.engine[2],e.engine[1]+e.engine[3]], set:(x,y)=>{e.engine[2]=ri(Math.max(10,x-e.engine[0])); e.engine[3]=ri(Math.max(10,y-e.engine[1]));}});
+  }
+  e.bays.forEach((b,i)=>{
+    hs.push({key:"bay:"+i, label:`bay ${i+1}`, kind:"rect", color:"--brass", rect:()=>b});
+    hs.push({key:"bayR:"+i, label:`bay ${i+1} size`, kind:"pt", color:"--brass", get:()=>[b[0]+b[2],b[1]+b[3]], set:(x,y)=>{b[2]=ri(Math.max(10,x-b[0])); b[3]=ri(Math.max(10,y-b[1]));}});
+  });
+  if (e.engineSmoke[0]||e.engineSmoke[1]) P("smoke","engine smoke",()=>e.engineSmoke,"--rust");
+  e.engineSparks.forEach((p,i)=>P("spark:"+i,`spark ${i+1}`,()=>p,"--rust"));
+  if (e.hullTear[0]||e.hullTear[1]) P("tear","hull tear",()=>e.hullTear,"--rust");
+  e.hardpoints.forEach((p,i)=>P("hp:"+i,`pin ${i+1}`,()=>p,"--brass"));
+  for (const k of Object.keys(e.stations)) P("station:"+k, k==="drive"?"WHEEL station":"ENGINE station", ()=>e.stations[k], "--brass");
+  if (e.weaponCard[0]||e.weaponCard[1]) P("card","weapon card",()=>e.weaponCard,"--brass");
+  e.weaponLink.forEach((p,i)=>P("wl:"+i,`gunner link ${["from","bend","to"][i]}`,()=>p,"--brass"));
+  e.driveLink.forEach((p,i)=>P("dl:"+i,`driver link ${["from","bend","to"][i]}`,()=>p,"--brass"));
+  if (!e.tracked) e.wheels.forEach((w,i)=>{
+    hs.push({key:"wheel:"+i, label:`wheel ${i+1}`, kind:"pt", color:"--magenta", get:()=>w, set:(x,y)=>{w[0]=ri(x); w[1]=ri(y);}});
+    hs.push({key:"wheelR:"+i, label:`wheel ${i+1} radius`, kind:"pt", color:"--magenta", get:()=>[w[0]+e.wheelRadii[i],w[1]], set:(x,y)=>{ e.wheelRadii[i]=ri(Math.max(8,Math.hypot(x-w[0],y-w[1]))); syncRadius(e); }});
+  });
+  return hs;
+}
+function hit(x,y){
+  const tol=9/z(), hs=handles();
+  for (let i=hs.length-1;i>=0;i--){
+    const h=hs[i];
+    if (h.kind==="pt"){ const [px,py]=h.get(); if (Math.hypot(px-x,py-y)<=tol*1.2) return h; }
+    else if (h.kind==="h"){ const [,py]=h.get(); const x0=h.x0?h.x0():0, x1=h.x1?h.x1():W; if (Math.abs(py-y)<=tol && x>=x0 && x<=x1) return h; }
+    else if (h.kind==="v"){ const [px]=h.get(); if (Math.abs(px-x)<=tol) return h; }
+  }
+  const e=entry();
+  if (!e.tracked) for (let i=e.wheels.length-1;i>=0;i--){ const w=e.wheels[i]; if (Math.hypot(w[0]-x,w[1]-y)<e.wheelRadii[i]*0.6) return hs.find(h=>h.key==="wheel:"+i); }
+  for (let i=e.seats.length-1;i>=0;i--){ const f=e.seats[i].figure; if (x>=f[0]&&x<=f[0]+f[2]&&y>=f[1]&&y<=f[1]+f[3]){ const h=hs.find(h=>h.key==="seat:"+i); if (h) return h; } }
+  for (const h of hs) if (h.kind==="rect"){ const r=h.rect(); if (x>=r[0]&&x<=r[0]+r[2]&&y>=r[1]&&y<=r[1]+r[3]) return h; }
+  return null;
+}
+function moveBy(h,dx,dy){
+  const e=entry();
+  if (h.kind==="fig"){ const s=e.seats[h.i]; s.figure[0]=r1(s.figure[0]+dx); s.figure[1]=r1(s.figure[1]+dy); s.head[0]=ri(s.head[0]+dx); s.head[1]=ri(s.head[1]+dy); if(s.clipY>0) s.clipY=ri(s.clipY+dy); return; }
+  if (h.kind==="rect"){ const r=h.rect(); r[0]=ri(r[0]+dx); r[1]=ri(r[1]+dy); return; }
+  const [x,y]=h.get(); h.set(x+dx,y+dy);
+}
+
+// ---------------------------------------------------------------- drawing
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const spinCache = new Map();
+// the game's wheel spin (tools/imagegen/cutaway_pipeline.spin): the wheel's own pixels,
+// rotation-averaged over ±26°, in a disc of radius r+2 with a 4-unit soft rim
+function spinCanvas(im, x, y, r, fresh){
+  const key=`${im.src}|${x}|${y}|${r}`;
+  if (!fresh && spinCache.has(key)) return spinCache.get(key);
+  const R=Math.max(6,Math.round(r+4)-2), S=2*R, c=document.createElement("canvas"); c.width=S; c.height=S;
+  const g=c.getContext("2d"), angs=[]; for(let a=-26;a<=26;a+=2) angs.push(a);
+  g.globalCompositeOperation="lighter"; g.globalAlpha=1/angs.length;
+  for (const a of angs){ g.save(); g.translate(R,R); g.rotate(a*Math.PI/180); g.drawImage(im,-x,-y); g.restore(); }
+  g.globalCompositeOperation="destination-in"; g.globalAlpha=1; g.filter="blur(2px)";
+  g.beginPath(); g.arc(R,R,R-4,0,Math.PI*2); g.fill(); g.filter="none";
+  const out={c,R}; if(!fresh){ spinCache.set(key,out); if(spinCache.size>64) spinCache.delete(spinCache.keys().next().value); }
+  return out;
+}
+function draw(){
+  const k=z(), dpr=devicePixelRatio;
+  ctx.setTransform(1,0,0,1,0,0); ctx.clearRect(0,0,cv.width,cv.height);
+  if (!st.stem) return;
+  ctx.setTransform(k*dpr,0,0,k*dpr,0,0);
+  const artSrc = B.artUrl(st.stem, st.stage==="damaged") || B.artUrl(st.stem,false);
+  const art = img(artSrc);
+  if (art && art.complete) ctx.drawImage(art,0,0,W,H);
+  const e=entry(); if(!e) return;
+  const lw=1/k;
+  if ($("optFig").checked) e.seats.forEach(s0=>{
+    const s=shown(s0), sp=img(B.crewUrl(s.pose, st.body)); if(!sp||!sp.complete||!sp.naturalWidth) return;
+    ctx.save(); if (s.clipY>0){ ctx.beginPath(); ctx.rect(s.figure[0]-50,s.figure[1]-50,s.figure[2]+100,s.clipY-s.figure[1]+50); ctx.clip(); }
+    ctx.drawImage(sp,s.figure[0],s.figure[1],s.figure[2],s.figure[3]); ctx.restore();
+  });
+  if ($("optSpin").checked && !e.tracked && art && art.complete && !(st.drag && st.drag.h.key.startsWith("wheel")))
+    e.wheels.forEach((w,i)=>{ const sp=spinCanvas(art,w[0],w[1],e.wheelRadii[i]); ctx.drawImage(sp.c,w[0]-sp.R,w[1]-sp.R); });
+  if ($("optBand").checked){
+    ctx.fillStyle="rgba(10,8,6,.55)"; const t=e.top;
+    ctx.fillRect(0,0,W,t); ctx.fillRect(0,e.ground,W,H-e.ground); ctx.fillRect(0,t,e.left,e.ground-t); ctx.fillRect(e.right,t,W-e.right,e.ground-t);
+  }
+  if (!$("optHud").checked) return;
+  const sel=st.sel, olive=css("--olive"), brass=css("--brass"), rust=css("--rust"), cyan=css("--cyan"), mag=css("--magenta");
+  const label=(txt,x,y,col)=>{ ctx.font=`${11/k}px "JetBrains Mono", Consolas, monospace`; const w=ctx.measureText(txt).width+8/k; ctx.fillStyle="rgba(20,17,13,.88)"; ctx.fillRect(x,y-14/k,w,16/k); ctx.fillStyle=col; ctx.fillText(txt,x+4/k,y-2/k); };
+  const line=(x0,y0,x1,y1,col,w,dash)=>{ ctx.save(); ctx.strokeStyle=col; ctx.lineWidth=w*lw; if(dash) ctx.setLineDash(dash.map(d=>d*lw)); ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x1,y1); ctx.stroke(); ctx.restore(); };
+  line(0,e.top,W,e.top,olive,sel==="top"?2.5:1.2,[8,5]); label("top "+e.top,6/k,e.top-2/k,olive);
+  if (e.topWithCard!=null){ line(0,e.topWithCard,W,e.topWithCard,olive,sel==="topWithCard"?2.5:1,[3,5]); label("top w/ card "+e.topWithCard,6/k,e.topWithCard-2/k,olive); }
+  line(0,e.ground,W,e.ground,olive,sel==="ground"?2.5:1.5); label("ground "+e.ground,6/k,e.ground-2/k,olive);
+  line(e.left,0,e.left,H,olive,sel==="left"?2.5:1.2,[8,5]); line(e.right,0,e.right,H,olive,sel==="right"?2.5:1.2,[8,5]);
+  const rect=(r,col,on,txt)=>{ ctx.save(); ctx.strokeStyle=col; ctx.lineWidth=(on?2.5:1.4)*lw; ctx.setLineDash([6*lw,4*lw]); ctx.strokeRect(r[0],r[1],r[2],r[3]); ctx.restore(); label(txt,r[0],r[1]-3/k,col); };
+  if (e.engine.length===4) rect(e.engine,brass,sel==="engine","engine");
+  e.bays.forEach((b,i)=>rect(b,brass,sel==="bay:"+i,"bay "+(i+1)));
+  const bez=(p)=>{ if(p.length!==3) return; ctx.save(); ctx.strokeStyle=brass; ctx.lineWidth=2*lw; ctx.setLineDash([6*lw,5*lw]); ctx.beginPath(); ctx.moveTo(...p[0]); ctx.quadraticCurveTo(...p[1],...p[2]); ctx.stroke(); ctx.restore(); };
+  bez(e.weaponLink); bez(e.driveLink);
+  const dd=discDiam(e);
+  e.seats.forEach((s0,i)=>{
+    const s=shown(s0), on=sel && sel.endsWith(":"+i) && /^(seat|seatR|clip|head):/.test(sel);
+    ctx.save(); ctx.strokeStyle=cyan; ctx.lineWidth=(on?2:1)*lw; if(!on) ctx.globalAlpha=.6; if(s.locked) ctx.setLineDash([3*lw,3*lw]); ctx.strokeRect(...s.figure); ctx.restore();
+    ctx.save(); ctx.strokeStyle=brass; ctx.lineWidth=2*lw; ctx.beginPath(); ctx.arc(s.head[0],s.head[1],dd/2,0,Math.PI*2); ctx.stroke(); ctx.restore();
+    if (s.clipY>0) line(s.figure[0]-12,s.clipY,s.figure[0]+s.figure[2]+12,s.clipY,rust,on?2.5:1.6);
+    label(`${s.key} · ${s.pose}${s.locked?" · tuned in game":""}`,s.figure[0],s.figure[1]-3/k,cyan);
+  });
+  if (!e.tracked) e.wheels.forEach((w,i)=>{
+    const r=e.wheelRadii[i], on=sel==="wheel:"+i||sel==="wheelR:"+i;
+    ctx.save(); ctx.strokeStyle=mag; ctx.lineWidth=(on?2.5:1.5)*lw; ctx.beginPath(); ctx.arc(w[0],w[1],r,0,Math.PI*2); ctx.stroke(); ctx.restore();
+    label(`w${i+1} r${r}`,w[0]-r,w[1]-r-3/k,mag);
+  });
+  for (const h of handles()){
+    if (h.kind!=="pt") continue;
+    const [x,y]=h.get(), col=css(h.color), on=sel===h.key;
+    ctx.save(); ctx.fillStyle=col; ctx.strokeStyle="#000"; ctx.lineWidth=1.5*lw; ctx.beginPath(); ctx.arc(x,y,(on?6.5:4.5)/k,0,Math.PI*2); ctx.fill(); ctx.stroke(); ctx.restore();
+    if (/^(hp|spark|station|card|smoke|tear)/.test(h.key)) label(h.label,x+7/k,y-5/k,col);
+  }
+}
+
+// ---------------------------------------------------------------- side panel
+const fmt = a => a.map(v=>Math.round(v)).join(", ");
+function item(list,key,text,val,locked){
+  const d=document.createElement("div"); d.className="item"+(st.sel===key?" sel":"")+(locked?" locked":""); d.tabIndex=0;
+  const a=document.createElement("span"), b=document.createElement("span"); a.textContent=text; b.textContent=val; d.append(a,b);
+  d.onclick=()=>{ if(locked) return; st.sel=key; renderSide(); draw(); scrollToSel(key); };
+  d.onkeydown=ev=>{ if(ev.key==="Enter") d.onclick(); };
+  list.appendChild(d);
+}
+function scrollToSel(key){
+  const h=handles().find(h=>h.key===key); if(!h) return; let x,y;
+  if (h.kind==="fig"){ const f=entry().seats[h.i].figure; x=f[0]+f[2]/2; y=f[1]+f[3]/2; } else if (h.kind==="rect"){ const r=h.rect(); x=r[0]+r[2]/2; y=r[1]+r[3]/2; } else [x,y]=h.get();
+  const k=z(); wrap.scrollTo({left:x*k-wrap.clientWidth/2, top:y*k-wrap.clientHeight/2, behavior:"smooth"});
+}
+function ensure(){ if(!data[st.stem]) data[st.stem]=blank(st.stem); return data[st.stem]; }
+function viewCentre(){ const k=z(); return [Math.min(W-50,(wrap.scrollLeft+wrap.clientWidth/2)/k), Math.min(H-50,(wrap.scrollTop+wrap.clientHeight/2)/k)]; }
+function renderSide(){
+  const e=entry();
+  for (const id of ["lFrame","lWheels","lSeats","lEngine","lBays","lHp","lLinks","lCheck"]) $(id).innerHTML="";
+  $("selName").textContent = st.sel ? ((handles().find(h=>h.key===st.sel)||{}).label||"nothing") : "nothing";
+  renderProps();
+  if (!e){ $("json").value=""; $("lWheels").innerHTML='<div class="empty">No anchors for this vehicle yet. Press “+ wheel” or “+ seat” to start.</div>'; return; }
+  item($("lFrame"),"top","top",e.top); if(e.topWithCard!=null) item($("lFrame"),"topWithCard","top with card",e.topWithCard);
+  item($("lFrame"),"ground","ground",e.ground); item($("lFrame"),"left","left",e.left); item($("lFrame"),"right","right",e.right);
+  if (e.tracked) $("lWheels").innerHTML='<div class="empty">Tracked hull: no spinning wheels.</div>';
+  else if (e.wheels.length) e.wheels.forEach((w,i)=>item($("lWheels"),"wheel:"+i,`wheel ${i+1}`,`${fmt(w)} r${e.wheelRadii[i]}`));
+  else $("lWheels").innerHTML='<div class="empty">No wheels. Add one per tyre.</div>';
+  if (e.seats.length) e.seats.forEach((s,i)=>item($("lSeats"),"seat:"+i,`${i+1}. ${s.key} · ${s.pose}`,tuning()[s.key]?"tuned in game":fmt(s.figure.slice(0,2)),!!tuning()[s.key]));
+  else $("lSeats").innerHTML='<div class="empty">No seats. Seats fill in order: the first seat gets the driver.</div>';
+  if (e.engine.length===4) item($("lEngine"),"engine","engine sprite",fmt(e.engine));
+  if (e.engineSmoke[0]||e.engineSmoke[1]) item($("lEngine"),"smoke","engine smoke",fmt(e.engineSmoke));
+  e.engineSparks.forEach((p,i)=>item($("lEngine"),"spark:"+i,`spark ${i+1}`,fmt(p)));
+  if (e.hullTear[0]||e.hullTear[1]) item($("lEngine"),"tear","hull tear",fmt(e.hullTear));
+  e.bays.length ? e.bays.forEach((b,i)=>item($("lBays"),"bay:"+i,`bay ${i+1}`,fmt(b))) : $("lBays").innerHTML='<div class="empty">No cargo bays.</div>';
+  e.hardpoints.length ? e.hardpoints.forEach((p,i)=>item($("lHp"),"hp:"+i,`pin ${i+1}`,fmt(p))) : $("lHp").innerHTML='<div class="empty">No hardpoint pins.</div>';
+  for (const k of Object.keys(e.stations)) item($("lLinks"),"station:"+k,k==="drive"?"WHEEL station":"ENGINE station",fmt(e.stations[k]));
+  if (e.weaponCard[0]||e.weaponCard[1]) item($("lLinks"),"card","weapon card",fmt(e.weaponCard));
+  e.weaponLink.forEach((p,i)=>item($("lLinks"),"wl:"+i,`gunner link ${["from","bend","to"][i]}`,fmt(p)));
+  e.driveLink.forEach((p,i)=>item($("lLinks"),"dl:"+i,`driver link ${["from","bend","to"][i]}`,fmt(p)));
+  const c=viewCentre();
+  const addBtns=(list,specs)=>{ const row=document.createElement("div"); row.className="row"; row.style.marginTop="4px";
+    for (const [txt,ok,fn,sel] of specs){ if(!ok) continue; const b=document.createElement("button"); b.textContent=txt; b.onclick=()=>{pushUndo(); fn(); st.sel=sel; changed();}; row.appendChild(b); }
+    if (row.children.length) list.appendChild(row); };
+  addBtns($("lEngine"),[
+    ["+ engine sprite", e.engine.length!==4, ()=>{e.engine=[ri(c[0]-70),ri(c[1]-60),140,130];}, "engine"],
+    ["+ engine smoke", !(e.engineSmoke[0]||e.engineSmoke[1]), ()=>{e.engineSmoke=[ri(c[0]),ri(c[1])];}, "smoke"],
+    ["+ hull tear", !(e.hullTear[0]||e.hullTear[1]), ()=>{e.hullTear=[ri(c[0]),ri(c[1])];}, "tear"]]);
+  addBtns($("lLinks"),[
+    ["+ WHEEL station", !e.stations.drive, ()=>{e.stations.drive=[ri(c[0]),ri(c[1])];}, "station:drive"],
+    ["+ ENGINE station", !e.stations.engine, ()=>{e.stations.engine=[ri(c[0]+60),ri(c[1])];}, "station:engine"],
+    ["+ weapon card", !(e.weaponCard[0]||e.weaponCard[1]), ()=>{e.weaponCard=[ri(c[0]),ri(Math.max(60,e.top+40))]; if(e.topWithCard==null) e.topWithCard=Math.max(0,e.top-45);}, "card"],
+    ["+ gunner link", e.weaponLink.length!==3, ()=>{e.weaponLink=[[ri(c[0]-80),ri(c[1])],[ri(c[0]),ri(c[1]-80)],[ri(c[0]+80),ri(c[1]-40)]];}, "wl:0"],
+    ["+ driver link", e.driveLink.length!==3, ()=>{e.driveLink=[[ri(c[0]-60),ri(c[1])],[ri(c[0]-30),ri(c[1]-10)],[ri(c[0]),ri(c[1]-12)]];}, "dl:0"],
+    ["+ top with card", e.topWithCard==null, ()=>{e.topWithCard=Math.max(0,e.top-45);}, "topWithCard"]]);
+  // what the game would do wrong with this entry
+  const warn=[];
+  if (!e.seats.length) warn.push("No seats: no crew figures or portrait discs are drawn (fine only if the crew is painted into the picture).");
+  if (!(e.hullTear[0]||e.hullTear[1])) warn.push("No hull tear: damage smoke and fire appear in the picture's top-left corner.");
+  if (!e.tracked && !e.wheels.length) warn.push("No wheels: nothing spins and no dust rises.");
+  if (!B.artUrl(st.stem,true)) warn.push("No damaged picture: a damaged hull keeps the intact one.");
+  if (e.ground<=e.top+100) warn.push("Ground is above or too close to top.");
+  e.seats.forEach(s=>{ if(s.clipY>0 && s.clipY<s.figure[1]+s.figure[3]*0.3) warn.push(`Seat ${s.key}: the cut rim hides most of the figure.`); });
+  if (warn.length) for (const w of warn){ const d=document.createElement("div"); d.className="empty"; d.style.color="var(--brass)"; d.textContent="• "+w; $("lCheck").appendChild(d); }
+  else $("lCheck").innerHTML='<div class="empty" style="color:var(--olive)">Ready for the game.</div>';
+  $("json").value = JSON.stringify(exportEntry(e),null,1);
+}
+function renderProps(){
+  const p=$("props"), e=entry(); p.className="props"; p.innerHTML="";
+  const h = st.sel && handles().find(h=>h.key===st.sel);
+  if (!e||!h){ p.className="empty"; p.textContent="Click a marker on the picture or an entry below."; return; }
+  const nums=(lab,get,set,keys)=>{ const l=document.createElement("label"); l.textContent=lab; const d=document.createElement("div"); d.className="nums";
+    keys.forEach((k,j)=>{ const inp=document.createElement("input"); inp.type="number"; inp.id=`p-${lab}-${j}`; inp.value=get()[j]; inp.title=k; inp.setAttribute("aria-label",`${lab} ${k}`);
+      inp.onchange=()=>{ pushUndo(); set(j,Number(inp.value)); changed(); }; d.appendChild(inp); });
+    p.append(l,d); };
+  const arrNums=(lab,arr,keys)=>nums(lab,arr,(j,v)=>{arr()[j]=v;},keys);
+  const btnRow=(...bs)=>{ const r=document.createElement("div"); r.className="row"; r.style.gridColumn="1/-1"; for(const [t,fn,dis] of bs){ const b=document.createElement("button"); b.textContent=t; b.disabled=!!dis; b.onclick=fn; r.appendChild(b);} p.appendChild(r); };
+  const [kind,idx]=st.sel.split(":");
+  if (["seat","seatR","clip","head"].includes(kind)){
+    const i=+idx, s=e.seats[i];
+    const sel=(lab,opts,val,on)=>{ const l=document.createElement("label"); l.textContent=lab; const x=document.createElement("select"); x.id="p-"+lab; for(const o of opts){ const op=document.createElement("option"); op.textContent=o; op.selected=o===val; x.appendChild(op);} x.onchange=()=>{pushUndo(); on(x.value); changed();}; p.append(l,x); };
+    sel("key",["driver","gunner","passenger","bench","bench2","bench3"],s.key,v=>{s.key=v;});
+    sel("pose",POSES,s.pose,v=>{ const k=s.figure[2]/canvasW(s.pose); s.pose=v; s.figure[2]=r1(canvasW(v)*k); s.figure[3]=r1(canvasH(v)*k); });
+    arrNums("figure",()=>s.figure,["x","y","w","h"]);
+    arrNums("disc",()=>s.head,["x","y"]);
+    nums("cut rim",()=>[s.clipY],(j,v)=>{s.clipY=Math.max(0,v);},["y (0 = none)"]);
+    btnRow([s.clipY>0?"Remove cut rim":"Add cut rim",()=>{pushUndo(); s.clipY=s.clipY>0?0:ri(s.figure[1]+s.figure[3]*0.78); st.sel=s.clipY>0?"clip:"+i:"seat:"+i; changed();}],
+           ["Disc to head",()=>{pushUndo(); s.head=headFor(s.pose,s.figure); changed();}],
+           ["Move up",()=>{pushUndo(); [e.seats[i-1],e.seats[i]]=[e.seats[i],e.seats[i-1]]; st.sel="seat:"+(i-1); changed();}, i===0],
+           ["Delete seat",del]);
+    return;
+  }
+  if (kind==="wheel"||kind==="wheelR"){ const i=+idx;
+    arrNums("centre",()=>e.wheels[i],["x","y"]);
+    nums("radius",()=>[e.wheelRadii[i]],(j,v)=>{e.wheelRadii[i]=Math.max(8,v); syncRadius(e);},["r"]);
+    btnRow(["Delete wheel",del]); return; }
+  if (h.kind==="rect") arrNums(h.label,()=>h.rect(),["x","y","w","h"]);
+  else if (h.kind==="h") nums(h.label,()=>[h.get()[1]],(j,v)=>h.set(0,v),["y"]);
+  else if (h.kind==="v") nums(h.label,()=>[h.get()[0]],(j,v)=>h.set(v,0),["x"]);
+  else arrNums(h.label,()=>h.get(),["x","y"]);
+  if (/^(spark|hp|bay|engine|card|wl|dl|station|topWithCard|smoke|tear)/.test(kind)) btnRow(["Delete",del]);
+}
+function exportEntry(e){
+  const o={ top:e.top };
+  if (e.topWithCard!=null) o.topWithCard=e.topWithCard;
+  Object.assign(o,{ ground:e.ground, left:e.left, right:e.right, wheels:e.wheels.map(w=>w.slice()), wheelRadius:e.wheelRadius, wheelRadii:e.wheelRadii.slice(),
+    engine:e.engine.slice(), engineSmoke:e.engineSmoke.slice(), engineSparks:e.engineSparks.map(p=>p.slice()), hullTear:e.hullTear.slice(),
+    bays:e.bays.map(b=>b.slice()), hardpoints:e.hardpoints.map(p=>p.slice()),
+    seats:e.seats.map(s=>({key:s.key,pose:s.pose,figure:s.figure.map(r1),clipY:s.clipY,head:s.head.map(ri)})), stations:{...e.stations} });
+  if (e.weaponCard[0]||e.weaponCard[1]) o.weaponCard=e.weaponCard.slice();
+  if (e.weaponLink.length===3) o.weaponLink=e.weaponLink.map(p=>p.slice());
+  if (e.driveLink.length===3) o.driveLink=e.driveLink.map(p=>p.slice());
+  for (const k of ["tracked","autonomous"]) if (e[k]) o[k]=e[k];
+  return o;
+}
+function renderPick(){
+  const p=$("pick"); p.innerHTML="";
+  const groups=[["Being edited",s=>s.edited],["Without anchors",s=>!s.edited&&!s.anchored],["With anchors",s=>!s.edited&&s.anchored]];
+  for (const [name,f] of groups){ const list=B.stems.filter(f); if(!list.length) continue;
+    const g=document.createElement("optgroup"); g.label=name;
+    for (const s of list){ const o=document.createElement("option"); o.value=s.id; o.textContent=s.id+(Object.keys(s.tuning||{}).length?"  (seats tuned in game)":""); o.selected=s.id===st.stem; g.appendChild(o); }
+    p.appendChild(g); }
+}
+async function choose(stem){
+  st.stem=stem; st.sel=null; img(B.artUrl(stem,false)); img(B.artUrl(stem,true));
+  await loadEntry(stem); renderPick(); renderSide(); draw();
+}
+
+// ---------------------------------------------------------------- edits
+function del(){
+  const e=entry(); if(!e||!st.sel) return; const [kind,idx]=st.sel.split(":"); pushUndo();
+  if (kind==="wheel"||kind==="wheelR"){ e.wheels.splice(+idx,1); e.wheelRadii.splice(+idx,1); syncRadius(e); }
+  else if (["seat","seatR","clip","head"].includes(kind)) e.seats.splice(+idx,1);
+  else if (kind==="spark") e.engineSparks.splice(+idx,1);
+  else if (kind==="hp") e.hardpoints.splice(+idx,1);
+  else if (kind==="bay"||kind==="bayR") e.bays.splice(+idx,1);
+  else if (kind==="engine"||kind==="engineR") e.engine=[];
+  else if (kind==="smoke") e.engineSmoke=[0,0];
+  else if (kind==="tear") e.hullTear=[0,0];
+  else if (kind==="card") e.weaponCard=[0,0];
+  else if (kind==="wl") e.weaponLink=[];
+  else if (kind==="dl") e.driveLink=[];
+  else if (kind==="station") delete e.stations[idx];
+  else if (kind==="topWithCard") delete e.topWithCard;
+  else { undoStack.pop(); return; }
+  st.sel=null; changed();
+}
+function undo(){ for (let i=undoStack.length-1;i>=0;i--) if (undoStack[i].stem===st.stem){ data[st.stem]=JSON.parse(undoStack.splice(i,1)[0].json); st.sel=null; changed(); return; } }
+$("addWheel").onclick=()=>{ const e=ensure(); pushUndo(); const c=viewCentre(); const r=e.wheelRadii.length?e.wheelRadii[e.wheelRadii.length-1]:100;
+  e.wheels.push([ri(c[0]),ri(Math.min(c[1],e.ground-r))]); e.wheelRadii.push(r); syncRadius(e); st.sel="wheel:"+(e.wheels.length-1); changed(); };
+$("addSeat").onclick=()=>{ const e=ensure(); pushUndo(); const c=viewCentre(); const pose=e.seats.length?"seated":"driver";
+  const k=e.seats.length?e.seats[0].figure[2]/canvasW(e.seats[0].pose):0.25;
+  const used=new Set(e.seats.map(s=>s.key)); const key=["driver","gunner","passenger","bench","bench2","bench3"].find(x=>!used.has(x))||"bench3";
+  const fig=[r1(c[0]-canvasW(pose)*k/2),r1(c[1]-canvasH(pose)*k/2),r1(canvasW(pose)*k),r1(canvasH(pose)*k)];
+  e.seats.push({key,pose,figure:fig,clipY:0,head:headFor(pose,fig)}); st.sel="seat:"+(e.seats.length-1); changed(); };
+$("addSpark").onclick=()=>{ const e=ensure(); pushUndo(); const c=viewCentre(); e.engineSparks.push([ri(c[0]),ri(c[1])]); st.sel="spark:"+(e.engineSparks.length-1); changed(); };
+$("addBay").onclick=()=>{ const e=ensure(); pushUndo(); const c=viewCentre(); e.bays.push([ri(c[0]-80),ri(c[1]-50),160,100]); st.sel="bay:"+(e.bays.length-1); changed(); };
+$("addHp").onclick=()=>{ const e=ensure(); pushUndo(); const c=viewCentre(); e.hardpoints.push([ri(c[0]),ri(c[1])]); st.sel="hp:"+(e.hardpoints.length-1); changed(); };
+$("undo").onclick=undo;
+$("revert").onclick=()=>{ if(!savedJson[st.stem]){ delete data[st.stem]; } else data[st.stem]=normalize(JSON.parse(savedJson[st.stem])); st.sel=null; changed(); };
+$("copy").onclick=async ev=>{ const e=entry(); if(!e) return; const t=JSON.stringify({[st.stem]:exportEntry(e)},null,1), b=ev.currentTarget;
+  try { await navigator.clipboard.writeText(t); b.textContent="Copied"; setTimeout(()=>b.textContent="Copy",1200); } catch { $("json").select(); } };
+$("saveBtn").onclick=saveFolder;
+$("openFolder").onclick=openFolder; $("openFolder2").onclick=openFolder;
+$("pick").onchange=()=>choose($("pick").value);
+const seg=(a,b,fn)=>{ $(a).onclick=()=>{fn(0); $(a).setAttribute("aria-pressed","true"); $(b).setAttribute("aria-pressed","false"); draw();}; $(b).onclick=()=>{fn(1); $(b).setAttribute("aria-pressed","true"); $(a).setAttribute("aria-pressed","false"); draw();}; };
+seg("stIntact","stDamaged",i=>st.stage=i?"damaged":"intact");
+seg("bdHuman","bdRobot",i=>st.body=i?"robot":"m1");
+$("zFit").onclick=()=>{st.z=0; resize();}; $("z1").onclick=()=>{st.z=1; resize();}; $("z2").onclick=()=>{st.z=2; resize();};
+for (const id of ["optSpin","optFig","optBand","optHud"]) $(id).onchange=draw;
+addEventListener("resize",()=>{ if(!st.z) resize(); });
+addEventListener("beforeunload",ev=>{ if(B.kind==="folder" && dirty().length){ ev.preventDefault(); ev.returnValue=""; } });
+
+cv.addEventListener("pointerdown",ev=>{
+  if (!entry()) return;
+  const [x,y]=toImg(ev), h=hit(x,y); st.sel=h?h.key:null;
+  if (h){ pushUndo(); st.drag={h,x,y,moved:false}; cv.setPointerCapture(ev.pointerId); }
+  renderSide(); draw();
+});
+cv.addEventListener("pointermove",ev=>{
+  const [x,y]=toImg(ev); $("cur").textContent=`${Math.round(x)}, ${Math.round(y)}`;
+  if (!st.drag){ const h=entry()&&hit(x,y); cv.style.cursor=h?(h.kind==="h"?"ns-resize":h.kind==="v"?"ew-resize":"move"):"crosshair"; $("hint").textContent=h?h.label:""; return; }
+  const d=st.drag, h=d.h;
+  if (h.kind==="fig"||h.kind==="rect") moveBy(h,x-d.x,y-d.y); else h.set(x,y);
+  d.x=x; d.y=y; d.moved=true; draw();
+});
+const endDrag=()=>{ if(!st.drag) return; const moved=st.drag.moved; if(!moved) undoStack.pop(); st.drag=null; if(moved) changed(); else draw(); };
+cv.addEventListener("pointerup",endDrag); cv.addEventListener("pointercancel",endDrag);
+cv.addEventListener("wheel",ev=>{ if(!ev.ctrlKey) return; ev.preventDefault(); st.z=Math.min(4,Math.max(0.25,z()*(ev.deltaY<0?1.15:1/1.15))); resize(); },{passive:false});
+addEventListener("keydown",ev=>{
+  if ((ev.ctrlKey||ev.metaKey) && ev.key.toLowerCase()==="s"){ ev.preventDefault(); if(B.kind==="folder") saveFolder(); return; }
+  if (ev.target.closest?.("input,select,textarea")) return;
+  if ((ev.ctrlKey||ev.metaKey) && ev.key.toLowerCase()==="z"){ ev.preventDefault(); undo(); return; }
+  if (ev.key==="Escape"){ st.sel=null; renderSide(); draw(); return; }
+  if (!st.sel) return;
+  const h=handles().find(h=>h.key===st.sel); if(!h) return;
+  if (ev.key==="Delete"||ev.key==="Backspace"){ ev.preventDefault(); del(); return; }
+  const s=ev.shiftKey?10:1, mv={ArrowLeft:[-s,0],ArrowRight:[s,0],ArrowUp:[0,-s],ArrowDown:[0,s]}[ev.key];
+  if (!mv) return; ev.preventDefault(); pushUndo(); moveBy(h,mv[0],mv[1]); changed();
+});
+
+function start(){
+  $("startPanel").hidden=true; $("mainUi").hidden=false; $("pick").hidden=false;
+  $("saveBtn").hidden = B.kind!=="folder"; $("openFolder").hidden = B.kind!=="folder";
+  for (const s of B.stems) if (data[s.id]) savedJson[s.id]=JSON.stringify(exportEntry(data[s.id]));
+  const first = B.stems.find(s=>s.edited) || B.stems.find(s=>!s.anchored) || B.stems[0];
+  resize(); choose(first.id);
+  setChip(B.kind==="dev" ? "Changes save automatically" : "Opened — press Save to write files", "ok");
+}
+(async () => {
+  for (const p of POSES) for (const b of ["robot","m1"]) img(B.crewUrl(p,b));
+  if (await detect()){ $("mode").textContent="game repo (dev server)"; start(); return; }
+  $("startPanel").hidden=false; setChip("No folder open","busy");
+  if (!window.showDirectoryPicker) $("noFsa").hidden=false;
+})();
+})();
+</script>
+</body>
+</html>

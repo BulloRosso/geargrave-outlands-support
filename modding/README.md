@@ -12,6 +12,7 @@ sound files. The game checks your mod for you and says exactly what is wrong.
 | look up a file format | [File reference](../.claude/skills/geargrave-outlands-mod-creator/references/file-reference.md) |
 | know which ids the base game offers | [Base-game catalog](../.claude/skills/geargrave-outlands-mod-creator/references/base-catalog.md) |
 | make images that fit the game | [Art guide](../.claude/skills/geargrave-outlands-mod-creator/references/art-guide.md) |
+| give my vehicle an inside view in battle | [Cutaway editor](cutaway-editor/README.md) |
 | let an AI agent build it with me | [Build a mod with an AI agent](#build-a-mod-with-an-ai-agent) |
 | see a complete mod | [examples/](examples/) |
 
@@ -72,6 +73,7 @@ To remove a mod, delete its folder. Saves made on a mod's level need that mod.
 | `characters.json`, `relationships.json` | recruitable characters with perks and traits; bonds and combos between them |
 | `conversations.json` | NPC dialog trees with skill checks, trait lines and consequences |
 | `vehicles.json` + vehicle art | your own vehicles on the game's chassis, with side view, hex tile and portrait |
+| `assets/cutaway_anchors.json` + cutaway art | the battle cutaway of your vehicles: crew in their seats, spinning wheels, engine, cargo bays (made with the [cutaway editor](cutaway-editor/README.md)) |
 | `parts.json`, `doctrines.json` | quest items, cargo and engines; their build value |
 | `assets/` | map background, level banner, location scenes, building art, portraits, epilogue panels |
 
