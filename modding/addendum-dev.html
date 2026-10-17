@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Developer Keys Addendum</title>
+<meta name="description" content="Geargrave Outlands modding addendum: every screen and the Ctrl+key (Strg+key) developer shortcuts that work on it.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Barlow+Semi+Condensed:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+  :root{
+    --ink:#14110d; --panel:#1d1913; --panel2:#262017; --line:#4a3f2e; --dim:#a39a86; --text:#e9dfc9;
+    --brass:#d9a32c; --rust:#c8452f; --olive:#8fa85a; --cyan:#3ee0ff;
+    --f-display:"Special Elite","Courier New",monospace;
+    --f-body:"Barlow Semi Condensed","Arial Narrow",Arial,sans-serif;
+    --f-data:"JetBrains Mono",Consolas,monospace;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--ink);color:var(--text)}
+  body{font:15px/1.45 var(--f-body);padding:16px;max-width:1100px;margin-inline:auto}
+  h1{font:26px var(--f-display);margin:0 0 4px;color:var(--brass);letter-spacing:.02em}
+  h2{font:19px var(--f-display);margin:32px 0 8px;color:var(--brass);border-bottom:1px solid var(--line);padding-bottom:4px}
+  h2 small{font:13px var(--f-body);color:var(--dim);margin-left:10px}
+  p{margin:6px 0 10px}
+  .lead{color:var(--dim);max-width:70ch}
+  .note{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--brass);padding:8px 12px;margin:10px 0;border-radius:4px}
+  .note.warn{border-left-color:var(--rust)}
+  kbd{font:13px var(--f-data);background:var(--panel2);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:1px 6px;color:var(--text);white-space:nowrap}
+  table{border-collapse:collapse;width:100%;margin:6px 0 14px;background:var(--panel)}
+  th,td{border:1px solid var(--line);padding:6px 9px;text-align:left;vertical-align:top}
+  th{background:var(--panel2);font-weight:600;color:var(--brass);font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+  td.k{white-space:nowrap;width:1%}
+  td.s{white-space:nowrap;width:1%}
+  .tag{font:11px var(--f-data);padding:1px 6px;border-radius:8px;border:1px solid var(--line);color:var(--dim)}
+  .tag.debug{color:var(--rust);border-color:var(--rust)}
+  .tag.tool{color:var(--brass);border-color:var(--brass)}
+  .tag.view{color:var(--olive);border-color:var(--olive)}
+  .tag.feedback{color:var(--cyan);border-color:var(--cyan)}
+  code{font:13px var(--f-data);color:var(--cyan)}
+  .toc{display:flex;flex-wrap:wrap;gap:6px 14px;margin:10px 0 0;padding:0;list-style:none}
+  .toc a{color:var(--brass);text-decoration:none;font-size:14px}
+  .toc a:hover{text-decoration:underline}
+  .legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin:8px 0 0;font-size:13px;color:var(--dim)}
+  footer{margin-top:40px;color:var(--dim);font-size:13px;border-top:1px solid var(--line);padding-top:10px}
+  @media (max-width:640px){
+    body{padding:12px 16px}
+    table,thead,tbody,tr,th,td{display:block}
+    thead{display:none}
+    tr{border:1px solid var(--line);margin-bottom:8px}
+    td{border:0;border-bottom:1px solid var(--line)}
+    td.k,td.s{width:auto;white-space:normal}
+    td.k::before{content:"Key ";color:var(--dim);font-size:12px}
+  }
+</style>
+</head>
+<body>
+
+<h1>Developer Keys Addendum</h1>
+<p class="lead">Every screen of Geargrave Outlands and the <kbd>Ctrl</kbd>+key shortcuts it answers to. On a German keyboard <kbd>Ctrl</kbd> is the <kbd>Strg</kbd> key; the game treats both names as the same thing. These shortcuts exist for designers, modders and testers. None of them is needed to play, and none of them is listed in the in-game key help.</p>
+
+<div class="note warn">Most of these keys change the game state at once and without confirmation. Use them on a throw-away save. A forced win, a revealed map or a granted vehicle stays in the save when you quicksave afterwards.</div>
+
+<div class="legend">
+  <span><span class="tag debug">debug</span> cheats and state changes for testing</span>
+  <span><span class="tag tool">tool</span> opens a tuning bench or console</span>
+  <span><span class="tag view">view</span> changes only what you see</span>
+  <span><span class="tag feedback">feedback</span> early-access support feature</span>
+</div>
+
+<ul class="toc">
+  <li><a href="#title">Title screen</a></li>
+  <li><a href="#map">World map</a></li>
+  <li><a href="#travel">Travel day (KONVOI-24)</a></li>
+  <li><a href="#battle">Battle (Roadwar)</a></li>
+  <li><a href="#loot">Loot hall</a></li>
+  <li><a href="#convoy">Convoy screen</a></li>
+  <li><a href="#rig">War Rig builder</a></li>
+  <li><a href="#rust">Rust on the Road</a></li>
+  <li><a href="#towing">Towing editor</a></li>
+  <li><a href="#sim">Cutaway simulation</a></li>
+  <li><a href="#tune">Cutaway tuner</a></li>
+  <li><a href="#sizecheck">Iso size check</a></li>
+  <li><a href="#cargo">Cargo deck tuner</a></li>
+  <li><a href="#dialogs">Modal dialogs</a></li>
+</ul>
+
+<h2 id="title">Title screen</h2>
+<table>
+  <thead><tr><th>Key</th><th>Effect</th><th>Kind</th></tr></thead>
+  <tbody>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>T</kbd></td><td>Opens the <a href="#towing">towing editor</a>, the bench that sets how a towed vehicle sits behind its tower in the convoy screen and the isometric battle. Only on the title screen; pressing a modifier alone does not start the game.</td><td class="s"><span class="tag tool">tool</span></td></tr>
+  </tbody>
+</table>
+
+<h2 id="map">World map</h2>
+<p>The map screen is the hub. All of these work while no modal is open and no travel day is running.</p>
+<table>
+  <thead><tr><th>Key</th><th>Effect</th><th>Kind</th></tr></thead>
+  <tbody>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>I</kbd></td><td>Cheat console. Five tabs: grant map resources, drop workshop items into the parts shelf, stock warehouse build parts (bp_*), add any registry vehicle to the crew, recruit any named character. Closes with <kbd>Esc</kbd> or <kbd>Ctrl</kbd>+<kbd>I</kbd>.</td><td class="s"><span class="tag debug">debug</span></td></tr>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>T</kbd></td><td>Translation helper. Search the live translation catalog of the base game and every loaded level, record corrected texts, and export them as a contribution file for the support repo. Closes with <kbd>Esc</kbd> or <kbd>Ctrl</kbd>+<kbd>T</kbd>. This is the one key also shown to players, on the EARLY ACCESS tab of the settings.</td><td class="s"><span class="tag feedback">feedback</span></td></tr>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>F</kbd></td><td>Quick-battle sandbox. A modal with four faction fights against a synthetic test convoy, run through the real briefing and battle flow. Second press closes the modal.</td><td class="s"><span class="tag debug">debug</span></td></tr>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>Z</kbd></td><td>Opens the <a href="#sim">cutaway simulation</a>: every vehicle type with a cutaway, full crew, damage state adjustable. Returns to the map on <kbd>Esc</kbd>.</td><td class="s"><span class="tag tool">tool</span></td></tr>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>C</kbd></td><td>Opens the <a href="#tune">cutaway tuner</a>: seat figures, portrait discs and picture zoom per vehicle, saved to <code>data/cutaway_tuning.json</code>.</td><td class="s"><span class="tag tool">tool</span></td></tr>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>R</kbd></td><td>Debug cartography. Marks every location of the level as known, names included, and lifts the fog. Plain <kbd>R</kbd> only toggles the zoom readout.</td><td class="s"><span class="tag debug">debug</span></td></tr>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>Shift</kbd></td><td>Swaps between the painted 2D map and the 3D diorama view. Pressing the second of the two modifiers toggles; the view survives scene rebuilds. Works in both directions.</td><td class="s"><span class="tag view">view</span></td></tr>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<em>left click</em> on a location</td><td>Opens that location directly, skipping the crew-position and travel gating. Works on the 2D marker and in the 3D diorama.</td><td class="s"><span class="tag debug">debug</span></td></tr>
+  </tbody>
+</table>
+<div class="note">Plain keys on the map that belong to the same debug family: <kbd>E</kbd> opens the test-encounter launcher, <kbd>F9</kbd> previews the game-over screen, <kbd>Space</kbd> advances the day.</div>
+
+<h2 id="travel">Travel day <small>KONVOI-24 chapter screen</small></h2>
+<table>
+  <thead><tr><th>Key</th><th>Effect</th><th>Kind</th></tr></thead>
+  <tbody>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<em>DRIVE button</em></td><td>Instead of driving, opens the event picker. The chosen event replaces the random draw on arrival, so a level author can test a specific travel event without waiting for the dice.</td><td class="s"><span class="tag debug">debug</span></td></tr>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>E</kbd></td><td>While an event board is open: opens the same picker and swaps the displayed event at once.</td><td class="s"><span class="tag debug">debug</span></td></tr>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>+</kbd> / <kbd>Ctrl</kbd>+<kbd>-</kbd></td><td>While an event board is open: steps to the next or previous event in the list, for checking layout and text. Numpad keys count too.</td><td class="s"><span class="tag debug">debug</span></td></tr>
+  </tbody>
+</table>
+
+<h2 id="battle">Battle <small>Roadwar screen, lane and isometric view</small></h2>
+<table>
+  <thead><tr><th>Key</th><th>Effect</th><th>Kind</th></tr></thead>
+  <tbody>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>W</kbd></td><td>Forced win. Ends the fight at once in the planning phase: enemies are wrecked, fled or surrendered with rolled damage, and the victory overlay appears. The log records it as <code>debug.forcewin</code>. Swallowed inside the simulation and tuner so they cannot "win" themselves.</td><td class="s"><span class="tag debug">debug</span></td></tr>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>Ä</kbd></td><td>Opens the <a href="#sizecheck">iso size check</a>, the line-up of every vehicle type and obstacle for tuning relative sizes. Isometric view only, planning phase only. On a US layout the same physical key is <kbd>'</kbd>.</td><td class="s"><span class="tag tool">tool</span></td></tr>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>Ö</kbd></td><td>Cycles the isometric backdrop set: stony desert, canyon, snowy plains, snowy mountains. Landmark, snow and season looks follow. View only; the next battle picks its own set. On a US layout the same physical key is <kbd>;</kbd>.</td><td class="s"><span class="tag view">view</span></td></tr>
+  </tbody>
+</table>
+<div class="note">Related plain keys in the isometric view: <kbd>Home</kbd> resets the free camera, <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> pick a stance card, <kbd>M</kbd> opens MORE ORDERS, held <kbd>Space</kbd> speeds up the resolution.</div>
+
+<h2 id="loot">Loot hall</h2>
+<table>
+  <thead><tr><th>Key</th><th>Effect</th><th>Kind</th></tr></thead>
+  <tbody>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>V</kbd></td><td>Stages one captured hull of every vehicle type in the carousel, so the relative sizing of the salvage hall can be checked against the whole registry in one pass. <kbd>Space</kbd> steps the carousel.</td><td class="s"><span class="tag debug">debug</span></td></tr>
+  </tbody>
+</table>
+
+<h2 id="convoy">Convoy screen</h2>
+<p>Both keys also work while the vehicle context menu is open.</p>
+<table>
+  <thead><tr><th>Key</th><th>Effect</th><th>Kind</th></tr></thead>
+  <tbody>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>S</kbd></td><td>With a vehicle selected: opens the small size modal that scales the side-view sprite. The value is written to the side-view scale registry (<code>data/sideview_scales.json</code>) and is the default for every screen.</td><td class="s"><span class="tag tool">tool</span></td></tr>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>A</kbd></td><td>ALL mode: shows every vehicle type of the registry instead of the crew's convoy, for comparing sizes side by side. Second press returns to the convoy.</td><td class="s"><span class="tag view">view</span></td></tr>
+  </tbody>
+</table>
+
+<h2 id="rig">War Rig builder <small>Roadhold screen</small></h2>
+<table>
+  <thead><tr><th>Key</th><th>Effect</th><th>Kind</th></tr></thead>
+  <tbody>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>C</kbd></td><td>Build mode on or off. In build mode a module is installed into a bay from nothing, without parts or crew hands. Designer tool, not a player path.</td><td class="s"><span class="tag debug">debug</span></td></tr>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>A</kbd></td><td>Showcase: every slot occupied in the tech style. View only, nothing is written.</td><td class="s"><span class="tag view">view</span></td></tr>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>S</kbd></td><td>Size modal for both side views of the rig; writes at once to the side-view scale registry. Second press closes it.</td><td class="s"><span class="tag tool">tool</span></td></tr>
+  </tbody>
+</table>
+
+<h2 id="rust">Rust on the Road <small>wreck and fallen ledger</small></h2>
+<table>
+  <thead><tr><th>Key</th><th>Effect</th><th>Kind</th></tr></thead>
+  <tbody>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>P</kbd></td><td>Swaps between the run's real ledger and a set of example data, for layout checks and screenshots. Press again to swap back.</td><td class="s"><span class="tag view">view</span></td></tr>
+  </tbody>
+</table>
+
+<h2 id="towing">Towing editor <small>opened with Ctrl+T on the title screen</small></h2>
+<p>Two columns, convoy screen and isometric battle. <kbd>Tab</kbd> switches the column, plain keys nudge the load (W/S spacing, arrows height, A/D rotation, +/- size, <kbd>Shift</kbd> multiplies by five). Results are stored in <code>towing_offsets.json</code>.</p>
+<table>
+  <thead><tr><th>Key</th><th>Effect</th><th>Kind</th></tr></thead>
+  <tbody>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>←</kbd> / <kbd>Ctrl</kbd>+<kbd>→</kbd></td><td>Previous or next tower. Plain arrows step through the loads.</td><td class="s"><span class="tag tool">tool</span></td></tr>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>L</kbd></td><td>Legal loads only: filters the load list to what the tow tiers allow.</td><td class="s"><span class="tag tool">tool</span></td></tr>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>R</kbd></td><td>Resets the fit of both columns for this pair. Plain <kbd>R</kbd> resets only the current column.</td><td class="s"><span class="tag tool">tool</span></td></tr>
+  </tbody>
+</table>
+
+<h2 id="sim">Cutaway simulation <small>opened with Ctrl+Z on the map</small></h2>
+<p>Pages through every vehicle type that has a cutaway, with a full crew. <kbd>←</kbd>/<kbd>→</kbd> step the vehicle, <kbd>+</kbd>/<kbd>-</kbd> change the damage state, letter keys toggle the effects listed under <kbd>H</kbd>. <kbd>Esc</kbd> returns to the map.</p>
+<table>
+  <thead><tr><th>Key</th><th>Effect</th><th>Kind</th></tr></thead>
+  <tbody>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>Ä</kbd> / <kbd>Ctrl</kbd>+<kbd>Ö</kbd></td><td>Not available here. The size check and the backdrop cycle are disabled while the simulation runs; other <kbd>Ctrl</kbd> chords are ignored.</td><td class="s"><span class="tag view">view</span></td></tr>
+  </tbody>
+</table>
+
+<h2 id="tune">Cutaway tuner <small>opened with Ctrl+C on the map</small></h2>
+<p>Same fleet as the simulation, with the toggles replaced by anchor editing: click a seat, then W/A/S/D move it, I/J/K/L move its head, +/- scale it, <kbd>7</kbd>/<kbd>9</kbd> zoom the picture, <kbd>Tab</kbd> cycles seats, <kbd>Backspace</kbd> resets the vehicle.</p>
+<table>
+  <thead><tr><th>Key</th><th>Effect</th><th>Kind</th></tr></thead>
+  <tbody>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>S</kbd></td><td>Saves now. The tuner also autosaves 0.6 s after the last change and when you leave.</td><td class="s"><span class="tag tool">tool</span></td></tr>
+  </tbody>
+</table>
+
+<h2 id="sizecheck">Iso size check <small>opened with Ctrl+Ä in an isometric battle</small></h2>
+<p>Hides the battle and lines up every vehicle type and obstacle at their isometric scale. Click an entry to open the size modal for it; the value goes to <code>iso_scales.json</code>. Mouse wheel and <kbd>←</kbd>/<kbd>→</kbd> scroll the line.</p>
+<table>
+  <thead><tr><th>Key</th><th>Effect</th><th>Kind</th></tr></thead>
+  <tbody>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>Ä</kbd> or <kbd>Esc</kbd></td><td>Back to the battle.</td><td class="s"><span class="tag tool">tool</span></td></tr>
+  </tbody>
+</table>
+
+<h2 id="cargo">Cargo deck tuner <small>standalone scene</small></h2>
+<p>Not reachable from the game. Start it from the project folder with the Godot editor binary:</p>
+<pre><code>godot --path godot res://CargoDeckTuner.tscn</code></pre>
+<p>Left: carrier and cargo pickers with the deck sliders. Right: the carrier with the load on its deck; deck guides and the load can be dragged. <kbd>←</kbd>/<kbd>→</kbd> switch loads, <kbd>+</kbd>/<kbd>-</kbd> scale the load, <kbd>G</kbd> toggles guides, <kbd>C</kbd> opens the contact sheet.</p>
+<table>
+  <thead><tr><th>Key</th><th>Effect</th><th>Kind</th></tr></thead>
+  <tbody>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>arrows</kbd></td><td>Nudge the load on its deck. <kbd>Shift</kbd> makes the step five times larger.</td><td class="s"><span class="tag tool">tool</span></td></tr>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>S</kbd></td><td>Saves <code>data/cargo_decks.json</code> (in exported builds to the user folder).</td><td class="s"><span class="tag tool">tool</span></td></tr>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>R</kbd></td><td>Reverts to the file on disk.</td><td class="s"><span class="tag tool">tool</span></td></tr>
+  </tbody>
+</table>
+
+<h2 id="dialogs">Modal dialogs</h2>
+<p>The cheat console and the translation helper are truly modal: while one is open, every unhandled key is swallowed so <kbd>Space</kbd>, <kbd>M</kbd> or <kbd>R</kbd> never reach the map underneath.</p>
+<table>
+  <thead><tr><th>Key</th><th>Effect</th><th>Kind</th></tr></thead>
+  <tbody>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>I</kbd> or <kbd>Esc</kbd></td><td>Closes the cheat console.</td><td class="s"><span class="tag debug">debug</span></td></tr>
+    <tr><td class="k"><kbd>Ctrl</kbd>+<kbd>T</kbd> or <kbd>Esc</kbd></td><td>Closes the translation helper.</td><td class="s"><span class="tag feedback">feedback</span></td></tr>
+  </tbody>
+</table>
+
+<h2>Notes for modders</h2>
+<ul>
+  <li>Keys are read by key code on your layout, so <kbd>Ctrl</kbd>+<kbd>Z</kbd> is the key labelled Z even on a QWERTZ keyboard. The two umlaut chords in battle fall back to the physical key position for non-German layouts.</li>
+  <li>The old battle cheats (<kbd>F5</kbd> win, <kbd>Ctrl</kbd>+<kbd>K</kbd>, <kbd>Ctrl</kbd>+<kbd>D</kbd>) were removed. <kbd>Ctrl</kbd>+<kbd>W</kbd> in the battle screen is the only remaining way to skip a fight.</li>
+  <li>Tuning files written by the benches (side-view scales, iso scales, towing offsets, cutaway tuning, cargo decks) are game data. A mod ships its own cutaway anchors through the <a href="cutaway-editor/README.md">cutaway editor</a>; the other registries belong to the base game.</li>
+  <li>Image reports for support go through <kbd>F10</kbd>, which needs no modifier. See the EARLY ACCESS tab in the settings.</li>
+</ul>
+
+<footer>Geargrave Outlands modding support. State of the game code as of 2026-10-17.</footer>
+</body>
+</html>
