@@ -5,6 +5,57 @@
   "description": "GENERATED from the game's loader types — do not edit. // comments allowed. NO trailing commas. Keys are matched case-insensitively by the game; write them in camelCase.",
   "$ref": "#/$defs/FileShape",
   "$defs": {
+    "PartStory": {
+      "type": "object",
+      "properties": {
+        "origin": {
+          "type": "string"
+        },
+        "ref": {
+          "type": "string"
+        },
+        "lore": {
+          "type": "string"
+        },
+        "hint": {
+          "type": "string"
+        },
+        "loreKey": {
+          "type": "string"
+        },
+        "hintKey": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "PartLiving": {
+      "type": "object",
+      "properties": {
+        "eats": {
+          "type": "string"
+        },
+        "perDay": {
+          "type": "integer"
+        },
+        "unfedDays": {
+          "type": "integer"
+        },
+        "fate": {
+          "type": "string"
+        },
+        "everyDays": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
     "PartDef": {
       "type": "object",
       "properties": {
@@ -44,6 +95,33 @@
         },
         "weightKg": {
           "type": "integer"
+        },
+        "electric": {
+          "type": "boolean"
+        },
+        "carry": {
+          "type": "string"
+        },
+        "set": {
+          "type": "string"
+        },
+        "story": {
+          "$ref": "#/$defs/PartStory"
+        },
+        "living": {
+          "$ref": "#/$defs/PartLiving"
+        },
+        "fragile": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "maxCopies": {
+          "type": "integer"
+        },
+        "sellable": {
+          "type": "boolean"
         }
       },
       "patternProperties": {

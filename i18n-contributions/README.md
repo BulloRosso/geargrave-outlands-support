@@ -1,6 +1,6 @@
 # Improve the translation of Geargrave Outlands
 
-Geargrave Outlands is in Early Access and ships in nine languages. If a line
+Geargrave Outlands is in Early Access and ships in eleven languages. If a line
 reads wrong, sounds clumsy or is still in English, you can suggest a better one
 right from the game. Each suggestion reaches us as a small file, and a
 maintainer reviews it and adds it to the next update.

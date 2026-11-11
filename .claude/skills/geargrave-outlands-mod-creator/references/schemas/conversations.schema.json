@@ -124,6 +124,18 @@
         },
         "trait": {
           "type": "string"
+        },
+        "days": {
+          "type": "integer"
+        },
+        "skulls": {
+          "type": "integer"
+        },
+        "skullsFromHeat": {
+          "type": "boolean"
+        },
+        "unlessAllied": {
+          "type": "boolean"
         }
       },
       "patternProperties": {
@@ -162,7 +174,8 @@
           "type": "string"
         },
         "requiresSkill": {
-          "type": "integer"
+          "type": "integer",
+          "description": "old 1-5 scale: 1-3 = any level, 4 = level 2+, 5 = level 4+, 6 = level 6+"
         },
         "requiresPerk": {
           "type": "string"
@@ -190,6 +203,9 @@
         },
         "interject": {
           "type": "boolean"
+        },
+        "mood": {
+          "type": "string"
         },
         "check": {
           "$ref": "#/$defs/ConvCheck"
@@ -226,6 +242,15 @@
         },
         "autoChoice": {
           "type": "string"
+        },
+        "mood": {
+          "type": "string"
+        },
+        "moods": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "patternProperties": {
@@ -250,6 +275,13 @@
         },
         "doneFlag": {
           "type": "string"
+        },
+        "revealWhen": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "the talk button only shows once all of these flags are set"
         },
         "entry": {
           "type": "array",

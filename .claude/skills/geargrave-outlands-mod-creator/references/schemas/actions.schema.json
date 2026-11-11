@@ -32,10 +32,26 @@
         "unmanned": {
           "type": "boolean"
         },
+        "name": {
+          "type": "string",
+          "description": "vehicleAtLocation: only the vehicle with exactly this name"
+        },
         "amount": {
           "type": "integer"
         },
         "focus": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "building": {
+          "type": "string"
+        },
+        "trait": {
+          "type": "string"
+        },
+        "role": {
           "type": "string"
         },
         "reasonKey": {
@@ -127,6 +143,18 @@
         },
         "trait": {
           "type": "string"
+        },
+        "days": {
+          "type": "integer"
+        },
+        "skulls": {
+          "type": "integer"
+        },
+        "skullsFromHeat": {
+          "type": "boolean"
+        },
+        "unlessAllied": {
+          "type": "boolean"
         }
       },
       "patternProperties": {
@@ -145,6 +173,13 @@
           "items": {
             "$ref": "#/$defs/Req"
           }
+        },
+        "revealWhen": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Req"
+          },
+          "description": "when the building sheet first shows this action (same grammar as requires); empty = once its story requirements hold"
         },
         "effects": {
           "type": "array",

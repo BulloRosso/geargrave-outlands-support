@@ -109,6 +109,9 @@
         },
         "grantCrewCount": {
           "type": "integer"
+        },
+        "openExploration": {
+          "type": "string"
         }
       },
       "patternProperties": {
@@ -182,10 +185,30 @@
             "type": "string"
           }
         },
+        "roads": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "biomes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "\"desert\" / \"winter\": only on levels of that terrainTheme; empty = all"
+        },
+        "requiresSweepers": {
+          "type": "boolean",
+          "description": "true = only on levels with Sweepers"
+        },
         "minVehicles": {
           "type": "integer"
         },
         "blind": {
+          "type": "boolean"
+        },
+        "forced": {
           "type": "boolean"
         }
       },

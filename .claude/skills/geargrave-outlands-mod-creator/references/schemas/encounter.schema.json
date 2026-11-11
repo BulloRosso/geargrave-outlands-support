@@ -39,7 +39,8 @@
           ]
         },
         "skill": {
-          "type": "integer"
+          "type": "integer",
+          "description": "1 (green) .. 5 (legend) - encounter crews keep the old 1-5 scale"
         },
         "name": {
           "type": "string"
@@ -53,7 +54,9 @@
             "FieldGreys",
             "FreeNomads",
             "RustFinches",
-            "KuroganeKai"
+            "KuroganeKai",
+            "LuciaProcession",
+            "ZimnikArtel"
           ]
         },
         "perk": {
@@ -262,7 +265,11 @@
               "GlGoldenRequiem",
               "GlSandVerdict",
               "GlLastArgument",
-              "EmpGrenade"
+              "EmpGrenade",
+              "EmpMineDropper",
+              "AuthorityTransponder",
+              "SnowChains",
+              "CabinHeater"
             ]
           }
         },
@@ -319,6 +326,29 @@
         },
         "stuck": {
           "type": "boolean"
+        },
+        "battleDamage": {
+          "type": "integer",
+          "description": "structure points already missing at spawn (hull keeps >= 1)"
+        },
+        "tiresShot": {
+          "type": "integer",
+          "description": "tyres already shot at spawn (-1 tempo each)"
+        },
+        "yieldAt": {
+          "type": "integer",
+          "description": "crew stands down at or below this structure; the hull is kept for the salvage hall"
+        },
+        "fleeAt": {
+          "type": "integer",
+          "description": "hull breaks off and escapes at or below this structure (cannot be boarded)"
+        },
+        "unlessFlags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "this vehicle stays home once any of these story flags is set"
         },
         "role": {
           "type": "string"
@@ -477,7 +507,9 @@
             "FieldGreys",
             "FreeNomads",
             "RustFinches",
-            "KuroganeKai"
+            "KuroganeKai",
+            "LuciaProcession",
+            "ZimnikArtel"
           ]
         },
         "motive": {
@@ -537,7 +569,9 @@
             "FieldGreys",
             "FreeNomads",
             "RustFinches",
-            "KuroganeKai"
+            "KuroganeKai",
+            "LuciaProcession",
+            "ZimnikArtel"
           ]
         },
         "guest": {
@@ -548,6 +582,51 @@
           "items": {
             "$ref": "#/$defs/EnemyDef"
           }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "SweeperRewardsDef": {
+      "type": "object",
+      "properties": {
+        "resources": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "upgrades": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "lootBoxes": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "SweeperDef": {
+      "type": "object",
+      "properties": {
+        "image": {
+          "type": "string"
+        },
+        "textKey": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "rewards": {
+          "$ref": "#/$defs/SweeperRewardsDef"
         }
       },
       "patternProperties": {
@@ -621,8 +700,14 @@
             "FieldGreys",
             "FreeNomads",
             "RustFinches",
-            "KuroganeKai"
+            "KuroganeKai",
+            "LuciaProcession",
+            "ZimnikArtel"
           ]
+        },
+        "factionTag": {
+          "type": "string",
+          "description": "a map faction id for cargo-set effects that name the enemy's faction (advanced)"
         },
         "kind": {
           "enum": [
@@ -649,6 +734,10 @@
         },
         "soloPlayerVehicle": {
           "type": "boolean"
+        },
+        "maxRounds": {
+          "type": "integer",
+          "description": "hard round limit (> 0) instead of the skull-based limit"
         },
         "protectModuleCarriers": {
           "type": "boolean"
@@ -709,6 +798,9 @@
         },
         "orientation": {
           "type": "string"
+        },
+        "sweeper": {
+          "$ref": "#/$defs/SweeperDef"
         }
       },
       "patternProperties": {

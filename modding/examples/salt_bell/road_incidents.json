@@ -1,0 +1,60 @@
+{
+  "$schema": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/road_incidents.schema.json",
+  "comment": "Salt Bell road incidents (file reference ch. 20). Merged over the base game's pool while this level is active: the level wins by id, the base incidents keep firing (baseIncidents: true). Art: assets/incidents/header_<id>.png (16:9) and assets/incidents/walkers/<stem>.png (true-30-degree iso cut-out facing lower-left).",
+  "baseIncidents": true,
+  "incidents": [
+    {
+      "id": "sb_salt_mule",
+      "time": "day",
+      "stage": "desert",
+      "terrain": "flat",
+      "minSkulls": 2,
+      "maxSkulls": 5,
+      "needs": "",
+      "once": false,
+      "walker": {
+        "stem": "sb_salt_mule",
+        "rows": 1,
+        "span": 2,
+        "entry": "cross",
+        "exit": "cross",
+        "scale": 2.0
+      },
+      "title": "The salt mule",
+      "body": "A mule caked white with salt drags a sledge of salt blocks across the pan and stops in front of the convoy. A little cracked bell clanks on its collar, out of tune. Somewhere out there a Saltman is missing his mule, and his salt.",
+      "a": {
+        "label": "Lead it home to Bellwell",
+        "good": true,
+        "result": "The Bell Folk unload the salt, water the mule and pay in what they have: water. Warden Marr will hear who brought it home.",
+        "effects": [
+          {
+            "type": "rep",
+            "faction": "sb_bell_folk",
+            "delta": 2
+          },
+          {
+            "type": "water",
+            "delta": 2
+          }
+        ]
+      },
+      "b": {
+        "label": "Ring its bell for the owner",
+        "good": false,
+        "result": "The owner hears it. So does every Saltman on the pan: the crack in that bell is the only one like it, and now they know exactly where you are.",
+        "effects": [
+          {
+            "type": "enemyMorale",
+            "delta": 2
+          },
+          {
+            "type": "firePct",
+            "side": "enemy",
+            "pct": 120,
+            "rounds": 1
+          }
+        ]
+      }
+    }
+  ]
+}

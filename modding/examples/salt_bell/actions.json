@@ -159,7 +159,7 @@
           "type": "resourceAtLeast",
           "resource": "fuel_regular",
           "amount": 5,
-          "reason": "The deep pump drinks 5 fuel to lift the cold water.",
+          "reason": "The deep pump drinks {fuelpool:5} fuel to lift the cold water.",
           "reasonKey": "SB_REQ_PUMP_FUEL"
         }
       ],

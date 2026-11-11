@@ -46,6 +46,11 @@ every system a mod can use appears here at least once, small enough to read in o
 - **Travel** — 4 junction events + 5 random ones (`events.json`) and 8 roadside
   decisions (`travel_legs.json`), three with their own pictures, the rest using the
   game's built-in road illustrations.
+- **A road incident** (`road_incidents.json`) — *The salt mule*: a salt-crusted mule
+  drags a sledge of salt blocks across the road in the middle of a battle. Lead it home
+  (+2 Bell Folk, water) or ring its bell for the owner (the Saltmen fight harder for a
+  round). Shows a mod faction's reputation, a desert / flat-terrain filter, a two-hex
+  walker and the two pictures in `assets/incidents/`. The 40 base incidents keep firing.
 - **Sound** — three synthesized sound effects (bell, cracked bell, ship-hull gong) plus
   base-game sound keys (`audio.json`).
 - **English and German** for every action, requirement, goal and name (`i18n/salt_bell.csv`).

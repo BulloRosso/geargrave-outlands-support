@@ -1,6 +1,6 @@
 ---
 name: geargrave-outlands-mod-creator
-description: Build, extend, fix and validate mods for the game Geargrave Outlands — a mod is a level folder (map, factions, building actions, junction and roadside events, battles/encounters, story goals, vehicles with art, parts, characters with perks, traits, bonds and combos, NPC dialog trees, a living map (traffic parties, radio beacons, chained finds with lore and loot), epilogues/endings, sound effects and music, translations). Use when someone wants to create a Geargrave Outlands mod, level, map, region, faction, quest, NPC dialog, character, vehicle, battle, roadside event, ending/epilogue or SFX, living-map traffic/beacon/find, or asks why their mod does not load or shows errors in the game's MODS screen.
+description: Build, extend, fix and validate mods for the game Geargrave Outlands — a mod is a level folder (desert or winter map, level switches, story meters that close roads, factions, self-revealing building actions, junction and roadside events, battles, story goals, vehicles with art, parts, characters with levels, perks, traits, bonds and combos, NPC dialogs, a living map (traffic, radio beacons, chained finds), cargo discoverables (cargo sets, hitch loads, living/fragile cargo, discovery reveals), road incidents (mid-battle roadside moments with a walker and a good/bad choice), endings, sound and music, translations). Use when someone wants to create a Geargrave Outlands mod, level, map, region, winter/snow level, faction, quest, story meter, NPC dialog, character, vehicle, battle, roadside event, ending or SFX, living-map traffic/beacon/find, cargo set / discoverable / towed cargo, road incident / battle incident, asks what a mod can do with the Mend board, or asks why their mod does not load or shows errors in the game's MODS screen.
 ---
 
 # Geargrave Outlands mod creator
@@ -13,8 +13,8 @@ is in this skill:
 
 | Read | When |
 |---|---|
-| `references/file-reference.md` | **always, before writing any file** — every format with a worked example (18 chapters) |
-| `references/base-catalog.md` | whenever you use something from the base game: built-in actions, vehicle chassis, upgrades, perks, traits, doctrines, sound keys, playlists, gang tactics, road illustrations |
+| `references/file-reference.md` | **always, before writing any file** — every format with a worked example (22 chapters; level switches, winter rules, story meters and the Mend board are in ch. 2 and 4, own biomes in ch. 21, own mend items in ch. 22) |
+| `references/base-catalog.md` | whenever you use something from the base game: built-in actions, vehicle chassis, upgrades, perks, traits, doctrines, sound keys, playlists, gang tactics, road illustrations, cargo-set effect ids, road-incident effect verbs and needs |
 | `references/art-guide.md` | whenever you make or place an image — the **80/20 house style**, sizes, file names, prompts, vehicle image sets |
 | `references/schemas/*.schema.json` | exact field lists; add `"$schema"` pointers so editors check files too |
 | `modding/examples/salt_bell/` (support repo) | the complete worked example mod — copy patterns from it |
@@ -45,11 +45,16 @@ validate by path. Gateway and id-collision checks compare against installed leve
 Settle these with the user in a few questions, then restate them in 8–12 lines:
 
 1. **Region** — one sentence of mood + climate (drives text, art, `defaultRoadTerrain`).
+   Desert, winter or a biome of its own (`terrainTheme` — winter turns on the cold rules,
+   Snow Speeders instead of motorcycles and snow-only roads; an own biome such as a jungle
+   builds on one of the two and ships its own look, ch. 21); do the Sweepers hunt its roads
+   (`sweepers`, default yes)? (file-reference ch. 2, *Level switches*, *Winter levels*.)
 2. **Size** — 4–8 locations for a first mod, 1–3 buildings each, roads with 0–2 junctions.
 3. **Factions** — 1–3: identity line, leader + speech style, what they trade and want,
    who they hate (file-reference ch. 3).
 4. **Story** — one goal, 3–5 steps, each step a story flag: `flag → what sets it → what it
-   unlocks`. The last flag triggers the **epilogue**.
+   unlocks`. The last flag triggers the **epilogue**. Optional: a story meter that counts
+   the player's choices and closes roads at thresholds (`flagCounters`, ch. 2).
 5. **Characters** — 1–3 recruitable people: role, perk, traits, how they join; which pairs
    bond or combo (ch. 11–12).
 6. **NPCs to talk to** — 1–3 dialog trees at buildings (ch. 13).
@@ -72,7 +77,9 @@ Settle these with the user in a few questions, then restate them in 8–12 lines
 ## 2. Build in this order — validate after EVERY step
 
 1. **Skeleton** — `level.json`: factions, locations (placeholder `pos`), roads, one
-   `startingCrews`, `description`, `author`, `version`. The validator must say it loads.
+   `startingCrews`, `description`, `author`, `version`, and the level switches you
+   agreed on (`terrainTheme`, `sweepers`, `tutorial`, `hideBaseFactions`). The validator
+   must say it loads.
 2. **Map art** (if possible) — `assets/map_background.png` first (3840×2160), look at it,
    put each `pos` on a painted landmark (art-guide §3). Otherwise spread locations over
    the canvas (≥ 60 px from edges).
@@ -83,13 +90,25 @@ Settle these with the user in a few questions, then restate them in 8–12 lines
    (`heal_crew`, `repair_vehicles`, `trade_water`, `buy_vehicles`, …) and your own
    `actions.json`. Story steps = actions with `flagPresent/flagAbsent` requirements and
    `setFlag` effects. Every custom action has a `resultFallback`, every requirement a
-   `reason`.
-5. **Characters, bonds, dialogs** — `characters.json` (perk from the catalog, 1–2
-   traits, portrait, bio), `relationships.json` (a combo for a good pair, a bond with
-   friction), `conversations.json` (NPC trees; every node with choices has a safe
+   `reason`. A story action stays **hidden** until its story requirements hold; give a
+   lead the player should see early a `revealWhen` (ch. 4). Towns where the player
+   should mend well get `repair_vehicles` and `heal_crew` (the Mend board's bench and
+   clinic).
+5. **Characters, bonds, dialogs** — `characters.json` (level 1–2, perk from the catalog,
+   1–2 traits, portrait, bio), `relationships.json` (a combo for a good pair with whole-
+   number values, a bond with friction), `conversations.json` (NPC trees; every node with choices has a safe
    `autoChoice`; the last `entry` is unconditional; trait lines use `interject`).
 6. **Vehicles and parts** — `vehicles.json` (chassis + `skin` + lore; shop / wreck),
    `parts.json` for quest items and cargo, `doctrines.json` to give them build value.
+6b. **Cargo discoverables** (optional, ch. 19) — `cargo_sets/<set_id>.json`: pick an
+   effect the catalog marks *usable in a mod*, write 2–3 pieces whose hints point at each
+   other, spread their sources over the map, gate 2–3 NPC hint lines on
+   `cargo_seen_<partId>`, add the hero image, set icon and a reveal sound.
+6c. **Road incidents** (optional, ch. 20) — `road_incidents.json`: 1–4 absurd roadside
+   moments that fit your setting (day and night), each with a header picture and an
+   isometric walker (art guide §10). Your file joins the 40 base incidents; reuse a base
+   id to replace one, `"hideBase": [ids]` to drop a few, or `"baseIncidents": false` if
+   the base jokes break your setting.
 7. **Battles** — `encounters/<id>.json`; declare wins in `progression.json`. Check each
    battle's skull rating in the validator output: a battle started by a travel event must
    not exceed the story level (ch. 5).
@@ -97,6 +116,8 @@ Settle these with the user in a few questions, then restate them in 8–12 lines
    `MISSION_<FLAG>_TITLE` / `_DESC` rows in your CSV.
 9. **Travel** — `events.json` (every joint `eventId` + 4 random-pool events) and
    `travel_legs.json` (6+ roadside events with images, 2–3 choices each, safe `autoChoice`).
+   A winter mod ships its own legs (the generic pool drops its desert scenes there).
+   Hand-drawn route maps (`travel/<roadId>.konvoi.json`, ch. 2) are optional and advanced.
 10. **Sound** — files into `assets/audio/`, map them in `audio.json` (`"assets/audio/x.ogg"`),
     play with `playSound` and event `sound` fields.
 11. **Epilogue** — `epilogues.json`: `flags` = the final story flag; pages `world`,
@@ -112,7 +133,9 @@ Settle these with the user in a few questions, then restate them in 8–12 lines
     cel shading, never photoreal without edges). Vehicle skins: side view first, then hex
     tile, portrait, loot image, damage stages, all the same vehicle. Living-map cards
     (`assets/life/<stem>.png`, 3:2): one per find, contact kind and beacon template —
-    write the region into each prompt (art-guide §4).
+    write the region into each prompt (art-guide §4). An own biome: its variants of the
+    game's pictures under `assets/game/` (backdrop sets, impact and strategy cards, convoy
+    and camp backdrops, vehicle sprites), each from its original (art-guide §11, ch. 21).
 13. **Translations** (optional) — `i18n/<mod_id>.csv` with the derived keys (ch. 16).
 
 ## 3. Rules that prevent the classic failures
@@ -140,7 +163,37 @@ Settle these with the user in a few questions, then restate them in 8–12 lines
   Do not reference or describe the base game's own vehicles; build your own.
 - Upgrades are built in: give or sell them, never invent new ones. New parts are plain
   engines or cargo; `Defense/Prep/Base/LootBox` classes only work on the game's own part ids.
+- Cargo-set effects are built in too: pick an implemented id from the catalog, never a
+  reserved one, and check its *usable in a mod* column (some need Sector East characters).
+  Hitch loads need a tow-capable vehicle (a bare pickup cannot tow). Dialog cannot hand
+  out a piece safely: talk → flag → pickup action with `bayFreeFor` / `hitchFree`.
+- Road incidents: exactly one option `"good": true`; effect verbs and `needs` come from
+  the catalog, never invented; set `walker.span` for anything wider than a person, or the
+  walker overlaps the convoy; an incident that removes or wrecks vehicles only fires when
+  the convoy has enough of them. Night-only and day-only pools are separate.
+- Own biome: a `terrainTheme` other than `desert`/`winter` needs `"biome": { "baseBiome": … }`,
+  or the level silently plays as desert. Its art mirrors the game's path under
+  `assets/game/` with the theme as suffix, same size and file type as the original; an own
+  battle backdrop set needs both tiles and its `lineY0` lines (ch. 21).
 - Perks: use one with an effect (catalog). Traits: only the ten listed.
+- Two skill scales: a character's `skill` is a **level 1–10** and starts at 1 or 2 (only
+  robots higher); enemy crews in encounters keep **1–5**. Dialog `requiresSkill` stays on
+  the 1–5 scale too (ch. 13).
+- Combo and bond `value`s are **whole numbers** (+1 repair, the first 2 shots), never
+  percentages: `0.1` does nothing, `20` means +20 (ch. 12).
+- Actions hide until their story requirements hold, and a used one-shot disappears. A
+  lead the player must see before it can run needs `revealWhen` — otherwise the player
+  never learns it exists.
+- Winter mods: no `Motorcycle` in your battles (the game fields Snow Speeders), hand out
+  `SnowChains` / `CabinHeater` yourself (the store does not sell them there), and never
+  gate a must-drive road with `requiresSnowCapable` before the player can get chains.
+  Only base-game art has winter variants: paint your own in snow.
+- Fuel amounts in any text are tokens: `{fuelpool:N}` (stock units) or `{fuel:N}`
+  (litres) — the game shows litres or US gallons by language.
+- The Mend board: a level decides which towns offer the bench (`repair_vehicles`) and the
+  clinic (`heal_crew`), and may bring a `mend_items.json` (ch. 22) — new or repainted items
+  and marks with an icon each in `assets/mend_items/`, hooks only from the catalog, and the
+  board's odds under `balance`. The lever and its prices are built in.
 - Your factions are map factions; a battle's `faction` only knows the game's combat
   factions — use `"None"` + a `gang` block and pay reputation through a follow-up action.
 - Do not use Sector East story actions (catalog lists the reusable built-ins).
@@ -156,9 +209,14 @@ Settle these with the user in a few questions, then restate them in 8–12 lines
 - A short **playtest list** for the user: pick the level in the level picker (its
   **MODS** button shows the same report); visit every location; run each custom action
   and dialog branch; buy/recover the vehicles; recruit the characters and seat the combo
-  pair together; drive every road; win each battle; reach the ending (the epilogue plays
-  on the map shortly after its flag is set). Only a human can judge pacing, tone,
-  difficulty and whether the art fits.
+  pair together; collect every cargo set, fire its effect once and watch the reveal (a
+  chase for chase-only sets); fight past round 3 and 7 a few times to meet the road
+  incidents (in a dev build the probe `--roadwar-incident=<id>` forces one); drive every road; win each battle; reach the ending (the epilogue plays
+  on the map shortly after its flag is set). Check that every story action shows up when
+  it should (hidden leads are the classic dead end), push a story meter through each
+  rung and see its roads close and reopen, and on a winter mod drive a snow-capable road
+  with and without chains. Only a human can judge pacing, tone, difficulty and whether
+  the art fits.
 - To share: zip the mod folder itself (the zip contains `<mod_id>/level.json`).
 
 ## 5. When the user brings a broken mod

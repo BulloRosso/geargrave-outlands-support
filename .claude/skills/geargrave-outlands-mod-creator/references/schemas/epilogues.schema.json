@@ -5,6 +5,33 @@
   "description": "GENERATED from the game's loader types — do not edit. // comments allowed. Trailing commas allowed. Keys are matched case-insensitively by the game; write them in camelCase.",
   "$ref": "#/$defs/EpilogueLevelFile",
   "$defs": {
+    "EpiloguePanelVariant": {
+      "type": "object",
+      "properties": {
+        "requiresFlag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "all of these flags must be set"
+        },
+        "requiresNotFlag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "none of these flags may be set"
+        },
+        "body": {
+          "type": "string",
+          "description": "sentence appended to the panel body; key EPI_<ENDING>_P<n>_B<s>_V<i>"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
     "EpiloguePanelDef": {
       "type": "object",
       "properties": {
@@ -34,6 +61,12 @@
         },
         "bodyHostile": {
           "type": "string"
+        },
+        "variants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/EpiloguePanelVariant"
+          }
         }
       },
       "patternProperties": {

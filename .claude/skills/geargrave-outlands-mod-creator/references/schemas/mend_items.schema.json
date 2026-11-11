@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/mend_items.schema.json",
+  "title": "mend_items.json — the Mend board: items a bold attempt can leave on a vehicle or a person, the marks a severe botch leaves, and the board's odds (merged over the base catalog, level wins by id)",
+  "description": "GENERATED from the game's loader types — do not edit. // comments allowed. NO trailing commas. Keys are matched case-insensitively by the game; write them in camelCase.",
+  "$ref": "#/$defs/FileShape",
+  "$defs": {
+    "MendEffect": {
+      "type": "object",
+      "properties": {
+        "fx": {
+          "type": "string"
+        },
+        "n": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "MendItemDef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "slot": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "standard": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "piece": {
+          "type": "string"
+        },
+        "story": {
+          "type": "string"
+        },
+        "boon": {
+          "$ref": "#/$defs/MendEffect"
+        },
+        "flaw": {
+          "$ref": "#/$defs/MendEffect"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "MendMarkDef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "slot": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "flaw": {
+          "$ref": "#/$defs/MendEffect"
+        },
+        "days": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "FileShape": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MendItemDef"
+          }
+        },
+        "marks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MendMarkDef"
+          }
+        },
+        "hideBaseItems": {
+          "type": "boolean"
+        },
+        "balance": {}
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -18,7 +18,10 @@
           "type": "string"
         },
         "skill": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10,
+          "description": "starting LEVEL 1-10; people start at 1 or 2 (robots, who never grow, may start higher)"
         },
         "perk": {
           "type": "string"

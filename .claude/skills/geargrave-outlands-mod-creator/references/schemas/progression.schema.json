@@ -9,7 +9,12 @@
       "type": "object",
       "properties": {
         "type": {
-          "type": "string"
+          "type": "string",
+          "description": "setFlag | openRoad | closeRoad | revealLocation | grantVehicle | recruitCharacter | addUpgrade | claimSurrenderedVehicle | applyReputation | postLedger | relocateCharacter"
+        },
+        "faction": {
+          "type": "string",
+          "description": "applyReputation: faction id (with amount)"
         },
         "flag": {
           "type": "string"

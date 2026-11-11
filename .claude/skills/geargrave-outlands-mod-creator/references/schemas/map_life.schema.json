@@ -80,6 +80,10 @@
         "waterAsk": {
           "type": "integer"
         },
+        "repFaction": {
+          "type": "string",
+          "description": "refugees: who hears about shared water (default free_nomads)"
+        },
         "tipPrice": {
           "type": "object",
           "additionalProperties": {
@@ -88,6 +92,20 @@
         },
         "scrapDeal": {
           "$ref": "#/$defs/Deal"
+        },
+        "requiresFlag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "spawns only while all these flags are set"
+        },
+        "requiresNotFlag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "stops spawning once one of these is set"
         }
       },
       "patternProperties": {
@@ -175,6 +193,18 @@
         },
         "rep": {
           "type": "integer"
+        },
+        "requiresFlag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "requiresNotFlag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "patternProperties": {

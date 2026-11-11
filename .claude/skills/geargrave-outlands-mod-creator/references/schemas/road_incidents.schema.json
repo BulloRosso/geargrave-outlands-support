@@ -1,0 +1,214 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/road_incidents.schema.json",
+  "title": "road_incidents.json — absurd roadside moments in the iso battle (rounds 3 and 7): a walker crosses the road, a card offers one good and one bad choice (merged over the base pool, level wins by id)",
+  "description": "GENERATED from the game's loader types — do not edit. // comments allowed. Trailing commas allowed. Keys are matched case-insensitively by the game; write them in camelCase.",
+  "$ref": "#/$defs/FileShape",
+  "$defs": {
+    "RoadIncidentWalker": {
+      "type": "object",
+      "properties": {
+        "stem": {
+          "type": "string"
+        },
+        "rows": {
+          "type": "integer"
+        },
+        "result": {
+          "type": "string"
+        },
+        "entry": {
+          "type": "string"
+        },
+        "exit": {
+          "type": "string"
+        },
+        "scale": {
+          "type": "number"
+        },
+        "span": {
+          "type": "integer"
+        },
+        "alpha": {
+          "type": "number"
+        },
+        "offsetRank": {
+          "type": "integer"
+        },
+        "offsetLane": {
+          "type": "integer"
+        },
+        "atLane": {
+          "type": "number"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "RoadIncidentEffect": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "faction": {
+          "type": "string"
+        },
+        "delta": {
+          "type": "integer"
+        },
+        "rounds": {
+          "type": "integer"
+        },
+        "count": {
+          "type": "integer"
+        },
+        "pct": {
+          "type": "integer"
+        },
+        "who": {
+          "type": "string"
+        },
+        "side": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "filter": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "size": {
+          "type": "string"
+        },
+        "flag": {
+          "type": "string"
+        },
+        "vehicleType": {
+          "type": "string"
+        },
+        "rare": {
+          "type": "boolean"
+        },
+        "all": {
+          "type": "boolean"
+        },
+        "lead": {
+          "type": "boolean"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "RoadIncidentOption": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string"
+        },
+        "result": {
+          "type": "string"
+        },
+        "good": {
+          "type": "boolean"
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RoadIncidentEffect"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "RoadIncidentDef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "time": {
+          "type": "string"
+        },
+        "stage": {
+          "type": "string"
+        },
+        "terrain": {
+          "type": "string"
+        },
+        "minSkulls": {
+          "type": "integer"
+        },
+        "maxSkulls": {
+          "type": "integer"
+        },
+        "needs": {
+          "type": "string"
+        },
+        "once": {
+          "type": "boolean"
+        },
+        "walker": {
+          "$ref": "#/$defs/RoadIncidentWalker"
+        },
+        "title": {
+          "type": "string"
+        },
+        "body": {
+          "type": "string"
+        },
+        "a": {
+          "$ref": "#/$defs/RoadIncidentOption"
+        },
+        "b": {
+          "$ref": "#/$defs/RoadIncidentOption"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "FileShape": {
+      "type": "object",
+      "properties": {
+        "$schema": {
+          "type": "string"
+        },
+        "baseIncidents": {
+          "type": "boolean"
+        },
+        "hideBase": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "base incident ids that do not fire on this level"
+        },
+        "incidents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RoadIncidentDef"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    }
+  }
+}

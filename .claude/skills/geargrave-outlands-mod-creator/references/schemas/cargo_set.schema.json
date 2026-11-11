@@ -1,0 +1,799 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/BulloRosso/geargrave-outlands-support/main/.claude/skills/geargrave-outlands-mod-creator/references/schemas/cargo_set.schema.json",
+  "title": "cargo_sets/<set_id>.json — one cargo-discoverable bundle: the set (pieces, placement, command, effect, reveal modal), its parts, the actions that source them, dialog patches with hints, English strings",
+  "description": "GENERATED from the game's loader types — do not edit. // comments allowed. NO trailing commas. Keys are matched case-insensitively by the game; write them in camelCase.",
+  "$ref": "#/$defs/BundleShape",
+  "$defs": {
+    "CargoPiece": {
+      "type": "object",
+      "properties": {
+        "part": {
+          "type": "string"
+        },
+        "character": {
+          "type": "string"
+        },
+        "vehicleType": {
+          "type": "string"
+        },
+        "engine": {
+          "type": "string"
+        },
+        "upgrade": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "bonus": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "CargoReq": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "CargoCommand": {
+      "type": "object",
+      "properties": {
+        "verb": {
+          "type": "string"
+        },
+        "phase": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        },
+        "viaDetach": {
+          "type": "string"
+        },
+        "tell": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "CargoEffect": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "params": {
+          "type": "object",
+          "additionalProperties": {}
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "CargoModalButton": {
+      "type": "object",
+      "properties": {
+        "labelKey": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "effects": {
+          "type": "array",
+          "items": {}
+        },
+        "requires": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "CargoModal": {
+      "type": "object",
+      "properties": {
+        "image": {
+          "type": "string"
+        },
+        "titleKey": {
+          "type": "string"
+        },
+        "sloganKey": {
+          "type": "string"
+        },
+        "bodyKey": {
+          "type": "string"
+        },
+        "rulesKey": {
+          "type": "string"
+        },
+        "buttons": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CargoModalButton"
+          }
+        },
+        "sfx": {
+          "type": "string"
+        },
+        "stinger": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "CargoHintWhen": {
+      "type": "object",
+      "properties": {
+        "cargoAboard": {
+          "type": "string"
+        },
+        "flag": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "CargoHint": {
+      "type": "object",
+      "properties": {
+        "conversation": {
+          "type": "string"
+        },
+        "node": {
+          "type": "string"
+        },
+        "when": {
+          "$ref": "#/$defs/CargoHintWhen"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "CargoSetDef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "tier": {
+          "type": "string"
+        },
+        "placement": {
+          "type": "string"
+        },
+        "pieces": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CargoPiece"
+          }
+        },
+        "optional": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CargoPiece"
+          }
+        },
+        "requires": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CargoReq"
+          }
+        },
+        "command": {
+          "$ref": "#/$defs/CargoCommand"
+        },
+        "effect": {
+          "$ref": "#/$defs/CargoEffect"
+        },
+        "consumes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "modal": {
+          "$ref": "#/$defs/CargoModal"
+        },
+        "hints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CargoHint"
+          }
+        },
+        "achievement": {
+          "type": "string"
+        },
+        "debriefKey": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "PartStory": {
+      "type": "object",
+      "properties": {
+        "origin": {
+          "type": "string"
+        },
+        "ref": {
+          "type": "string"
+        },
+        "lore": {
+          "type": "string"
+        },
+        "hint": {
+          "type": "string"
+        },
+        "loreKey": {
+          "type": "string"
+        },
+        "hintKey": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "PartLiving": {
+      "type": "object",
+      "properties": {
+        "eats": {
+          "type": "string"
+        },
+        "perDay": {
+          "type": "integer"
+        },
+        "unfedDays": {
+          "type": "integer"
+        },
+        "fate": {
+          "type": "string"
+        },
+        "everyDays": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "PartDef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "Engine",
+            "Cargo"
+          ]
+        },
+        "quality": {
+          "enum": [
+            "Small",
+            "Medium",
+            "Large"
+          ]
+        },
+        "class": {
+          "enum": [
+            "None",
+            "Defense",
+            "Prep",
+            "Base",
+            "LootBox"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "weightKg": {
+          "type": "integer"
+        },
+        "electric": {
+          "type": "boolean"
+        },
+        "carry": {
+          "type": "string"
+        },
+        "set": {
+          "type": "string"
+        },
+        "story": {
+          "$ref": "#/$defs/PartStory"
+        },
+        "living": {
+          "$ref": "#/$defs/PartLiving"
+        },
+        "fragile": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "maxCopies": {
+          "type": "integer"
+        },
+        "sellable": {
+          "type": "boolean"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "Req": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "flag": {
+          "type": "string"
+        },
+        "resource": {
+          "type": "string"
+        },
+        "faction": {
+          "type": "string"
+        },
+        "character": {
+          "type": "string"
+        },
+        "part": {
+          "type": "string"
+        },
+        "vehicle": {
+          "type": "string"
+        },
+        "unmanned": {
+          "type": "boolean"
+        },
+        "amount": {
+          "type": "integer"
+        },
+        "focus": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "building": {
+          "type": "string"
+        },
+        "trait": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "reasonKey": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "Eff": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "flag": {
+          "type": "string"
+        },
+        "resource": {
+          "type": "string"
+        },
+        "upgrade": {
+          "type": "string"
+        },
+        "faction": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "integer"
+        },
+        "encounter": {
+          "type": "string"
+        },
+        "sound": {
+          "type": "string"
+        },
+        "character": {
+          "type": "string"
+        },
+        "part": {
+          "type": "string"
+        },
+        "mascot": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "vehicle": {
+          "type": "string"
+        },
+        "fromType": {
+          "type": "string"
+        },
+        "toType": {
+          "type": "string"
+        },
+        "ledger": {
+          "type": "string"
+        },
+        "deed": {
+          "type": "string"
+        },
+        "road": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "hullPct": {
+          "type": "integer"
+        },
+        "upgrade2": {
+          "type": "string"
+        },
+        "skin": {
+          "type": "string"
+        },
+        "boxes": {
+          "type": "integer"
+        },
+        "trait": {
+          "type": "string"
+        },
+        "days": {
+          "type": "integer"
+        },
+        "skulls": {
+          "type": "integer"
+        },
+        "skullsFromHeat": {
+          "type": "boolean"
+        },
+        "unlessAllied": {
+          "type": "boolean"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "Def": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "requires": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Req"
+          }
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Eff"
+          }
+        },
+        "resultKey": {
+          "type": "string"
+        },
+        "resultFallback": {
+          "type": "string"
+        },
+        "labelKey": {
+          "type": "string"
+        },
+        "label": {
+          "type": "string"
+        },
+        "cooldownDays": {
+          "type": "integer"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "ConvEntry": {
+      "type": "object",
+      "properties": {
+        "requiresFlag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "node": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "ConvCheck": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string"
+        },
+        "base": {
+          "type": "integer"
+        },
+        "perSkill": {
+          "type": "integer"
+        },
+        "cap": {
+          "type": "integer"
+        },
+        "onFail": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "ConvChoice": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "next": {
+          "type": "string"
+        },
+        "exit": {
+          "type": "boolean"
+        },
+        "requiresFlag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "requiresNotFlag": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "requiresRole": {
+          "type": "string"
+        },
+        "requiresSkill": {
+          "type": "integer"
+        },
+        "requiresPerk": {
+          "type": "string"
+        },
+        "requiresTrait": {
+          "type": "string"
+        },
+        "requiresOrigin": {
+          "type": "string"
+        },
+        "requiresCharacter": {
+          "type": "string"
+        },
+        "requiresUnnamedRole": {
+          "type": "string"
+        },
+        "requiresSpareVehicle": {
+          "type": "boolean"
+        },
+        "requiresResources": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "interject": {
+          "type": "boolean"
+        },
+        "mood": {
+          "type": "string"
+        },
+        "check": {
+          "$ref": "#/$defs/ConvCheck"
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Eff"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "ConvNode": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "choices": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ConvChoice"
+          }
+        },
+        "autoChoice": {
+          "type": "string"
+        },
+        "mood": {
+          "type": "string"
+        },
+        "moods": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "ConvPatch": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "npcCharacterId": {
+          "type": "string"
+        },
+        "npcName": {
+          "type": "string"
+        },
+        "npcPortrait": {
+          "type": "string"
+        },
+        "doneFlag": {
+          "type": "string"
+        },
+        "entry": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ConvEntry"
+          }
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ConvNode"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "BundleShape": {
+      "type": "object",
+      "properties": {
+        "set": {
+          "$ref": "#/$defs/CargoSetDef"
+        },
+        "parts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PartDef"
+          }
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Def"
+          }
+        },
+        "conversations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ConvPatch"
+          }
+        },
+        "strings": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    }
+  }
+}

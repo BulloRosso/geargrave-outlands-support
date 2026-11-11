@@ -25,7 +25,6 @@
     { "type": "Buggy", "name": "Right Hand", "zone": "EnemyFront",
       "crew": [ { "role": "Driver", "skill": 2 }, { "role": "Gunner", "skill": 2 } ] }
   ],
-  "stationaries": [ { "type": "MortarTeam", "zone": "EnemyRear", "name": "Breakwater Mortar" } ],
   "blockades": [
     { "kind": "BurningBarricade", "lane": 1, "rank": 3 },
     { "kind": "TireStack", "lane": 3, "rank": 3 }

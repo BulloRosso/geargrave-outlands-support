@@ -41,6 +41,33 @@
       },
       "additionalProperties": false
     },
+    "StartCrewDef": {
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string"
+        },
+        "skill": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "robot": {
+          "type": "boolean"
+        },
+        "fixed": {
+          "type": "boolean"
+        },
+        "perkId": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
     "Entry": {
       "type": "object",
       "properties": {
@@ -120,6 +147,18 @@
           "type": "integer"
         },
         "lore": {
+          "type": "string"
+        },
+        "startCrew": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/StartCrewDef"
+          }
+        },
+        "soldUnmanned": {
+          "type": "boolean"
+        },
+        "startEngine": {
           "type": "string"
         }
       },

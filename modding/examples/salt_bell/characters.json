@@ -5,7 +5,7 @@
       "id": "sb_maren",
       "name": "Maren Kett",
       "role": "Mechanic",
-      "skill": 3,
+      "skill": 1,
       "perk": "free_repair",
       "traits": [
         "gearhead",
@@ -23,7 +23,7 @@
       "id": "sb_tobi",
       "name": "Tobi Kett",
       "role": "Driver",
-      "skill": 2,
+      "skill": 1,
       "perk": "free_reverse",
       "traits": [
         "ghost"

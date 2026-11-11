@@ -32,6 +32,14 @@ sound files. The game checks your mod for you and says exactly what is wrong.
 
 To remove a mod, delete its folder. Saves made on a mod's level need that mod.
 
+**From the Steam Workshop:** press **Subscribe** on the mod's Workshop page. Steam
+downloads it and the mod appears in the level picker (tagged *STEAM WORKSHOP*), even
+while the game is running. Unsubscribe to remove it. If a save needs a Workshop mod
+you don't have, loading it opens the mod's Workshop page so you can subscribe.
+
+A mod folder in `levels` wins over a Workshop item with the same level id, so you can
+test a new version of your own published mod locally.
+
 ## Your first mod in 15 minutes
 
 1. **Copy the example.** Copy [`examples/`](examples/)'s mod folder into `levels/`,
@@ -75,6 +83,8 @@ To remove a mod, delete its folder. Saves made on a mod's level need that mod.
 | `vehicles.json` + vehicle art | your own vehicles on the game's chassis, with side view, hex tile and portrait |
 | `assets/cutaway_anchors.json` + cutaway art | the battle cutaway of your vehicles: crew in their seats, spinning wheels, engine, cargo bays (made with the [cutaway editor](cutaway-editor/README.md)) |
 | `parts.json`, `doctrines.json` | quest items, cargo and engines; their build value |
+| `road_incidents.json` | road incidents: absurd roadside moments in the middle of a battle (an isometric walker crosses the road, a card with one good and one bad choice), merged into the game's 40 base incidents |
+| `cargo_sets/*.json` | cargo discoverables: 2–3 pieces (cargo, a character, a towed hitch load) whose hints point at each other and together unlock a battle command or a travel power, with a full-screen discovery reveal the first time it fires |
 | `assets/` | map background, level banner, location scenes, building art, portraits, epilogue panels |
 
 ## The validator
@@ -122,10 +132,31 @@ The example mod in [`examples/`](examples/) was built exactly this way.
 
 ## Sharing
 
+### Steam Workshop
+
+1. Put the mod folder in `levels` and open **MODS** in the level picker.
+2. Fix every error: only mods that load cleanly can be published. `level.json` needs
+   an `id`, because on the Workshop the id comes from the file, not the folder name.
+3. Press **Publish to Workshop**. The first upload creates a **private** item and
+   opens its page: check the title, description and preview there, then set it to
+   public. If Steam asks you to accept the Workshop agreement, do that on the same
+   page, or the item stays hidden.
+4. To ship a new version, raise `version` in `level.json` and press **Update on
+   Workshop**. The version becomes the change note.
+
+Publishing writes a `workshop.json` into your mod folder with the item's id. Keep it;
+it's how the next upload updates the same item instead of creating a new one.
+
+The title is the level's `displayName` and the description its `description`. The
+`bannerImage` becomes the preview picture if it is under 1 MB. Tags are set from what
+the folder contains (vehicles, parts, incidents, encounters, story, translations).
+Workshop items cannot replace the official levels (`sector_east`, `sector_west`).
+
+### Zips
+
 Zip the mod folder itself (the zip contains `my_outpost/level.json`) and share it
 wherever you like. Include a short `README.md`: what the mod is, how to install it,
-credits, and whether images or sounds were AI-generated. Steam Workshop support is
-planned; until then, zips are the way.
+credits, and whether images or sounds were AI-generated.
 
 ## Rules of thumb
 

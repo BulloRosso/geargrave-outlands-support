@@ -8,7 +8,9 @@
   "bannerImage": "banner.png",
   "capBriefing": {
     "en": "Salt Bell. A dead sea, dry as a bone, and one town that still hangs on to a well. Their signal bell cracked, and without it the water caravans pass them by. Fix the bell, and the whole basin owes you. Watch for the Saltmen - they come out of the glare.",
-    "de": "Salzglocke. Ein totes Meer, knochentrocken, und eine Siedlung, die sich noch an einen Brunnen klammert. Ihre Signalglocke ist gesprungen, und ohne sie ziehen die Wasserkarawanen vorbei. Bring die Glocke wieder zum Klingen, und das ganze Becken steht in deiner Schuld. Achte auf die Salzmänner - sie kommen aus dem grellen Licht."
+    "de": "Salzglocke. Ein totes Meer, knochentrocken, und eine Siedlung, die sich noch an einen Brunnen klammert. Ihre Signalglocke ist gesprungen, und ohne sie ziehen die Wasserkarawanen vorbei. Bring die Glocke wieder zum Klingen, und das ganze Becken steht in deiner Schuld. Achte auf die Salzmänner - sie kommen aus dem grellen Licht.",
+    "pl": "Solny Dzwon. Martwe morze, suche jak pieprz, i jedno miasteczko, które wciąż kurczowo trzyma się studni. Pękł im dzwon sygnałowy, a bez niego karawany z wodą przejeżdżają obok. Napraw dzwon, a cała niecka będzie ci dłużna. Uważaj na Ludzi Soli – wyłaniają się prosto z oślepiającego blasku.",
+    "ko": "소금 종. 뼈처럼 바싹 마른 죽은 바다, 그리고 아직 우물 하나에 매달려 버티는 마을 하나. 신호 종에 금이 가는 바람에 물 카라반들이 그냥 지나쳐 가요. 종을 고치면 분지 전체가 보스한테 빚을 지는 셈이죠. 소금꾼들 조심하세요. 눈부신 햇빛 속에서 튀어나오거든요."
   },
   "defaultRoadTerrain": "salzsee",
   "terrainTheme": "desert",

@@ -36,6 +36,17 @@ rendering and edge treatment of the reference; do not copy its subject"). Use a 
 reference for a desert mod and a winter one for snow, or palette details (palm trees,
 snow) leak over. Never copy them into your mod.
 
+**Winter mods** (`"terrainTheme": "winter"`, file reference ch. 2). On a winter level the
+game swaps some of its *own* pictures for snow versions (roadside cards, the battle
+header strips, the backdrop of generated battles); you may replace those through
+`assets/game/` (§11). The game never looks for a winter variant of your *own* art,
+so paint every picture of a winter mod in snow from the start: map background, location
+scenes, buildings, roadside images, living-map cards, incident headers and vehicle
+screens. Palette for snow: cold blue-grey shadows, bone-white snow with dirty tyre
+tracks, rust and signal orange as the warm accents; keep the ink edges and the single
+light of §1. Vehicle side views and hex tiles stay neutral cut-outs (a little snow on
+the roof and wheel arches is enough), because the same skin can appear on any road.
+
 ### The style block (append to every prompt except the map)
 
 > STYLE: realistic painted rendering with truthful weathered materials, ambient
@@ -71,6 +82,8 @@ snow) leak over. Never copy them into your mod.
 | Encounter scene | referenced by `locationImage` / `situationImage` | 1536×1024 | full image |
 | Epilogue panels | referenced by `epilogues.json` `image` | 1536×1024 or wider | full image |
 | Living-map card (find, contact, beacon) | `life/<stem>.png`, named by `map_life.json` `card` | 1536×1024 (3:2) | full image |
+| Cargo-set hero (Discovery Modal) | named by the set's `modal.image` | **1536×864 (16:9)**, subject in the vertical middle ~65 %, quieter lower third, **no text** | full image |
+| Cargo-set icon | named by the set's `icon` | 340×340, one bold motif on pure black, readable at 28 px | black |
 | Living-map marker icon | `life/<stem>.png`, named by `map_life.json` `icon` (the base `traffic_*` icons need no file) | 1024×1024, subject ~85 % of the square | **transparent** |
 
 Keep the whole mod under ~150 MB. Every image named in JSON may be `.jpg` (write the
@@ -239,3 +252,92 @@ shadow + style block.
 ## 8. AI-generated art
 
 If you use AI image generation, say so in your mod's README. Stores and players expect it.
+
+## 9. Cargo discoverables
+
+- **Part images** for set pieces follow the part rule above (square, the item alone on a
+  plain neutral background or as a transparent cut-out). Words that belong to the object
+  (a stencil on a crate) may appear; invented brands only, never a real logo.
+- **Hitch loads need no art.** On the hook every hitch load is drawn as the game's generic
+  Small / Medium / Large container; its part image shows the contents on cards and in the
+  inspect window.
+- **The hero image** is the reveal itself — the moment players clip. One big, slightly
+  absurd action scene of the effect (the herd pouring across the lanes, the parade balloon
+  over the battle), house style, strong value contrast, legible at 320 px wide. The modal
+  crops a 16:9 image to about 2.6:1 around the centre and prints the slogan over the lower
+  third: keep faces and the key action in the vertical middle ~65 % and the lower third
+  calm. Never put text in the image.
+- **The set icon** is a glyph, not a picture: one motif (a horn, a flag, a stamp) on pure
+  black, thick shapes, bright colours. Check it at 28 px; brighten it if it goes muddy.
+
+## 10. Road incidents
+
+Two pictures per incident (file reference ch. 20). File names are fixed by the id and
+the walker stem:
+
+| File | Size | What |
+|---|---|---|
+| `assets/incidents/header_<id>.png` | 1280×720 (16:9), opaque | the card picture: the moment, seen from the convoy |
+| `assets/incidents/walkers/<stem>.png` | 512×512, transparent | the isometric cut-out that crosses the road |
+
+**Header** — a wide, warm scene; the subject in the centre, nothing important touching
+the edges, no readable letters on signs. Write the region into the prompt (salt pan,
+gorge, winter pass). Use the house-style block of §1.
+
+**Walker** — the hard one, and the **one exception to the 80/20 house style**: walkers
+are drawn in the flat cel look of the battle stage's own sprites (the base game's 40
+walkers), so they read at hex size next to the convoy. It must look like it belongs there:
+
+- TRUE isometric, orthographic, no perspective; ground axes at 30 degrees.
+- It faces and moves toward the **lower-left** (it crosses from the far roadside).
+- Pure white background, **no shadow, no ground**, exactly one object or group. The game
+  draws its own shadow.
+- Pale things are cream or light grey with dark outlines, never pure white, or the
+  background key eats them.
+
+A prompt block that works:
+
+> Draw the object below as an isolated game sprite on a PURE WHITE (#ffffff) background.
+> TRUE ISOMETRIC projection, strictly ORTHOGRAPHIC, NO perspective; the two ground axes
+> run at exactly 30 degrees to the horizontal; we see its top and two side faces. The
+> object faces and moves toward the LOWER-LEFT of the picture. NO shadow of any kind, no
+> ground, no scenery. Hand-drawn 2D illustration, clean dark outlines, flat cel shading,
+> warm weathered colours. Exactly ONE object group, centred with generous margin, no
+> text. Never use pure white on the object itself.
+
+Then key the white away (any background-removal tool that keeps enclosed pale areas;
+check the result over a grey background: pale cargo such as salt blocks or sheets must
+stay solid), trim, and scale to 512×512 with the object centred.
+
+## 11. Biome art (`assets/game/`, file reference ch. 21)
+
+A mod biome dresses the game's own pictures: copies under `assets/game/` at the game's path,
+with your theme as suffix (`impacts/impact_ram_jungle.png`). The catalog's "Biome art"
+section lists every picture that changes with the biome.
+
+- **Start from the original.** Use the game's picture as the image reference and keep its
+  composition, framing, camera and subject — change climate, ground, vegetation, light and
+  weather only. The layout of the screen was built around the original.
+- **Same pixel size and file type** as the original; cards and backdrops are cropped by it.
+- **House style** as §1 (80/20 edge); put the biome into every prompt ("dense wet jungle,
+  red laterite road, hanging vines, humid haze").
+- **Iso battle backdrop sets** (`lane/iso/backdrop/<set>_far|near.png`, 1024×1536): start
+  from a base set (`stone_*` for open ground, `canyon_*` for rocky), keep the road edge at
+  the same height and the same top-down 30° view; measure the road-edge line and enter it
+  in `backdrop.json` (ch. 21.4). `_outer` strips continue the tile outward, seamless at the
+  shared edge.
+- **Landmarks** (2048×1536): one large set piece on the near verge, lower left of the canvas,
+  transparent elsewhere; an `_over` copy holds only the parts that overlap vehicles.
+- **Iso vehicle sprites** keep the base sprite's size and angle; a biome variant adds mud,
+  snow or dust to the same vehicle, nothing else.
+
+## 12. Mend item icons (`assets/mend_items/`, file reference ch. 22)
+
+- **512×512 PNG, transparent background**, one object centred with a little margin, the
+  same three-quarter view as the base icons (open a few in the game's folder first).
+- **House style** as §1 (80/20 edge). A vehicle item is the part itself (a manifold, a
+  lashed axle); a person item is the piece or the change (a brace, a scar, a bionic eye),
+  never a face.
+- **File name = the item's id** (`jx_vine_lashing.png`). A file named like a base item
+  replaces its icon on your level; `mark_vehicle.png` / `mark_person.png` replace the two
+  icons every mark shares.

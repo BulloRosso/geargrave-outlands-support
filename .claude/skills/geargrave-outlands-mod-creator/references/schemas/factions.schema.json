@@ -245,6 +245,10 @@
         "pitch": {
           "type": "string"
         },
+        "scripted": {
+          "type": "boolean",
+          "description": "base game only: never offered on the day tick"
+        },
         "reward": {
           "$ref": "#/$defs/ContractPay"
         },
@@ -327,6 +331,15 @@
           }
         },
         "requiresFlag": {
+          "type": "string"
+        },
+        "revealFlags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "jammedText": {
           "type": "string"
         },
         "history": {

@@ -145,8 +145,15 @@
         "exitToLocationId": {
           "type": "string"
         },
+        "hideGatewayEntry": {
+          "type": "boolean"
+        },
         "recon": {
           "type": "boolean"
+        },
+        "noChanceDiscovery": {
+          "type": "boolean",
+          "description": "true = recon missions and 'reveal nearby' effects never find this place; only the story reveals it"
         }
       },
       "patternProperties": {
@@ -237,7 +244,8 @@
           "enum": [
             "Open",
             "BlockedEnemy",
-            "BlockedDamage"
+            "BlockedDamage",
+            "BlockedStory"
           ]
         },
         "blockadeFactionId": {
@@ -245,6 +253,10 @@
         },
         "minSkulls": {
           "type": "integer"
+        },
+        "requiresSnowCapable": {
+          "type": "boolean",
+          "description": "true = only a crew with a snow-capable vehicle (SnowChains or RamPlow fitted, or a tracked hull) may take this road"
         },
         "joints": {
           "type": "array",
@@ -285,6 +297,134 @@
       },
       "additionalProperties": false
     },
+    "RoadMigration": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "type": "string",
+          "description": "road id that left the level"
+        },
+        "to": {
+          "type": "string",
+          "description": "road that takes over its roadside vehicles"
+        },
+        "returnTo": {
+          "type": "string",
+          "description": "location a crew still driving the old road is put back at"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "FlagCounterRung": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "integer"
+        },
+        "flag": {
+          "type": "string",
+          "description": "set (for good) when the meter first reaches value"
+        },
+        "label": {
+          "type": "string",
+          "description": "chip state text; key CHIP_<ID>_<value>"
+        },
+        "closeRoads": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "road ids closed (BlockedStory) when reached"
+        },
+        "alsoFlag": {
+          "type": "string",
+          "description": "a second flag set at the same time"
+        },
+        "alsoUnless": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "alsoFlag is skipped when one of these is already set"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "FlagCounterReopen": {
+      "type": "object",
+      "properties": {
+        "flag": {
+          "type": "string"
+        },
+        "roads": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "roads to reopen; empty = every road this meter closed"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "FlagCounterDef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "flags that raise the meter"
+        },
+        "holds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "flags that hold it down (never undo a reached rung)"
+        },
+        "rungs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlagCounterRung"
+          }
+        },
+        "reopen": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlagCounterReopen"
+          }
+        },
+        "chip": {
+          "type": "boolean",
+          "description": "show on the map header once a source flag is set"
+        },
+        "chipLabel": {
+          "type": "string",
+          "description": "key CHIP_<ID>"
+        },
+        "chipTip": {
+          "type": "string",
+          "description": "key CHIP_<ID>_TIP"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
     "LevelDto": {
       "type": "object",
       "properties": {
@@ -310,7 +450,51 @@
           "type": "string"
         },
         "terrainTheme": {
-          "type": "string"
+          "type": "string",
+          "description": "biome: \"desert\" (default) | \"winter\"; any other value counts as desert"
+        },
+        "sweepers": {
+          "type": "boolean",
+          "description": "false = no Sweepers on this level: the 24 h trip clock ends nothing, no chase lane"
+        },
+        "tutorial": {
+          "type": "boolean",
+          "description": "true = the game's onboarding checklist runs on this level (default: only the base home sector)"
+        },
+        "hideBaseFactions": {
+          "type": "boolean",
+          "description": "true = only this level's factions.json factions are listed (needs factions.json)"
+        },
+        "levelTextWins": {
+          "type": "boolean",
+          "description": "true = this level's i18n rows replace base-game rows with the same key"
+        },
+        "requiresDlcAppId": {
+          "type": "integer",
+          "description": "Steam DLC app that must be owned - official DLC only, leave out in a mod"
+        },
+        "recommendedAfter": {
+          "type": "string",
+          "description": "level id the picker recommends finishing first (advice only)"
+        },
+        "oldSaveExits": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "location ids whose gateway only serves saves that already hold the target level"
+        },
+        "roadMigrations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RoadMigration"
+          }
+        },
+        "flagCounters": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FlagCounterDef"
+          }
         },
         "defaultRoadTerrain": {
           "type": "string"
@@ -347,6 +531,60 @@
           "type": "object",
           "additionalProperties": {
             "type": "integer"
+          }
+        },
+        "biome": {
+          "$ref": "#/$defs/BiomeDto"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "BiomeBackdropsDto": {
+      "type": "object",
+      "properties": {
+        "mountain": {
+          "type": "string"
+        },
+        "open": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^(\\$schema|_.*|comment|comments)$": {}
+      },
+      "additionalProperties": false
+    },
+    "BiomeDto": {
+      "type": "object",
+      "properties": {
+        "baseBiome": {
+          "type": "string"
+        },
+        "roadsideFactions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "fallbackFaction": {
+          "type": "string"
+        },
+        "hullSwaps": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "isoBackdrops": {
+          "$ref": "#/$defs/BiomeBackdropsDto"
+        },
+        "palette": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
           }
         }
       },
